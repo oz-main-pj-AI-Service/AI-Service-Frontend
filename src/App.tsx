@@ -6,7 +6,8 @@ function App() {
 
   return (
     <>
-      <Button onClick={() => setCount(count + 1)}>Hello, World</Button>
+      <h1 className="text-3xl font-bold underline">Hello, World</h1>
+      <Button onClick={() => setCount(count + 1)}>Click me</Button>
       <p>{count}</p>
     </>
   );
