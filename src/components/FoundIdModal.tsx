@@ -1,1 +1,1 @@
-const FoundIdModal=()=>{}
+export const FoundIdModal=()=>{}
