@@ -1,1 +1,1 @@
-export const FoundIdModal=()=>{}
+export const FoundIdModal = () => {};
