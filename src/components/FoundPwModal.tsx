@@ -1,1 +1,1 @@
-const FoundPwModal=()=>{}
+export const FoundPwModal=()=>{}

@@ -1,1 +1,1 @@
-const WelcomeModal=()=>{}
+export const WelcomeModal=()=>{}

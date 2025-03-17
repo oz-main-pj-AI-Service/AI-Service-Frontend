@@ -1,1 +1,1 @@
-const Login = ()=>{}
+export const Login = ()=>{}

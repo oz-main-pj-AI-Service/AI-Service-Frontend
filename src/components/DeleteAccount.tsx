@@ -1,1 +1,1 @@
-const DeleteAccount = ()=>{}
+export const DeleteAccount = ()=>{}

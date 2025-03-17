@@ -1,1 +1,1 @@
-const UserProfile = ()=>{}
+export const UserProfile = ()=>{}
