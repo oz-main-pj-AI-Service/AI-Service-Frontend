@@ -1,15 +1,23 @@
-import { useState } from 'react';
-import { Button } from './components/ui/button';
+import { Routes, Route } from 'react-router';
+import Layout from './components/main/Layout';
+import Menu from './pages/Menu';
+import Recipe from './pages/Recipe';
+import Diet from './pages/Diet';
+import History from './pages/History';
+import Report from './pages/Report';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <h1 className="text-3xl font-bold">Hello, World</h1>
-      <h2>Develop Branch</h2>
-      <Button onClick={() => setCount(count + 1)}>Count +1</Button>
-      <p>{count}</p>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" index element={<Recipe />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/diet" element={<Diet />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/report" element={<Report />} />
+        </Route>
+      </Routes>
     </>
   );
 }
