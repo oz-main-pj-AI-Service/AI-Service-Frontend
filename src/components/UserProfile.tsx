@@ -1,1 +1,1 @@
-export const UserProfile = ()=>{}
+export const UserProfile = () => {};

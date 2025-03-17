@@ -1,1 +1,1 @@
-export const EditProfile=()=>{}
+export const EditProfile = () => {};
