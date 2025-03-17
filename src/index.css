@@ -1,2 +1,10 @@
 @import 'tailwindcss';
 @plugin 'tailwindcss-animate';
+
+html {
+  height: 100dvh;
+}
+
+body {
+  height: 100%;
+}
