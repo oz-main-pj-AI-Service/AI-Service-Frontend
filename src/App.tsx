@@ -16,22 +16,23 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* 메인 페이지 */}
           <Route index element={<Recipe />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/diet" element={<Diet />} />
           <Route path="/history" element={<History />} />
           <Route path="/report" element={<Report />} />
-        </Route>
-        <Route path="/sign-in" element={<Layout />}>
-          <Route index element={<SignIn />} />
+
+          {/* 로그인 페이지 */}
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-in/find-id" element={<FindId />} />
           <Route path="/sign-in/find-pw" element={<FindPw />} />
-        </Route>
-        <Route path="/sign-up" element={<Layout />}>
-          <Route index element={<SignUp />} />
-        </Route>
-        <Route path="/profile" element={<Layout />}>
-          <Route index element={<Profile />} />
+
+          {/* 회원가입 페이지 */}
+          <Route path="/sign-up" element={<SignUp />} />
+
+          {/* 프로필 페이지 */}
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </>
