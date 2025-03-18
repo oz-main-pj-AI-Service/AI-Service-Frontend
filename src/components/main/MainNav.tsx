@@ -29,7 +29,9 @@ export default function NavBar() {
         </li>
         <li>
           <NavLink to="/diet">
-            {({ isActive }) => <span className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 식단</span>}
+            {({ isActive }) => (
+              <span className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 식단</span>
+            )}
           </NavLink>
         </li>
         <li>
