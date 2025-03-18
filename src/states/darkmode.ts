@@ -1,4 +1,4 @@
-import { darkModeStore } from '@/types/theme';
+import { darkModeStore } from '@/types/states';
 import { create } from 'zustand';
 
 const useDarkMode = create<darkModeStore>((set) => ({
