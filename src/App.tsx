@@ -10,28 +10,33 @@ import SignUp from './pages/signUp';
 import FindId from './pages/FindId';
 import FindPw from './pages/FindPw';
 import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
+import EditPw from './pages/EditPw';
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* 메인 페이지 */}
           <Route index element={<Recipe />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/diet" element={<Diet />} />
           <Route path="/history" element={<History />} />
           <Route path="/report" element={<Report />} />
-        </Route>
-        <Route path="/sign-in" element={<Layout />}>
-          <Route index element={<SignIn />} />
+
+          {/* 로그인 페이지 */}
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-in/find-id" element={<FindId />} />
           <Route path="/sign-in/find-pw" element={<FindPw />} />
-        </Route>
-        <Route path="/sign-up" element={<Layout />}>
-          <Route index element={<SignUp />} />
-        </Route>
-        <Route path="/profile" element={<Layout />}>
-          <Route index element={<Profile />} />
+          <Route path="/sign-in/find-pw/edit-pw" element={<EditPw />} />
+
+          {/* 회원가입 페이지 */}
+          <Route path="/sign-up" element={<SignUp />} />
+
+          {/* 프로필 페이지 */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/profile-edit" element={<ProfileEdit />} />
         </Route>
       </Routes>
     </>
