@@ -1,4 +1,4 @@
-export default function Report() {
+export default function ReportPost() {
   return (
     <main className="flex justify-center pl-[200px]">
       <section className="max-w-5xl">
