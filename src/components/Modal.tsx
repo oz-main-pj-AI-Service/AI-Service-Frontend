@@ -1,7 +1,14 @@
 import useModal from '@/states/modal';
+import { useEffect } from 'react';
 
 export default function Modal({ children }: { children: React.ReactNode }) {
   const { isOpen, closeModal } = useModal();
+
+  useEffect(() => {
+    return () => {
+      closeModal();
+    };
+  }, []);
 
   if (!isOpen) return null;
 
