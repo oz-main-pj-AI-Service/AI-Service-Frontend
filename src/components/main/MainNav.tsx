@@ -3,7 +3,7 @@ import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import useDarkMode from '@/states/darkmode';
 
-export default function NavBar() {
+export default function MainNav() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
@@ -12,36 +12,34 @@ export default function NavBar() {
         <Link to="/">한상비서</Link>
       </h1>
       <ul>
-        <li>
-          <NavLink to="/" className={({ isActive }) => (isActive ? 'text-red-500' : 'text-black')}>
-            레시피
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/menu"
-            style={({ isActive }) => ({
-              color: isActive ? 'red' : 'black',
-            })}
-          >
-            메뉴
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/diet">
-            {({ isActive }) => <span className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 식단</span>}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/history">검색 기록</NavLink>
-        </li>
+        <NavLink to="/">
+          {({ isActive }) => (
+            <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 레시피</li>
+          )}
+        </NavLink>
+        <NavLink to="/menu">
+          {({ isActive }) => (
+            <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 메뉴</li>
+          )}
+        </NavLink>
+        <NavLink to="/diet">
+          {({ isActive }) => (
+            <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 식단</li>
+          )}
+        </NavLink>
+        <NavLink to="/history">
+          {({ isActive }) => (
+            <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 검색 기록</li>
+          )}
+        </NavLink>
       </ul>
 
       <div>
-        <Switch id="dark-mode" onClick={() => toggleDarkMode()} />
+        <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={() => toggleDarkMode()} />
         <Label htmlFor="dark-mode">다크 모드 {isDarkMode ? '🌙' : '☀️'}</Label>
       </div>
 
+      {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
       <div>
         <Link to="/admin">관리자 페이지</Link>
       </div>

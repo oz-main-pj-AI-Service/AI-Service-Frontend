@@ -1,8 +1,8 @@
-export default function History() {
+export default function ReportPost() {
   return (
     <main className="flex justify-center pl-[200px]">
       <section className="max-w-5xl">
-        <h2>검색 기록 보기</h2>
+        <h2>문의하기</h2>
       </section>
     </main>
   );
