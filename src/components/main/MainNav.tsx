@@ -7,7 +7,7 @@ export default function MainNav() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
-    <nav className="fixed top-0 left-0 flex h-full w-[200px] flex-col items-center justify-between bg-zinc-300 dark:bg-zinc-900">
+    <nav className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-zinc-300 dark:bg-zinc-900">
       <h1>
         <Link to="/">한상비서</Link>
       </h1>
