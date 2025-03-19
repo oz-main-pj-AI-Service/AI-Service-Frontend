@@ -5,8 +5,10 @@ import SignUp from './pages/signUp';
 import FindId from './pages/FindId';
 import FindPw from './pages/FindPw';
 import Profile from './pages/Profile';
+<<<<<<< HEAD
 import ProfileEdit from './pages/ProfileEdit';
 import EditPw from './pages/EditPw';
+=======
 import Admin from './pages/admin/Admin';
 import NotFound from './pages/NotFound';
 import Recipe from './pages/main/Recipe';
@@ -22,12 +24,34 @@ import AdminLayout from './components/main/AdminLayout';
 import AdminAi from './pages/admin/AdminAi';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminReports from './pages/admin/AdminReports';
+>>>>>>> develop
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
+<<<<<<< HEAD
+          {/* 메인 페이지 */}
+          <Route index element={<Recipe />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/diet" element={<Diet />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/report" element={<Report />} />
+
+          {/* 로그인 페이지 */}
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-in/find-id" element={<FindId />} />
+          <Route path="/sign-in/find-pw" element={<FindPw />} />
+          <Route path="/sign-in/find-pw/edit-pw" element={<EditPw />} />
+
+          {/* 회원가입 페이지 */}
+          <Route path="/sign-up" element={<SignUp />} />
+
+          {/* 프로필 페이지 */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/profile-edit" element={<ProfileEdit />} />
+=======
           {/* 메인 */}
           <Route index element={<Recipe />} />
           <Route path="menu" element={<Menu />} />
@@ -51,7 +75,6 @@ function App() {
             <Route index element={<SignIn />} />
             <Route path="find-id" element={<FindId />} />
             <Route path="find-pw" element={<FindPw />} />
-            <Route path="find-pw/edit-pw" element={<EditPw />} />
           </Route>
 
           {/* 회원가입 */}
@@ -59,7 +82,6 @@ function App() {
 
           {/* 프로필 */}
           <Route path="profile" element={<Profile />} />
-          <Route path="profile/profile-edit" element={<ProfileEdit />} />
         </Route>
 
         {/* 관리자 */}
@@ -70,6 +92,7 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="reports" element={<AdminReports />} />
           <Route path="ai" element={<AdminAi />} />
+>>>>>>> develop
         </Route>
 
         {/* 404 */}
