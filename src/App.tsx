@@ -5,8 +5,6 @@ import SignUp from './pages/signUp';
 import FindId from './pages/FindId';
 import FindPw from './pages/FindPw';
 import Profile from './pages/Profile';
-import ProfileEdit from './pages/ProfileEdit';
-import EditPw from './pages/EditPw';
 import Admin from './pages/admin/Admin';
 import NotFound from './pages/NotFound';
 import Recipe from './pages/main/Recipe';
@@ -51,7 +49,6 @@ function App() {
             <Route index element={<SignIn />} />
             <Route path="find-id" element={<FindId />} />
             <Route path="find-pw" element={<FindPw />} />
-            <Route path="find-pw/edit-pw" element={<EditPw />} />
           </Route>
 
           {/* 회원가입 */}
@@ -59,7 +56,6 @@ function App() {
 
           {/* 프로필 */}
           <Route path="profile" element={<Profile />} />
-          <Route path="profile/profile-edit" element={<ProfileEdit />} />
         </Route>
 
         {/* 관리자 */}
