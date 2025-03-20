@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useMenu } from '@/hooks/useMenu';
-// import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
 import { AiRequestBody, MenuFormInput } from '@/types/ai';
 import { UserToken } from '@/types/user';
 import { RawAxiosRequestHeaders } from 'axios';
@@ -12,8 +11,6 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Diet() {
-  // const { data: userToken } = useUserTokenTemp();
-  // console.log(userToken);
   const [userToken, setUserToken] = useState<UserToken | null>(null);
 
   const menuMutation = useMenu();
@@ -48,8 +45,7 @@ export default function Diet() {
 
     menuMutation.mutate({ requestBody, headers: requestHeader });
     console.log(menuMutation);
-    console.log(menuMutation.data);
-    console.log(menuMutation.data?.recommendations);
+    console.log(menuMutation.data?.recommendations.recommendations);
   };
 
   return (
@@ -142,34 +138,24 @@ export default function Diet() {
               <Button type="submit">추천받기</Button>
             </form>
           </section>
+
+          {/* 메뉴 추천 결과 */}
           <section className="mx-4 w-1/2 grow border p-4">
-            결과
-            {/* {menuMutation.data?.recommendations?.map((item) => (
-              <div key={item.food_name}>
-                <div>{item.food_name}</div>
-                <div>{item.food_type}</div>
-                <div>{item.description}</div>
-                <div>{item.reccomendation_reason}</div>
-                <div>{item.nutritional_info.calories}</div>
-                <div>{item.nutritional_info.carbs}</div>
-                <div>{item.nutritional_info.fat}</div>
-                <div>{item.nutritional_info.protein}</div>
-              </div>
-            ))} */}
-            {typeof menuMutation.data?.recommendations === 'undefined'
-              ? '추천 식단이 없습니다.'
-              : menuMutation.data?.recommendations.recommendations.map((item) => (
+            <p>결과:</p>
+            {menuMutation.data
+              ? menuMutation.data.recommendations.recommendations.map((item) => (
                   <div key={item.food_name}>
-                    <div>{item.food_name}</div>
+                    <div className="text-lg font-bold">{item.food_name}</div>
                     <div>{item.food_type}</div>
                     <div>{item.description}</div>
                     <div>{item.reccomendation_reason}</div>
-                    <div>{item.nutritional_info.calories}</div>
-                    <div>{item.nutritional_info.carbs}</div>
-                    <div>{item.nutritional_info.fat}</div>
-                    <div>{item.nutritional_info.protein}</div>
+                    <div>칼로리: {item.nutritional_info.calories} kcal</div>
+                    <div>탄수화물: {item.nutritional_info.carbs} g</div>
+                    <div>지방: {item.nutritional_info.fat} g</div>
+                    <div>단백질: {item.nutritional_info.protein} g</div>
                   </div>
-                ))}
+                ))
+              : '추천 식단이 없습니다.'}
           </section>
         </div>
       </div>
