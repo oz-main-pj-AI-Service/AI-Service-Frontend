@@ -2,10 +2,14 @@ import { Button } from '@/components/ui/button';
 // import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
 import { MenuFormInput } from '@/types/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Diet() {
+  const { data: userToken } = useUserTokenTemp();
+  console.log(userToken);
+
   const { register, handleSubmit } = useForm<MenuFormInput>({
     defaultValues: {
       category: [],
@@ -18,6 +22,17 @@ export default function Diet() {
 
   const onSubmit: SubmitHandler<MenuFormInput> = (data) => {
     console.log(data);
+    const requestBody = {
+      request_type: 'food',
+      request_data: {
+        category: data.category,
+        goal: data.goal,
+        lastMeal: data.lastMeal,
+        taste: data.taste,
+        type: data.type,
+      },
+    };
+    console.log(requestBody);
   };
 
   return (
@@ -100,7 +115,7 @@ export default function Diet() {
               <Button type="submit">추천받기</Button>
             </form>
           </section>
-          <section className="mx-4 w-1/2 grow border">결과</section>
+          <section className="mx-4 w-1/2 grow border p-4">결과</section>
         </div>
       </div>
     </main>

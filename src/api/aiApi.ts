@@ -1,4 +1,8 @@
-export const aiApi = () => {};
+// export const aiApi = () => {
+//   getMenu: async (requestBody: MenuFormInput) => {
+
+//   }
+// };
 
 // 구글 genai 설치해야함
 // import { GoogleGenAI } from '@google/genai';

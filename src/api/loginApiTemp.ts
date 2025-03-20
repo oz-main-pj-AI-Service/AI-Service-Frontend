@@ -1,6 +1,17 @@
-// import { UserToken } from '@/types/user';
+import { UserToken } from '@/types/user';
+import axios from 'axios';
 // import { useEffect, useState } from 'react';
-// import axios from 'axios';
+
+export const loginApiTemp = {
+  logIn: async () => {
+    const response = await axios.post<UserToken>('https://hansang.o-r.kr/api/user/login/', {
+      email: 'test@test.com',
+      password: '!!test1234',
+    });
+    const userToken = response.data;
+    return userToken;
+  },
+};
 
 // const [userToken, setUserToken] = useState<UserToken | null>(null);
 
