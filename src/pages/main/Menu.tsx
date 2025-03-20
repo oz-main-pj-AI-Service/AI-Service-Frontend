@@ -1,16 +1,15 @@
+import { useState } from 'react';
+import { MenuFormInput } from '@/types/ai';
+import { UserToken } from '@/types/user';
+import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { RawAxiosRequestHeaders } from 'axios';
 import { loginApiTemp } from '@/api/loginApiTemp';
+import { useMenuQuery } from '@/hooks/useAiQuery';
 import CheckboxGroup from '@/components/main/CheckboxGroup';
-import Checkboxes from '@/components/main/CheckboxGroup';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
-import { useMenuQuery } from '@/hooks/useAiQuery';
-import { MenuFormInput } from '@/types/ai';
-import { UserToken } from '@/types/user';
-import { RawAxiosRequestHeaders } from 'axios';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Menu() {
   const [userToken, setUserToken] = useState<UserToken | null>(null);

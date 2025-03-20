@@ -1,18 +1,15 @@
-import { FormField, FormMessage } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
-import { Form, FormControl } from '@/components/ui/form';
-import { DietFormInput } from '@/types/ai';
-import { FormDescription, FormLabel } from '@/components/ui/form';
-import { FormItem } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { exercise_frequency, goal } from '@/constants/ai';
 import { useState } from 'react';
 import { UserToken } from '@/types/user';
+import { DietFormInput } from '@/types/ai';
+import { exercise_frequency, goal } from '@/constants/ai';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { RawAxiosRequestHeaders } from 'axios';
 import { loginApiTemp } from '@/api/loginApiTemp';
 import { useDietQuery } from '@/hooks/useAiQuery';
-import { RawAxiosRequestHeaders } from 'axios';
+import { Form, FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 export default function Diet() {
   const [userToken, setUserToken] = useState<UserToken | null>(null);
