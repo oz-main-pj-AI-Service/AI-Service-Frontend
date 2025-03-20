@@ -1,3 +1,5 @@
+import { RawAxiosRequestHeaders } from 'axios';
+
 export type RecipeFormInput = {
   ingredients: string;
   quantity: number;
@@ -32,14 +34,53 @@ export type MenuFormInput = {
 
 // 카멜케이스로 맞춰야하나?
 // 아님 그냥 따라가야하나?
+// export type AiResult = {
+//   id: string;
+//   user: string;
+//   request_type: 'food' | 'health' | 'recipe';
+//   food_name: string;
+//   food_type: string;
+//   description: string;
+//   nutritional_info: string;
+//   reccomendation_reason: string;
+//   created_at: string;
+// };
+
 export type AiResult = {
   id: string;
-  user: string;
   request_type: 'food' | 'health' | 'recipe';
+  request_data: MenuFormInput | DietFormInput | RecipeFormInput;
+  response_data: object;
+  created_at: string;
+};
+
+export type AiRequestBody = {
+  request_type: 'food' | 'health' | 'recipe';
+  request_data: MenuFormInput | DietFormInput | RecipeFormInput;
+};
+
+export type AiRequest = {
+  requestBody: AiRequestBody;
+  headers: RawAxiosRequestHeaders;
+};
+
+export type MenuResponse = {
+  recommendations: {
+    recommendations: Menu[];
+  };
+  request_id: number;
+  success: boolean;
+};
+
+export type Menu = {
+  description: string;
   food_name: string;
   food_type: string;
-  description: string;
-  nutritional_info: string;
+  nutritional_info: {
+    calories: number;
+    carbs: number;
+    fat: number;
+    protein: number;
+  };
   reccomendation_reason: string;
-  created_at: string;
 };

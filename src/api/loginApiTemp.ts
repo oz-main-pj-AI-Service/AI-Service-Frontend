@@ -1,10 +1,11 @@
+import { API_URL } from '@/constants/url';
 import { UserToken } from '@/types/user';
 import axios from 'axios';
 // import { useEffect, useState } from 'react';
 
 export const loginApiTemp = {
   logIn: async () => {
-    const response = await axios.post<UserToken>('https://hansang.o-r.kr/api/user/login/', {
+    const response = await axios.post<UserToken>(`${API_URL}/api/user/login/`, {
       email: 'test@test.com',
       password: '!!test1234',
     });
