@@ -1,8 +1,26 @@
-// export const aiApi = () => {
-//   getMenu: async (requestBody: MenuFormInput) => {
+import { API_URL } from '@/constants/url';
+import { AiRequestBody, MenuResponse } from '@/types/ai';
+import axios, { RawAxiosRequestHeaders } from 'axios';
 
-//   }
-// };
+export const aiApi = {
+  getMenu: async ({
+    requestBody,
+    headers,
+  }: {
+    requestBody: AiRequestBody;
+    headers: RawAxiosRequestHeaders;
+  }) => {
+    const response = await axios.post<MenuResponse>(
+      `${API_URL}/api/ai/food-recommendation/`,
+      requestBody,
+      {
+        headers,
+      },
+    );
+    console.log(`response는 AiResult인가?`, response.data);
+    return response.data;
+  },
+};
 
 // 구글 genai 설치해야함
 // import { GoogleGenAI } from '@google/genai';

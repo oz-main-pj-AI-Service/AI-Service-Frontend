@@ -1,14 +1,22 @@
+import { loginApiTemp } from '@/api/loginApiTemp';
 import { Button } from '@/components/ui/button';
 // import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
-import { MenuFormInput } from '@/types/ai';
+import { useMenu } from '@/hooks/useMenu';
+// import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
+import { AiRequestBody, MenuFormInput } from '@/types/ai';
+import { UserToken } from '@/types/user';
+import { RawAxiosRequestHeaders } from 'axios';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Diet() {
-  const { data: userToken } = useUserTokenTemp();
-  console.log(userToken);
+  // const { data: userToken } = useUserTokenTemp();
+  // console.log(userToken);
+  const [userToken, setUserToken] = useState<UserToken | null>(null);
+
+  const menuMutation = useMenu();
 
   const { register, handleSubmit } = useForm<MenuFormInput>({
     defaultValues: {
@@ -22,7 +30,12 @@ export default function Diet() {
 
   const onSubmit: SubmitHandler<MenuFormInput> = (data) => {
     console.log(data);
-    const requestBody = {
+
+    const requestHeader: RawAxiosRequestHeaders = {
+      Authorization: `Bearer ${userToken?.access_token}`,
+      'Content-Type': 'application/json',
+    };
+    const requestBody: AiRequestBody = {
       request_type: 'food',
       request_data: {
         category: data.category,
@@ -32,13 +45,27 @@ export default function Diet() {
         type: data.type,
       },
     };
-    console.log(requestBody);
+
+    menuMutation.mutate({ requestBody, headers: requestHeader });
+    console.log(menuMutation);
+    console.log(menuMutation.data);
+    console.log(menuMutation.data?.recommendations);
   };
 
   return (
     <main className="flex h-full items-center justify-center pt-14 pl-[200px]">
       <div className="flex w-full max-w-5xl flex-col gap-4">
         <h2 className="text-center text-2xl font-bold">조건 넣고 식단 추천받기</h2>
+        <Button
+          onClick={() =>
+            loginApiTemp.logIn().then((res) => {
+              setUserToken(res);
+              console.log(userToken);
+            })
+          }
+        >
+          로그인
+        </Button>
         <div className="flex w-full">
           <section className="mx-4 w-1/2 grow">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -115,9 +142,41 @@ export default function Diet() {
               <Button type="submit">추천받기</Button>
             </form>
           </section>
-          <section className="mx-4 w-1/2 grow border p-4">결과</section>
+          <section className="mx-4 w-1/2 grow border p-4">
+            결과
+            {/* {menuMutation.data?.recommendations?.map((item) => (
+              <div key={item.food_name}>
+                <div>{item.food_name}</div>
+                <div>{item.food_type}</div>
+                <div>{item.description}</div>
+                <div>{item.reccomendation_reason}</div>
+                <div>{item.nutritional_info.calories}</div>
+                <div>{item.nutritional_info.carbs}</div>
+                <div>{item.nutritional_info.fat}</div>
+                <div>{item.nutritional_info.protein}</div>
+              </div>
+            ))} */}
+            {typeof menuMutation.data?.recommendations === 'undefined'
+              ? '추천 식단이 없습니다.'
+              : menuMutation.data?.recommendations.recommendations.map((item) => (
+                  <div key={item.food_name}>
+                    <div>{item.food_name}</div>
+                    <div>{item.food_type}</div>
+                    <div>{item.description}</div>
+                    <div>{item.reccomendation_reason}</div>
+                    <div>{item.nutritional_info.calories}</div>
+                    <div>{item.nutritional_info.carbs}</div>
+                    <div>{item.nutritional_info.fat}</div>
+                    <div>{item.nutritional_info.protein}</div>
+                  </div>
+                ))}
+          </section>
         </div>
       </div>
     </main>
   );
 }
+
+// {
+//   menuMutation.data?.response_data;
+// }
