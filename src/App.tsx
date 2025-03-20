@@ -1,12 +1,10 @@
 import { Routes, Route } from 'react-router';
 import Layout from './components/main/Layout';
 import SignIn from './pages/SignIn';
-import SignUp from './pages/signUp';
+import SignUp from './pages/SignUp';
 import FindId from './pages/FindId';
 import FindPw from './pages/FindPw';
 import Profile from './pages/Profile';
-import ProfileEdit from './pages/ProfileEdit';
-import EditPw from './pages/EditPw';
 import Admin from './pages/admin/Admin';
 import NotFound from './pages/NotFound';
 import Recipe from './pages/main/Recipe';
@@ -22,6 +20,7 @@ import AdminLayout from './components/main/AdminLayout';
 import AdminAi from './pages/admin/AdminAi';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminReports from './pages/admin/AdminReports';
+import RedirectPage from './pages/RedirectPage';
 
 function App() {
   return (
@@ -32,6 +31,10 @@ function App() {
           <Route index element={<Recipe />} />
           <Route path="menu" element={<Menu />} />
           <Route path="diet" element={<Diet />} />
+
+          {/* 소셜로그인 */}
+          <Route path="naver/callback" element={<RedirectPage />} />
+          <Route path="google/callback" element={<RedirectPage />} />
 
           {/* 검색 기록 */}
           <Route path="history" element={<HistoryLayout />}>
@@ -50,8 +53,7 @@ function App() {
           <Route path="sign-in">
             <Route index element={<SignIn />} />
             <Route path="find-id" element={<FindId />} />
-            <Route path="find-pw" element={<FindPw />} />
-            <Route path="find-pw/edit-pw" element={<EditPw />} />
+            <Route path="find-id" element={<FindId />} />
           </Route>
 
           {/* 회원가입 */}
@@ -59,7 +61,6 @@ function App() {
 
           {/* 프로필 */}
           <Route path="profile" element={<Profile />} />
-          <Route path="profile/profile-edit" element={<ProfileEdit />} />
         </Route>
 
         {/* 관리자 */}
