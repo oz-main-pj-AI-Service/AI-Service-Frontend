@@ -6,45 +6,64 @@ import { Form, FormControl } from '@/components/ui/form';
 import { DietFormInput } from '@/types/ai';
 import { FormDescription, FormLabel } from '@/components/ui/form';
 import { FormItem } from '@/components/ui/form';
-import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { exercise_frequency, goal } from '@/constants/ai';
+import { useState } from 'react';
+import { UserToken } from '@/types/user';
+import { loginApiTemp } from '@/api/loginApiTemp';
+import { useDietQuery } from '@/hooks/useAiQuery';
+import { RawAxiosRequestHeaders } from 'axios';
 
-const goals = [
-  {
-    id: 'lose',
-    label: '다이어트',
-  },
-  {
-    id: 'gain',
-    label: '벌크업',
-  },
-  {
-    id: 'maintain',
-    label: '유지',
-  },
-] as const;
+export default function Diet() {
+  const [userToken, setUserToken] = useState<UserToken | null>(null);
 
-export default function Menu() {
+  const dietMutation = useDietQuery();
+
   const form = useForm<DietFormInput>({
     defaultValues: {
       weight: 0,
       goal: [],
-      frequency: '',
-      algergy: '',
-      dislike: '',
-      startDate: '',
-      endDate: '',
+      exercise_frequency: [],
+      algergies: '',
+      disliked_foods: '',
     },
   });
 
   const onSubmit: SubmitHandler<DietFormInput> = (data) => {
     console.log(data);
+
+    // 나중에 로그인 구현 기능 끝나면 정리
+    const requestHeader: RawAxiosRequestHeaders = {
+      Authorization: `Bearer ${userToken?.access_token}`,
+      'Content-Type': 'application/json',
+    };
+    const requestBody: DietFormInput = {
+      weight: data.weight,
+      goal: data.goal,
+      exercise_frequency: data.exercise_frequency,
+      algergies: data.algergies,
+      disliked_foods: data.disliked_foods,
+    };
+
+    dietMutation.mutate({ requestBody, headers: requestHeader });
   };
 
   return (
     <main className="flex h-full items-center justify-center pt-14 pl-[200px]">
       <div className="flex w-full max-w-5xl flex-col gap-4">
-        <h2 className="text-center text-2xl font-bold">조건 넣고 메뉴 추천받기</h2>
+        <h2 className="text-center text-2xl font-bold">조건 넣고 식단 추천받기</h2>
+
+        <Button
+          onClick={() =>
+            loginApiTemp.logIn().then((res) => {
+              setUserToken(res);
+              console.log(userToken);
+            })
+          }
+        >
+          로그인
+        </Button>
+
         <div className="flex w-full">
           <section className="mx-4 w-1/2 grow">
             <Form {...form}>
@@ -59,47 +78,24 @@ export default function Menu() {
                 <FormField
                   control={form.control}
                   name="goal"
-                  render={() => (
-                    <FormItem>
-                      <div>
-                        <FormLabel className="text-base">목표</FormLabel>
-                        {/* <FormDescription>설명</FormDescription> */}
-                      </div>
-                      <div className="flex gap-4">
-                        {goals.map((goal) => (
-                          <FormField
-                            key={goal.id}
-                            control={form.control}
-                            name="goal"
-                            render={({ field }) => {
-                              // console.log(field);
-                              return (
-                                <FormItem
-                                  key={goal.id}
-                                  className="flex flex-row items-start space-y-0 space-x-3"
-                                >
-                                  <FormLabel className="text-sm">
-                                    <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(goal.id)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...field.value, goal.id])
-                                            : field.onChange(
-                                                field.value?.filter((value) => value !== goal.id),
-                                              );
-                                        }}
-                                      />
-                                    </FormControl>
-                                    {goal.label}
-                                  </FormLabel>
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        ))}
-                      </div>
-                      {/* <FormMessage /> */}
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="text-base">목표</FormLabel>
+                      <FormControl>
+                        <RadioGroup onValueChange={field.onChange} className="flex space-y-1">
+                          {goal.map((freq) => (
+                            <FormItem
+                              key={freq.id}
+                              className="flex items-center space-y-0 space-x-3"
+                            >
+                              <FormControl>
+                                <RadioGroupItem value={freq.id} />
+                              </FormControl>
+                              <FormLabel className="font-normal">{freq.label}</FormLabel>
+                            </FormItem>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -107,43 +103,25 @@ export default function Menu() {
                 {/* 운동 빈도 */}
                 <FormField
                   control={form.control}
-                  name="frequency"
+                  name="exercise_frequency"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
                       <FormLabel className="text-base">운동 빈도</FormLabel>
                       <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="flex space-y-1"
-                        >
-                          <FormItem className="flex items-center space-y-0 space-x-3">
-                            <FormControl>
-                              <RadioGroupItem value="1" />
-                            </FormControl>
-                            <FormLabel className="font-normal">주 1회</FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-y-0 space-x-3">
-                            <FormControl>
-                              <RadioGroupItem value="2,3" />
-                            </FormControl>
-                            <FormLabel className="font-normal">주 2, 3회</FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-y-0 space-x-3">
-                            <FormControl>
-                              <RadioGroupItem value="4" />
-                            </FormControl>
-                            <FormLabel className="font-normal">주 4회 이상</FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-y-0 space-x-3">
-                            <FormControl>
-                              <RadioGroupItem value="none" />
-                            </FormControl>
-                            <FormLabel className="font-normal">운동 안함</FormLabel>
-                          </FormItem>
+                        <RadioGroup onValueChange={field.onChange} className="flex space-y-1">
+                          {exercise_frequency.map((freq) => (
+                            <FormItem
+                              key={freq.id}
+                              className="flex items-center space-y-0 space-x-3"
+                            >
+                              <FormControl>
+                                <RadioGroupItem value={freq.id} />
+                              </FormControl>
+                              <FormLabel className="font-normal">{freq.label}</FormLabel>
+                            </FormItem>
+                          ))}
                         </RadioGroup>
                       </FormControl>
-                      {/* <FormMessage /> */}
                     </FormItem>
                   )}
                 />
@@ -151,20 +129,13 @@ export default function Menu() {
                 {/* 알레르기 */}
                 <FormItem>
                   <FormLabel className="text-base">알레르기</FormLabel>
-                  <Input type="text" {...form.register('algergy')} />
+                  <Input type="text" {...form.register('algergies')} />
                 </FormItem>
 
                 {/* 싫어하는 음식 */}
                 <FormItem>
                   <FormLabel className="text-base">싫어하는 음식</FormLabel>
-                  <Input type="text" {...form.register('dislike')} />
-                </FormItem>
-
-                {/* 날짜 */}
-                <FormItem>
-                  <FormLabel className="text-base">날짜</FormLabel>
-                  <Input type="date" {...form.register('startDate')} />
-                  <Input type="date" {...form.register('endDate')} />
+                  <Input type="text" {...form.register('disliked_foods')} />
                 </FormItem>
 
                 <Button type="submit">추천받기</Button>
@@ -173,9 +144,75 @@ export default function Menu() {
           </section>
 
           {/* 식단 추천 결과 */}
-          <section className="mx-4 w-1/2 grow border p-4">결과</section>
+          <section className="mx-4 w-1/2 grow border p-4">
+            <h3 className="text-lg font-bold">결과:</h3>
+            {dietMutation.data && (
+              <div className="border-b pb-4">
+                <p>하루 칼로리 목표: {dietMutation.data?.meal_plan.daily_calorie_target} kcal</p>
+                <p>하루 단백질 목표: {dietMutation.data?.meal_plan.protein_target} g</p>
+              </div>
+            )}
+            {dietMutation.data
+              ? dietMutation.data.meal_plan.meals.map((item) => (
+                  <div key={item.food_name} className="border-b pb-4">
+                    <div className="text-lg font-bold">{item.type}</div>
+                    <div>{item.food_name}</div>
+                    <div>{item.food_type}</div>
+                    <div>{item.description}</div>
+                    <div>칼로리: {item.nutritional_info.calories} kcal</div>
+                    <div>탄수화물: {item.nutritional_info.carbs} g</div>
+                    <div>지방: {item.nutritional_info.fat} g</div>
+                    <div>단백질: {item.nutritional_info.protein} g</div>
+                  </div>
+                ))
+              : '추천 식단이 없습니다.'}
+          </section>
         </div>
       </div>
     </main>
   );
 }
+
+// 목표
+// <FormField
+//   control={form.control}
+//   name="goal"
+//   render={() => (
+//     <FormItem>
+//       <div>
+//         <FormLabel className="text-base">목표</FormLabel>
+//         {/* <FormDescription>설명</FormDescription> */}
+//       </div>
+//       <div className="flex gap-4">
+//         {goal.map((goal) => (
+//           <FormField
+//             key={goal.id}
+//             control={form.control}
+//             name="goal"
+//             render={({ field }) => {
+//               // console.log(field);
+//               return (
+//                 <FormItem className="flex flex-row items-start space-y-0 space-x-3">
+//                   <FormLabel className="text-sm">
+//                     <FormControl>
+//                       <Checkbox
+//                         checked={field.value?.includes(goal.id)}
+//                         onCheckedChange={(checked) => {
+//                           return checked
+//                             ? field.onChange([...field.value, goal.id])
+//                             : field.onChange(field.value?.filter((value) => value !== goal.id));
+//                         }}
+//                       />
+//                     </FormControl>
+//                     {goal.label}
+//                   </FormLabel>
+//                 </FormItem>
+//               );
+//             }}
+//           />
+//         ))}
+//       </div>
+//       {/* <FormMessage /> */}
+//     </FormItem>
+//   )}
+// />;

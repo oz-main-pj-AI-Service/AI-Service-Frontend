@@ -1,5 +1,12 @@
 import { API_URL } from '@/constants/url';
-import { AiRequestBody, MenuResponse } from '@/types/ai';
+import {
+  DietFormInput,
+  DietResponse,
+  MenuFormInput,
+  MenuResponse,
+  RecipeFormInput,
+  RecipeResponse,
+} from '@/types/ai';
 import axios, { RawAxiosRequestHeaders } from 'axios';
 
 export const aiApi = {
@@ -7,17 +14,42 @@ export const aiApi = {
     requestBody,
     headers,
   }: {
-    requestBody: AiRequestBody;
+    requestBody: MenuFormInput;
     headers: RawAxiosRequestHeaders;
   }) => {
     const response = await axios.post<MenuResponse>(
       `${API_URL}/api/ai/food-recommendation/`,
       requestBody,
-      {
-        headers,
-      },
+      { headers },
     );
-    console.log(`response는 AiResult인가?`, response.data);
+    return response.data;
+  },
+  getDiet: async ({
+    requestBody,
+    headers,
+  }: {
+    requestBody: DietFormInput;
+    headers: RawAxiosRequestHeaders;
+  }) => {
+    const response = await axios.post<DietResponse>(
+      `${API_URL}/api/ai/health-recommendation/`,
+      requestBody,
+      { headers },
+    );
+    return response.data;
+  },
+  getRecipe: async ({
+    requestBody,
+    headers,
+  }: {
+    requestBody: RecipeFormInput;
+    headers: RawAxiosRequestHeaders;
+  }) => {
+    const response = await axios.post<RecipeResponse>(
+      `${API_URL}/api/ai/recipe-recommendation/`,
+      requestBody,
+      { headers },
+    );
     return response.data;
   },
 };

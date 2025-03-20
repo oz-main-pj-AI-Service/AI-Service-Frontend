@@ -1,86 +1,114 @@
-import { RawAxiosRequestHeaders } from 'axios';
+// 요청
+export type Option = {
+  id: string;
+  label: string;
+};
 
 export type RecipeFormInput = {
-  ingredients: string;
-  quantity: number;
-  minutes: number;
-  difficulty: 'easy' | 'medium' | 'hard';
+  ingredients: string[]; // 이거 배열로 받으실건지 다시 체크
+  serving_size: number;
+  cooking_time: number;
+  difficulty: 'easy' | 'medium' | 'hard'; // 이거 배열로 되어있는거 체크
 };
 
 export type DietFormInput = {
   weight: number;
-  goal: string;
-  frequency: string;
-  algergy: string;
-  dislike: string;
-  startDate: string;
-  endDate: string;
+  goal: Option['label'][];
+  exercise_frequency: Option['label'][];
+  algergies: string;
+  disliked_foods: string;
 };
 
-// goal: 'lose_weight' | 'gain_weight' | 'maintain_weight';
-
-// 저 타입들중에서만 들어갈수있는 배열로 바꾸기
 export type MenuFormInput = {
-  category: string[];
-  type: string[];
-  taste: string[];
-  goal: string[];
-  // category: 'korean' | 'japanese' | 'chinese' | 'western' | 'asian';
-  // type: 'rice' | 'noodle' | 'bread';
-  // taste: 'sweet' | 'savory' | 'light' | 'spicy';
-  // goal: 'healthy' | 'tasty';
-  lastMeal: string;
+  cuisine_type: Option['label'][];
+  food_base: Option['label'][];
+  taste: Option['label'][];
+  dietary_type: Option['label'][];
+  last_meal: string;
 };
 
-// 카멜케이스로 맞춰야하나?
-// 아님 그냥 따라가야하나?
 // export type AiResult = {
 //   id: string;
-//   user: string;
 //   request_type: 'food' | 'health' | 'recipe';
-//   food_name: string;
-//   food_type: string;
-//   description: string;
-//   nutritional_info: string;
-//   reccomendation_reason: string;
+//   request_data: MenuFormInput | DietFormInput | RecipeFormInput;
+//   response_data: object;
 //   created_at: string;
 // };
 
-export type AiResult = {
-  id: string;
-  request_type: 'food' | 'health' | 'recipe';
-  request_data: MenuFormInput | DietFormInput | RecipeFormInput;
-  response_data: object;
-  created_at: string;
+// 응답
+export type NutritionInfo = {
+  calories: number;
+  carbs: number;
+  fat: number;
+  protein: number;
 };
 
-export type AiRequestBody = {
-  request_type: 'food' | 'health' | 'recipe';
-  request_data: MenuFormInput | DietFormInput | RecipeFormInput;
+export type Ingredient = {
+  name: string;
+  quantity: string;
 };
 
-export type AiRequest = {
-  requestBody: AiRequestBody;
-  headers: RawAxiosRequestHeaders;
+export type CookingStep = {
+  step: number;
+  description: string;
+};
+
+// request_id가 아니고 recipe_id 인거 맞는지 확인
+export type RecipeResponse = {
+  recipe_id: number;
+  success: boolean;
+  recipe: {
+    name: string;
+    description: string;
+    cuisine_type: string;
+    meal_type: string;
+    preparation_time: number;
+    cooking_time: number;
+    serving_size: number;
+    difficulty: string;
+    ingredients: Ingredient[];
+    instructions: CookingStep[];
+    nutritional_info: NutritionInfo;
+  };
+};
+
+export type Recipe = {
+  recipe_name: string;
+  recipe_url: string;
+  recipe_image_url: string;
+  recipe_description: string;
 };
 
 export type MenuResponse = {
+  request_id: number;
+  success: boolean;
   recommendations: {
     recommendations: Menu[];
   };
-  request_id: number;
-  success: boolean;
 };
 
 export type Menu = {
-  description: string;
   food_name: string;
   food_type: string;
-  nutritional_info: {
-    calories: number;
-    carbs: number;
-    fat: number;
-    protein: number;
-  };
+  description: string;
+  nutritional_info: NutritionInfo;
   reccomendation_reason: string;
+};
+
+export type DietResponse = {
+  request_id: number;
+  success: boolean;
+  meal_plan: {
+    daily_calorie_target: number;
+    protein_target: number;
+    meals: Diet[];
+  };
+};
+
+export type Diet = {
+  type: string;
+  food_name: string;
+  food_type: string;
+  description: string;
+  nutritional_info: NutritionInfo;
 };
