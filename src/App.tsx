@@ -19,7 +19,7 @@ import AdminLayout from './components/main/AdminLayout';
 import AdminAi from './pages/admin/AdminAi';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminReports from './pages/admin/AdminReports';
-import SignUpHandler from './pages/\bSignUpHandler';
+import SignUpHandler from './pages/SignUpHandler';
 import SignUp from './pages/signUp';
 
 function App() {
