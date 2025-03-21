@@ -1,61 +1,57 @@
-import { loginApiTemp } from '@/api/loginApiTemp';
-import { Button } from '@/components/ui/button';
-// import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useMenu } from '@/hooks/useMenu';
-// import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
-import { AiRequestBody, MenuFormInput } from '@/types/ai';
-import { UserToken } from '@/types/user';
-import { RawAxiosRequestHeaders } from 'axios';
 import { useState } from 'react';
+import { MenuFormInput } from '@/types/ai';
+import { UserToken } from '@/types/user';
+import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { RawAxiosRequestHeaders } from 'axios';
+import { loginApiTemp } from '@/api/loginApiTemp';
+import { useMenuQuery } from '@/hooks/useAiQuery';
+import CheckboxGroup from '@/components/main/CheckboxGroup';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-export default function Diet() {
-  // const { data: userToken } = useUserTokenTemp();
-  // console.log(userToken);
+export default function Menu() {
   const [userToken, setUserToken] = useState<UserToken | null>(null);
 
-  const menuMutation = useMenu();
+  const menuMutation = useMenuQuery();
 
-  const { register, handleSubmit } = useForm<MenuFormInput>({
+  const form = useForm<MenuFormInput>({
     defaultValues: {
-      category: [],
-      type: [],
+      cuisine_type: [],
+      food_base: [],
       taste: [],
-      goal: [],
-      lastMeal: '',
+      dietary_type: [],
+      last_meal: '',
     },
   });
 
   const onSubmit: SubmitHandler<MenuFormInput> = (data) => {
     console.log(data);
 
+    // 나중에 로그인 구현 기능 끝나면 정리
     const requestHeader: RawAxiosRequestHeaders = {
       Authorization: `Bearer ${userToken?.access_token}`,
       'Content-Type': 'application/json',
     };
-    const requestBody: AiRequestBody = {
-      request_type: 'food',
-      request_data: {
-        category: data.category,
-        goal: data.goal,
-        lastMeal: data.lastMeal,
-        taste: data.taste,
-        type: data.type,
-      },
+    const requestBody: MenuFormInput = {
+      cuisine_type: data.cuisine_type,
+      food_base: data.food_base,
+      taste: data.taste,
+      dietary_type: data.dietary_type,
+      last_meal: data.last_meal,
     };
 
     menuMutation.mutate({ requestBody, headers: requestHeader });
     console.log(menuMutation);
-    console.log(menuMutation.data);
-    console.log(menuMutation.data?.recommendations);
+    console.log(menuMutation.data?.recommendations.recommendations);
   };
 
   return (
     <main className="flex h-full items-center justify-center pt-14 pl-[200px]">
       <div className="flex w-full max-w-5xl flex-col gap-4">
-        <h2 className="text-center text-2xl font-bold">조건 넣고 식단 추천받기</h2>
+        <h2 className="text-center text-2xl font-bold">조건 넣고 메뉴 추천받기</h2>
+
         <Button
           onClick={() =>
             loginApiTemp.logIn().then((res) => {
@@ -66,110 +62,58 @@ export default function Diet() {
         >
           로그인
         </Button>
+
         <div className="flex w-full">
           <section className="mx-4 w-1/2 grow">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <Label htmlFor="korean">
-                  <input type="checkbox" id="korean" value="korean" {...register('category')} />
-                  한식
-                </Label>
-                <Label htmlFor="japanese">
-                  <input type="checkbox" id="japanese" value="japanese" {...register('category')} />
-                  일식
-                </Label>
-                <Label htmlFor="chinese">
-                  <input type="checkbox" id="chinese" value="chinese" {...register('category')} />
-                  중식
-                </Label>
-                <Label htmlFor="western">
-                  <input type="checkbox" id="western" value="western" {...register('category')} />
-                  양식
-                </Label>
-                <Label htmlFor="asian">
-                  <input type="checkbox" id="asian" value="asian" {...register('category')} />
-                  아시안
-                </Label>
-              </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                <CheckboxGroup
+                  form={form}
+                  options={cuisine_type}
+                  optionName="cuisine_type"
+                  label="나라별 음식"
+                />
 
-              <div className="flex items-center gap-2">
-                <Label htmlFor="rice">
-                  <input type="checkbox" id="rice" value="rice" {...register('type')} />밥
-                </Label>
-                <Label htmlFor="noodle">
-                  <input type="checkbox" id="noodle" value="noodle" {...register('type')} />면
-                </Label>
-                <Label htmlFor="bread">
-                  <input type="checkbox" id="bread" value="bread" {...register('type')} />빵
-                </Label>
-              </div>
+                <CheckboxGroup
+                  form={form}
+                  options={food_base}
+                  optionName="food_base"
+                  label="음식 기반"
+                />
 
-              <div className="flex items-center gap-2">
-                <Label htmlFor="sweet">
-                  <input type="checkbox" id="sweet" value="sweet" {...register('taste')} />단 맛
-                </Label>
-                <Label htmlFor="savory">
-                  <input type="checkbox" id="savory" value="savory" {...register('taste')} />
-                  고소한 맛
-                </Label>
-                <Label htmlFor="spicy">
-                  <input type="checkbox" id="spicy" value="spicy" {...register('taste')} />
-                  매운 맛
-                </Label>
-                <Label htmlFor="light">
-                  <input type="checkbox" id="light" value="light" {...register('taste')} />
-                  상큼한 맛
-                </Label>
-              </div>
+                <CheckboxGroup form={form} options={taste} optionName="taste" label="맛" />
 
-              <div className="flex items-center gap-2">
-                <Label htmlFor="stimulating">
-                  <input
-                    type="checkbox"
-                    id="stimulating"
-                    value="stimulating"
-                    {...register('goal')}
-                  />
-                  자극적
-                </Label>
-                <Label htmlFor="healthy">
-                  <input type="checkbox" id="healthy" value="healthy" {...register('goal')} />
-                  건강한
-                </Label>
-              </div>
+                <CheckboxGroup
+                  form={form}
+                  options={dietary_type}
+                  optionName="dietary_type"
+                  label="식이 유형"
+                />
 
-              <Input type="text" {...register('lastMeal')} />
-              <Button type="submit">추천받기</Button>
-            </form>
+                <Input type="text" {...form.register('last_meal')} />
+
+                <Button type="submit">추천받기</Button>
+              </form>
+            </Form>
           </section>
+
+          {/* 메뉴 추천 결과 */}
           <section className="mx-4 w-1/2 grow border p-4">
-            결과
-            {/* {menuMutation.data?.recommendations?.map((item) => (
-              <div key={item.food_name}>
-                <div>{item.food_name}</div>
-                <div>{item.food_type}</div>
-                <div>{item.description}</div>
-                <div>{item.reccomendation_reason}</div>
-                <div>{item.nutritional_info.calories}</div>
-                <div>{item.nutritional_info.carbs}</div>
-                <div>{item.nutritional_info.fat}</div>
-                <div>{item.nutritional_info.protein}</div>
-              </div>
-            ))} */}
-            {typeof menuMutation.data?.recommendations === 'undefined'
-              ? '추천 식단이 없습니다.'
-              : menuMutation.data?.recommendations.recommendations.map((item) => (
-                  <div key={item.food_name}>
-                    <div>{item.food_name}</div>
+            <h3 className="text-lg font-bold">결과:</h3>
+            {menuMutation.data
+              ? menuMutation.data.recommendations.recommendations.map((item) => (
+                  <div key={item.food_name} className="border-b pb-4">
+                    <div className="text-lg font-bold">{item.food_name}</div>
                     <div>{item.food_type}</div>
                     <div>{item.description}</div>
                     <div>{item.reccomendation_reason}</div>
-                    <div>{item.nutritional_info.calories}</div>
-                    <div>{item.nutritional_info.carbs}</div>
-                    <div>{item.nutritional_info.fat}</div>
-                    <div>{item.nutritional_info.protein}</div>
+                    <div>칼로리: {item.nutritional_info.calories} kcal</div>
+                    <div>탄수화물: {item.nutritional_info.carbs} g</div>
+                    <div>지방: {item.nutritional_info.fat} g</div>
+                    <div>단백질: {item.nutritional_info.protein} g</div>
                   </div>
-                ))}
+                ))
+              : '추천 식단이 없습니다.'}
           </section>
         </div>
       </div>
