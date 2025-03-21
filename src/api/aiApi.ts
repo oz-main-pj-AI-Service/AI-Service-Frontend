@@ -24,6 +24,7 @@ export const aiApi = {
     );
     return response.data;
   },
+
   getDiet: async ({
     requestBody,
     headers,
@@ -38,6 +39,7 @@ export const aiApi = {
     );
     return response.data;
   },
+
   getRecipe: async ({
     requestBody,
     headers,

@@ -1,4 +1,3 @@
-import { loginApiTemp } from '@/api/loginApiTemp';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,21 +16,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useRecipeQuery } from '@/hooks/useAiQuery';
 import { RecipeFormInput } from '@/types/ai';
-import { UserToken } from '@/types/user';
-import { RawAxiosRequestHeaders } from 'axios';
-import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+// import { useNavigate } from 'react-router';
 
 export default function Recipe() {
-  const [userToken, setUserToken] = useState<UserToken | null>(null);
+  const accessToken = localStorage.getItem('access_temp');
+  console.log(accessToken);
 
-  const recipeMutation = useRecipeQuery();
+  // const navigate = useNavigate();
 
   const form = useForm<RecipeFormInput>({
     defaultValues: {
-      ingredients: [],
+      ingredients: '',
       serving_size: 1,
       cooking_time: 30,
       difficulty: 'easy',
@@ -43,20 +40,8 @@ export default function Recipe() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
 
-    // 나중에 로그인 구현 기능 끝나면 정리
-    const requestHeader: RawAxiosRequestHeaders = {
-      Authorization: `Bearer ${userToken?.access_token}`,
-      'Content-Type': 'application/json',
-    };
-
-    const requestBody: RecipeFormInput = {
-      ingredients: data.ingredients,
-      serving_size: data.serving_size,
-      cooking_time: data.cooking_time,
-      difficulty: data.difficulty,
-    };
-
-    recipeMutation.mutate({ requestBody, headers: requestHeader });
+    // 결과 페이지로 유저가 입력한거 쿼리파라 미터에 담아서 보내주기
+    // navigate(`/recipe/search?recipe=${인코딩해서쏘기}`);
   };
 
   return (
@@ -74,23 +59,20 @@ export default function Recipe() {
               <FormField
                 control={form.control}
                 name="ingredients"
-                render={({ field }) => {
-                  // console.log(field);
-                  return (
-                    <FormItem className="flex w-full">
-                      {/* <FormLabel>재료</FormLabel> */}
-                      <FormControl className="flex">
-                        <Input
-                          placeholder="재료를 입력하시면, AI가 레시피를 추천해드려요"
-                          className="grow"
-                          {...field}
-                        />
-                      </FormControl>
-                      {/* <FormDescription>This is your public display name.</FormDescription> */}
-                      {/* <FormMessage /> */}
-                    </FormItem>
-                  );
-                }}
+                render={({ field }) => (
+                  <FormItem className="flex w-full">
+                    {/* <FormLabel>재료</FormLabel> */}
+                    <FormControl className="flex">
+                      <Input
+                        placeholder="재료를 입력하시면, AI가 레시피를 추천해드려요"
+                        className="grow"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormDescription>This is your public display name.</FormDescription> */}
+                    {/* <FormMessage /> */}
+                  </FormItem>
+                )}
               />
               <Button type="submit">검색</Button>
             </div>
@@ -153,7 +135,7 @@ export default function Recipe() {
             </div>
           </form>
         </Form>
-        <Button
+        {/* <Button
           onClick={() =>
             loginApiTemp.logIn().then((res) => {
               setUserToken(res);
@@ -162,7 +144,7 @@ export default function Recipe() {
           }
         >
           로그인
-        </Button>
+        </Button> */}
       </div>
     </main>
   );
