@@ -1,6 +1,27 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 
+interface TokenData {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
+  expiresIn: number;
+}
+
+const handleResponseData = (data: any) => {
+  const tokenData: TokenData = {
+    accessToken: data.access_token,
+    refreshToken: data.refresh_token,
+    tokenType: data.token_type,
+    expiresIn: data.expires_in,
+  };
+
+  localStorage.setItem('accessToken', tokenData.accessToken);
+  localStorage.setItem('refreshToken', tokenData.refreshToken);
+  localStorage.setItem('tokenType', tokenData.tokenType);
+  localStorage.setItem('expiresIn', String(tokenData.expiresIn));
+};
+
 const SignUpHandler = () => {
   // console.log(code);
 
@@ -14,9 +35,8 @@ const SignUpHandler = () => {
         })
         .then((response) => {
           const data = response.data;
-          localStorage.setItem('tokens', JSON.stringify(data));
-          //이거 엑세스토큰, 리프레시토큰, 토큰스타일, 유효기간 분리하게 해야할지도?
-          window.location.href = '/';
+          handleResponseData(data);
+          // window.location.href = '/';
         })
         .catch((error) => {
           console.error('네이버 로그인 실패', error);
@@ -33,7 +53,7 @@ const SignUpHandler = () => {
         })
         .then((response) => {
           const data = response.data;
-          localStorage.setItem('tokens', JSON.stringify(data));
+          handleResponseData(data);
           // 성공 시 메인 페이지로 이동
           window.location.href = '/';
         })
@@ -57,3 +77,4 @@ const SignUpHandler = () => {
 };
 
 export default SignUpHandler;
+export { handleResponseData };
