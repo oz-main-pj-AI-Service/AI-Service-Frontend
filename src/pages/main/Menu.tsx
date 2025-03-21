@@ -1,10 +1,10 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { MenuFormInput } from '@/types/ai';
-import { UserToken } from '@/types/user';
+// import { UserToken } from '@/types/user';
 import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RawAxiosRequestHeaders } from 'axios';
-import { loginApiTemp } from '@/api/loginApiTemp';
+// import { loginApiTemp } from '@/api/loginApiTemp';
 import { useMenuQuery } from '@/hooks/useAiQuery';
 import CheckboxGroup from '@/components/main/CheckboxGroup';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,9 @@ import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
 export default function Menu() {
-  const [userToken, setUserToken] = useState<UserToken | null>(null);
+  // const [userToken, setUserToken] = useState<UserToken | null>(null);
+  const accessToken = localStorage.getItem('access_temp');
+  console.log(accessToken);
 
   const menuMutation = useMenuQuery();
 
@@ -31,7 +33,7 @@ export default function Menu() {
 
     // 나중에 로그인 구현 기능 끝나면 정리
     const requestHeader: RawAxiosRequestHeaders = {
-      Authorization: `Bearer ${userToken?.access_token}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     };
     const requestBody: MenuFormInput = {
@@ -52,7 +54,7 @@ export default function Menu() {
       <div className="flex w-full max-w-5xl flex-col gap-4">
         <h2 className="text-center text-2xl font-bold">조건 넣고 메뉴 추천받기</h2>
 
-        <Button
+        {/* <Button
           onClick={() =>
             loginApiTemp.logIn().then((res) => {
               setUserToken(res);
@@ -61,7 +63,7 @@ export default function Menu() {
           }
         >
           로그인
-        </Button>
+        </Button> */}
 
         <div className="flex w-full">
           <section className="mx-4 w-1/2 grow">

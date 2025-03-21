@@ -21,6 +21,7 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminReports from './pages/admin/AdminReports';
 import SignUpHandler from './pages/SignUpHandler';
 import SignUp from './pages/signUp';
+import RecipeResult from './pages/main/RecipeResult';
 
 function App() {
   return (
@@ -29,12 +30,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* 메인 */}
           <Route index element={<Recipe />} />
+          <Route path="recipe/search?" element={<RecipeResult />} />
           <Route path="menu" element={<Menu />} />
           <Route path="diet" element={<Diet />} />
-
-          {/* 소셜로그인 */}
-          <Route path="naver/callback" element={<SignUpHandler />} />
-          <Route path="google/callback" element={<SignUpHandler />} />
 
           {/* 검색 기록 */}
           <Route path="history" element={<HistoryLayout />}>
@@ -48,6 +46,10 @@ function App() {
             <Route path=":id" element={<ReportDetail />} />
             <Route path="post" element={<ReportPost />} />
           </Route>
+
+          {/* 소셜로그인 */}
+          <Route path="naver/callback" element={<SignUpHandler />} />
+          <Route path="google/callback" element={<SignUpHandler />} />
 
           {/* 로그인 */}
           <Route path="sign-in">
