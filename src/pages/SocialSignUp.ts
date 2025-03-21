@@ -12,7 +12,10 @@ const goNaverSignUp = () => {
 };
 
 const goGoogleSignUp = () => {
-  const googleURl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=openid%20email&client_id=${GoogleClientId}&redirect_uri=${GoogleCallbackUrl}`;
+  const googleURl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=1886796406-999482itjb2itl4n34hoqnn4m31jkukb.apps.googleusercontent.com&redirect_uri=${GoogleCallbackUrl}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
+  // `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GoogleClientId}&redirect_uri=${GoogleCallbackUrl}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
+
+  //`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=openid%20email&client_id=${GoogleClientId}&redirect_uri=${GoogleCallbackUrl}`;
 
   window.location.href = googleURl;
 };
