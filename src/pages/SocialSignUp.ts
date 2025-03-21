@@ -2,7 +2,7 @@ const NaverClientId = import.meta.env.VITE_NAVER_CLIENT_ID;
 const NaverCallbackUrl = import.meta.env.VITE_NAVER_CALLBACK_URI;
 const NaverState = 'RANDOM_STATE';
 
-const GoogleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+// const GoogleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const GoogleCallbackUrl = import.meta.env.VITE_GOOGLE_CALLBACK_URI;
 
 const goNaverSignUp = () => {
