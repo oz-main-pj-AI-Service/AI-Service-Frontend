@@ -18,7 +18,7 @@ export const aiApi = {
     headers: RawAxiosRequestHeaders;
   }) => {
     const response = await axios.post<MenuResponse>(
-      `${API_URL}/api/ai/food-recommendation/`,
+      `${API_URL}/ai/food-recommendation/`,
       requestBody,
       { headers },
     );
@@ -33,7 +33,7 @@ export const aiApi = {
     headers: RawAxiosRequestHeaders;
   }) => {
     const response = await axios.post<DietResponse>(
-      `${API_URL}/api/ai/health-recommendation/`,
+      `${API_URL}/ai/health-recommendation/`,
       requestBody,
       { headers },
     );
@@ -48,7 +48,7 @@ export const aiApi = {
     headers: RawAxiosRequestHeaders;
   }) => {
     const response = await axios.post<RecipeResponse>(
-      `${API_URL}/api/ai/recipe-recommendation/`,
+      `${API_URL}/ai/recipe-recommendation/`,
       requestBody,
       { headers },
     );

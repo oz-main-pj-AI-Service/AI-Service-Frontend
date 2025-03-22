@@ -1,3 +1,4 @@
+import { loginApiTemp } from '@/api/loginApiTemp';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,13 +19,10 @@ import {
 } from '@/components/ui/select';
 import { RecipeFormInput } from '@/types/ai';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 export default function Recipe() {
-  const accessToken = localStorage.getItem('access_temp');
-  console.log(accessToken);
-
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const form = useForm<RecipeFormInput>({
     defaultValues: {
@@ -39,6 +37,11 @@ export default function Recipe() {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
+
+    if (!loginApiTemp.getAccessTokenTemp()) {
+      navigate('/sign-in');
+      return;
+    }
 
     // 결과 페이지로 유저가 입력한거 쿼리파라 미터에 담아서 보내주기
     // navigate(`/recipe/search?recipe=${인코딩해서쏘기}`);
@@ -135,16 +138,6 @@ export default function Recipe() {
             </div>
           </form>
         </Form>
-        {/* <Button
-          onClick={() =>
-            loginApiTemp.logIn().then((res) => {
-              setUserToken(res);
-              console.log(userToken);
-            })
-          }
-        >
-          로그인
-        </Button> */}
       </div>
     </main>
   );

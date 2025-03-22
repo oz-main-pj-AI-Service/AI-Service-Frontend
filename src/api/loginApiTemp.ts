@@ -5,12 +5,16 @@ import axios from 'axios';
 
 export const loginApiTemp = {
   logIn: async () => {
-    const response = await axios.post<UserToken>(`${API_URL}/api/user/login/`, {
+    const response = await axios.post<UserToken>(`${API_URL}/user/login/`, {
       email: 'test@test.com',
       password: '!!test1234',
     });
     const userToken = response.data;
     return userToken;
+  },
+
+  getAccessTokenTemp: () => {
+    return localStorage.getItem('access_temp');
   },
 };
 
