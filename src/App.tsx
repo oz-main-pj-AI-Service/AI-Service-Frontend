@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router';
 import Layout from './components/main/Layout';
-import SignIn from './pages/SignIn';
-import FindId from './pages/FindId';
-import FindPw from './pages/FindPw';
-import Profile from './pages/Profile';
+import SignIn from './pages/user/SignIn';
+import FindId from './pages/user/FindId';
+import FindPw from './pages/user/FindPw';
+import Profile from './pages/user/Profile';
 import Admin from './pages/admin/Admin';
 import NotFound from './pages/NotFound';
 import Recipe from './pages/main/Recipe';
@@ -19,9 +19,15 @@ import AdminLayout from './components/main/AdminLayout';
 import AdminAi from './pages/admin/AdminAi';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminReports from './pages/admin/AdminReports';
+<<<<<<< HEAD
+import RecipeResult from './pages/main/RecipeResult';
+import SignUp from './pages/user/signUp';
+import SignUpHandler from './pages/user/SignUpHandler';
+=======
 import SignUpHandler from './pages/SignUpHandler';
 import SignUp from './pages/signUp';
 import RecipeResult from './pages/main/RecipeResult';
+>>>>>>> develop
 
 function App() {
   return (

@@ -2,6 +2,7 @@
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { goGoogleSignUp, goNaverSignUp } from './SocialSignUp';
 
 const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
 
@@ -38,8 +39,8 @@ export default function SignIn() {
         </div>
         <Button>로그인하기</Button>
         <p>sns 간편 로그인</p>
-        <Button>네이버</Button>
-        <Button>구글</Button>
+        <Button onClick={() => goNaverSignUp()}>네이버</Button>
+        <Button onClick={() => goGoogleSignUp()}>구글</Button>
       </form>
     </div>
   );
