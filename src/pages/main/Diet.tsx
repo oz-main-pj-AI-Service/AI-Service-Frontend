@@ -13,6 +13,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 export default function Diet() {
   const [userToken, setUserToken] = useState<UserToken | null>(null);
+  // const accessToken = localStorage.getItem('access_temp');
+  // console.log(accessToken);
 
   const dietMutation = useDietQuery();
 

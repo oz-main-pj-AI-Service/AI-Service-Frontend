@@ -5,10 +5,10 @@ export type Option = {
 };
 
 export type RecipeFormInput = {
-  ingredients: string[]; // 이거 배열로 받으실건지 다시 체크
+  ingredients: ''; // 받아서 배열로 고쳐서 넘기기 (아마 그럼 입력은 문자열로 받고, 요청할때 배열로 바꿔주기)
   serving_size: number;
   cooking_time: number;
-  difficulty: 'easy' | 'medium' | 'hard'; // 이거 배열로 되어있는거 체크
+  difficulty: 'easy' | 'medium' | 'hard';
 };
 
 export type DietFormInput = {
@@ -26,14 +26,6 @@ export type MenuFormInput = {
   dietary_type: Option['label'][];
   last_meal: string;
 };
-
-// export type AiResult = {
-//   id: string;
-//   request_type: 'food' | 'health' | 'recipe';
-//   request_data: MenuFormInput | DietFormInput | RecipeFormInput;
-//   response_data: object;
-//   created_at: string;
-// };
 
 // 응답
 export type NutritionInfo = {
@@ -112,3 +104,6 @@ export type Diet = {
   description: string;
   nutritional_info: NutritionInfo;
 };
+
+// 검색 타입
+export type SearchType = 'all' | 'recipe' | 'menu' | 'diet';
