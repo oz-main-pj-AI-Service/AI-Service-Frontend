@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
+import { set } from 'react-hook-form';
 
 interface TokenData {
   accessToken: string;
@@ -29,14 +30,17 @@ const SignUpHandler = () => {
     if (code) {
       // 백엔드로 코드 전송
       axios
-        .post('https://hansang.o-r.kr/api/user/social-login/naver/callback/', {
+        .post('https://api.hansang.ai.kr/api/user/social-login/naver/callback/', {
           code,
           // state,
         })
         .then((response) => {
           const data = response.data;
           handleResponseData(data);
-          // window.location.href = '/';
+          // 성공 시 메인 페이지로 이동
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 300);
         })
         .catch((error) => {
           console.error('네이버 로그인 실패', error);
@@ -48,14 +52,16 @@ const SignUpHandler = () => {
     if (code) {
       // 백엔드로 코드 전송
       axios
-        .post('https://hansang.o-r.kr/api/user/social-login/google/callback/', {
+        .post('https://api.hansang.ai.kr/api/user/social-login/google/callback/', {
           code,
         })
         .then((response) => {
           const data = response.data;
           handleResponseData(data);
           // 성공 시 메인 페이지로 이동
-          window.location.href = '/';
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 300);
         })
         .catch((error) => {
           console.error('구글 로그인 실패', error);

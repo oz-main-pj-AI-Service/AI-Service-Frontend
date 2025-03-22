@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://hansang.o-r.kr/api/', // 기본 URL 설정
+  baseURL: 'https://hansang.ai.kr/api/', // 기본 URL 설정
 });
 
 // 인터셉터 설정
