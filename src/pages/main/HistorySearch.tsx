@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router';
 
 export default function HistorySearch() {
   const [search] = useSearchParams();
-  const searchParams = search.get('query');
+  const searchParams = search.get('q');
 
   return (
     <div className="w-full">

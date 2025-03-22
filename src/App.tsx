@@ -19,15 +19,9 @@ import AdminLayout from './components/main/AdminLayout';
 import AdminAi from './pages/admin/AdminAi';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminReports from './pages/admin/AdminReports';
-<<<<<<< HEAD
 import RecipeResult from './pages/main/RecipeResult';
 import SignUp from './pages/user/signUp';
 import SignUpHandler from './pages/user/SignUpHandler';
-=======
-import SignUpHandler from './pages/SignUpHandler';
-import SignUp from './pages/signUp';
-import RecipeResult from './pages/main/RecipeResult';
->>>>>>> develop
 
 function App() {
   return (
