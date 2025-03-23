@@ -5,7 +5,7 @@ import { RawAxiosRequestHeaders } from 'axios';
 import { useMenuQuery } from '@/hooks/useAiQuery';
 import CheckboxGroup from '@/components/main/CheckboxGroup';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
+import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginApiTemp } from '@/api/loginApiTemp';
 export default function Menu() {
@@ -75,7 +75,10 @@ export default function Menu() {
                     label="식이 유형"
                   />
 
-                  <Input type="text" {...form.register('last_meal')} />
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">마지막 식사</FormLabel>
+                    <Input type="text" {...form.register('last_meal')} />
+                  </FormItem>
 
                   <Button type="submit">추천받기</Button>
                 </form>

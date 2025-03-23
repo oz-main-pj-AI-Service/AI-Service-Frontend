@@ -32,7 +32,7 @@ export default function RecipeResult() {
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
-          <h1 className="my-4 text-center text-2xl font-bold">검색 결과</h1>
+          <h2 className="my-4 text-center text-2xl font-bold">검색 결과</h2>
           <section className="w-full border p-4">
             <p>검색한 조건 (쿼리스트링): {query}</p>
           </section>

@@ -45,7 +45,7 @@ export default function MainNav() {
       </div>
 
       <div>
-        <Link to="/report">문의하기</Link>
+        <Link to="/report/post">문의하기</Link>
       </div>
     </nav>
   );
