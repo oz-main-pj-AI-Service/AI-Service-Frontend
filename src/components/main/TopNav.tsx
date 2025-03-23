@@ -1,11 +1,18 @@
 import { handleLogout } from '@/api/TokenApi';
 import { Link } from 'react-router';
+import { Button } from '../ui/button';
+import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
 
 export default function TopNav() {
   const accessToken = localStorage.getItem('accessToken');
 
+  // 임시 로그인
+  const { refetch } = useUserTokenTemp();
+
   return (
     <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 px-8 py-4">
+      <Button onClick={() => refetch()}>임시 로그인</Button>
+
       {accessToken ? (
         <>
           <Link to="/profile">회원정보</Link>

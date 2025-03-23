@@ -1,5 +1,7 @@
 import { Option } from '@/types/ai';
 
+// 이러면 이건 타입인가..?
+
 // 메뉴
 export const cuisine_type: readonly Option[] = [
   {

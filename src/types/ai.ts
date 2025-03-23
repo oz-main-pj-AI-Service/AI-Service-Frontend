@@ -45,7 +45,6 @@ export type CookingStep = {
   description: string;
 };
 
-// request_id가 아니고 recipe_id 인거 맞는지 확인
 export type RecipeResponse = {
   recipe_id: number;
   success: boolean;
