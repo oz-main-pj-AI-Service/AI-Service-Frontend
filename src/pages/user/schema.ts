@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const signUpSchema = z
   .object({
+    nickname: z.string().min(2, { message: '닉네임은 최소 2자 이상입니다' }),
     email: z.string().email({ message: '올바른 이메일 형식을 적어주세요' }),
     password1: z
       .string()

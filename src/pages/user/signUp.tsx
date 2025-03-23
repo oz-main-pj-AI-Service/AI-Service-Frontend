@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, SignUpSchema } from './schema';
 import { Button } from '@/components/ui/button';
 import { goNaverSignUp, goGoogleSignUp } from './SocialSignUp';
+import { API_URL } from '@/constants/url';
+import axios from 'axios';
 
 const SignUp = () => {
   const {
@@ -13,14 +15,20 @@ const SignUp = () => {
   } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      nickname: '',
       email: '',
       password1: '',
       password2: '',
     },
   });
 
-  const onSubmit = (data: SignUpSchema) => {
-    console.log(data);
+  const onSubmit = async (data: SignUpSchema) => {
+    try {
+      const response = await axios.post(`${API_URL}/api/user/register/`, data);
+      console.log('폼제출성공', response.data);
+    } catch (error) {
+      console.error('회원가입실패', error);
+    }
   };
 
   return (
@@ -32,6 +40,15 @@ const SignUp = () => {
         <img src="" alt="한상비서로고" className="w-full" />
         <h2 className="mb-4 text-lg font-bold">회원가입</h2>
 
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">닉네임</label>
+          <input
+            type="text"
+            {...register('nickname')}
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+          />
+          {errors.nickname && <p className="text-xs text-red-500">{errors.nickname.message}</p>}
+        </div>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium">이메일</label>
           <input
