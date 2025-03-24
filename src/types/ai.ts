@@ -1,15 +1,20 @@
+import { z } from 'zod';
+import { recipeFormSchema } from './aiSchema';
+
 // 요청
 export type Option = {
   id: string;
   label: string;
 };
 
-export type RecipeFormInput = {
-  ingredients: ''; // 받아서 배열로 고쳐서 넘기기 (아마 그럼 입력은 문자열로 받고, 요청할때 배열로 바꿔주기)
-  serving_size: number;
-  cooking_time: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-};
+// zod 스키마로 타입 추론
+export type RecipeFormInput = z.infer<typeof recipeFormSchema>;
+// export type RecipeFormInput = {
+//   ingredients: ''; // 받아서 배열로 고쳐서 넘기기 (아마 그럼 입력은 문자열로 받고, 요청할때 배열로 바꿔주기)
+//   serving_size: number;
+//   cooking_time: number;
+//   difficulty: '쉬움' | '보통' | '어려움';
+// };
 
 export type DietFormInput = {
   weight: number;
@@ -37,7 +42,7 @@ export type NutritionInfo = {
 
 export type Ingredient = {
   name: string;
-  quantity: string;
+  amount: string;
 };
 
 export type CookingStep = {

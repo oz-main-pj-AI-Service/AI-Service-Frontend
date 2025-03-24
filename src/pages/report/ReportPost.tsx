@@ -16,7 +16,7 @@ import { Link } from 'react-router';
 export default function ReportPost() {
   const form = useForm<ReportFormInput>({
     defaultValues: {
-      title: '', // 이게 없으면 undefined 로 시작해서 오류 발생
+      title: '', // 이게 없으면 undefined 로 시작해서 오류 발생, main쪽에선 안 그렇던데, 왜?
       description: '',
       // type: 'ERROR',
     },

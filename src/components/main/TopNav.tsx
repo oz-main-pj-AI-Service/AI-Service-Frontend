@@ -2,6 +2,7 @@ import { handleLogout } from '@/api/TokenApi';
 import { Link } from 'react-router';
 import { Button } from '../ui/button';
 import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
+import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function TopNav() {
   const accessToken = localStorage.getItem('accessToken');
@@ -11,7 +12,12 @@ export default function TopNav() {
 
   return (
     <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 px-8 py-4">
-      <Button onClick={() => refetch()}>임시 로그인</Button>
+      {/* 임시 로그인 */}
+      {loginApiTemp.getAccessTokenTemp() ? (
+        <Button onClick={() => refetch()}>로그인 완료</Button>
+      ) : (
+        <Button onClick={() => refetch()}>임시 로그인</Button>
+      )}
 
       {accessToken ? (
         <>
