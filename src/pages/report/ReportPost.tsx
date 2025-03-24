@@ -12,8 +12,12 @@ import { ReportFormInput } from '@/types/report';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
+import { usePostReportQuery } from '@/hooks/useReportsQuery';
 
 export default function ReportPost() {
+  const reportMutation = usePostReportQuery();
+  console.log(reportMutation);
+
   const form = useForm<ReportFormInput>({
     defaultValues: {
       title: '', // 이게 없으면 undefined 로 시작해서 오류 발생, main쪽에선 안 그렇던데, 왜?
@@ -27,6 +31,8 @@ export default function ReportPost() {
 
     // 유효성 검사
     // 셋다 필수 항목
+
+    reportMutation.mutate(data);
   };
 
   return (

@@ -8,10 +8,12 @@ import {
   PaginationEllipsis,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Link, useNavigate } from 'react-router';
+import { useReportsQuery } from '@/hooks/useReportsQuery';
+import { Link } from 'react-router';
 
 export default function Report() {
-  const navigate = useNavigate();
+  const { data: reports } = useReportsQuery();
+  console.log(reports);
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
@@ -36,45 +38,41 @@ export default function Report() {
             {/* 문의 사항 목록 */}
             <ul className="flex flex-col gap-2 py-2">
               {/* 받아와서 맵 돌리기 */}
-              {/* 각각 onClick 달아서 디테일 페이지로 (useNavigate? Link?) */}
-              <li
-                onClick={() => navigate(`/report/1`)}
-                className="flex justify-between gap-2 border-b py-2 hover:cursor-pointer hover:text-[#FFA500]"
-              >
-                <div className="w-1/12 min-w-16 text-center">10/8</div>
-                <div className="w-1/12 min-w-16 text-center">기능 요청</div>
-                <div className="min-w-40 grow pl-4">문의사항 1</div>
-                <div className="w-1/12 min-w-16 text-center">X</div>
+
+              <li className="border-b hover:cursor-pointer hover:text-[#FFA500]">
+                <Link to="/report/1" className="flex justify-between gap-2 py-2">
+                  <div className="w-1/12 min-w-16 text-center">10/8</div>
+                  <div className="w-1/12 min-w-16 text-center">기능 요청</div>
+                  <div className="min-w-40 grow pl-4">문의사항 1</div>
+                  <div className="w-1/12 min-w-16 text-center">X</div>
+                </Link>
               </li>
 
-              <li
-                onClick={() => navigate(`/report/2`)}
-                className="flex justify-between gap-2 border-b py-2 hover:cursor-pointer hover:text-[#FFA500]"
-              >
-                <div className="w-1/12 min-w-16 text-center">1/1</div>
-                <div className="w-1/12 min-w-16 text-center">문의</div>
-                <div className="min-w-40 grow pl-4">문의사항 2</div>
-                <div className="w-1/12 min-w-16 text-center">O</div>
+              <li className="border-b hover:cursor-pointer hover:text-[#FFA500]">
+                <Link to="/report/2" className="flex justify-between gap-2 py-2">
+                  <div className="w-1/12 min-w-16 text-center">1/1</div>
+                  <div className="w-1/12 min-w-16 text-center">문의</div>
+                  <div className="min-w-40 grow pl-4">문의사항 2</div>
+                  <div className="w-1/12 min-w-16 text-center">O</div>
+                </Link>
               </li>
 
-              <li
-                onClick={() => navigate(`/report/3`)}
-                className="flex justify-between gap-2 border-b py-2 hover:cursor-pointer hover:text-[#FFA500]"
-              >
-                <div className="w-1/12 min-w-16 text-center">12/30</div>
-                <div className="w-1/12 min-w-16 text-center">오류</div>
-                <div className="min-w-40 grow pl-4">문의사항 3</div>
-                <div className="w-1/12 min-w-16 text-center">X</div>
+              <li className="border-b hover:cursor-pointer hover:text-[#FFA500]">
+                <Link to="/report/3" className="flex justify-between gap-2 py-2">
+                  <div className="w-1/12 min-w-16 text-center">12/30</div>
+                  <div className="w-1/12 min-w-16 text-center">오류</div>
+                  <div className="min-w-40 grow pl-4">문의사항 3</div>
+                  <div className="w-1/12 min-w-16 text-center">X</div>
+                </Link>
               </li>
 
-              <li
-                onClick={() => navigate(`/report/4`)}
-                className="flex justify-between gap-2 border-b py-2 hover:cursor-pointer hover:text-[#FFA500]"
-              >
-                <div className="w-1/12 min-w-16 text-center">1/24</div>
-                <div className="w-1/12 min-w-16 text-center">기타</div>
-                <div className="min-w-40 grow pl-4">문의사항 4</div>
-                <div className="w-1/12 min-w-16 text-center">O</div>
+              <li className="border-b hover:cursor-pointer hover:text-[#FFA500]">
+                <Link to="/report/4" className="flex justify-between gap-2 py-2">
+                  <div className="w-1/12 min-w-16 text-center">1/24</div>
+                  <div className="w-1/12 min-w-16 text-center">기타</div>
+                  <div className="min-w-40 grow pl-4">문의사항 4</div>
+                  <div className="w-1/12 min-w-16 text-center">O</div>
+                </Link>
               </li>
             </ul>
           </section>
