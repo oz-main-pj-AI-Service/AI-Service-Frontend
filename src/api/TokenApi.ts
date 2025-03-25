@@ -48,7 +48,7 @@ const handleLogout = () => {
   localStorage.removeItem('refreshToken');
   localStorage.removeItem('tokenType');
   localStorage.removeItem('expiresIn');
-  window.location.href = '/login';
+  window.location.href = '/sign-in';
 };
 
 export default api;
