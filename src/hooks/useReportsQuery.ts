@@ -51,8 +51,23 @@ export const usePostReportQuery = () => {
   });
 };
 
-export const useEditReportQuery = () => {
-  // const queryClient = useQueryClient();
+export const useEditReportQuery = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<Report, AxiosError, ReportFormInput>({
+    mutationFn: (report) =>
+      reportApi.editReport({
+        params: { report_id: id },
+        report,
+        headers: {
+          Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
+    },
+  });
 };
 
 export const useDeleteReportQuery = () => {

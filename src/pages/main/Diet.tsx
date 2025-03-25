@@ -20,6 +20,8 @@ export default function Diet() {
       algergies: '',
       disliked_foods: '',
     },
+    // 유효성 검사
+    // resolver: zodResolver(dietFormSchema),
   });
 
   const onSubmit: SubmitHandler<DietFormInput> = (data) => {

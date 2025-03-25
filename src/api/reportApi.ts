@@ -40,7 +40,23 @@ export const reportApi = {
     return response.data;
   },
 
-  editReport: async ({}) => {},
+  editReport: async ({
+    params,
+    report,
+    headers,
+  }: {
+    params: { report_id: string };
+    report: ReportFormInput;
+    headers: RawAxiosRequestHeaders;
+  }) => {
+    const response = await axios.patch<Report>(`${API_URL}/reports/${params.report_id}/`, report, {
+      headers: headers,
+      params: {
+        id: params.report_id,
+      },
+    });
+    return response.data;
+  },
 
   deleteReport: async ({
     params,

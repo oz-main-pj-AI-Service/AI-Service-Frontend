@@ -6,15 +6,14 @@ export type ReportFormInput = {
   type: ReportType;
 };
 
+// ReportFormInput 이랑 Report랑 연결하기
+
 export type ReportStatus = 'OPEN' | 'CLOSED' | 'IN_PROGRESS' | 'RESOLVED';
 
-export type Report = {
+export type Report = ReportFormInput & {
   id: string;
   user_id: string;
-  title: string;
-  description: string;
   status: ReportStatus;
-  type: ReportType;
   created_at: string;
   admin_id: string | null;
   admin_comment: string | null;

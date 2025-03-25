@@ -39,7 +39,7 @@ export default function ReportDetail() {
           <div>
             <h3 className="border-b pb-2 text-lg font-bold">문의</h3>
             <p className="pt-2">
-              <span>{report?.description}</span>
+              <span className="whitespace-pre-wrap">{report?.description}</span>
             </p>
           </div>
 
@@ -57,14 +57,19 @@ export default function ReportDetail() {
           </div>
 
           <div className="flex justify-end gap-2">
-            {/* 수정하기는 답변이 없을 경우에만 활성화 */}
-            {/* 문의 사항 작성페이지로 보내기 + 글 내용을 디폴트로? */}
             {report?.status === 'CLOSED' ? (
               <Button variant="outline" disabled>
                 수정하기
               </Button>
             ) : (
-              <Button variant="outline">수정하기</Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigate(`/report/edit/${id}`);
+                }}
+              >
+                수정하기
+              </Button>
             )}
             {/* 확인 모달 띄우기 */}
             <Button
