@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '@/constants/url';
 
 interface TokenData {
   accessToken: string;
@@ -29,7 +30,7 @@ const SignUpHandler = () => {
     if (code) {
       // 백엔드로 코드 전송
       axios
-        .post('https://api.hansang.ai.kr/api/user/social-login/naver/callback/', {
+        .post(`${API_URL}/api/user/social-login/naver/callback/`, {
           code,
           // state,
         })

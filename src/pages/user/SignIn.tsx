@@ -23,12 +23,21 @@ const SignIn = () => {
     },
   });
 
+  const handleResponseData = (data: { access: string; refresh: string }) => {
+    localStorage.setItem('accessToken', data.access);
+    localStorage.setItem('refreshToken', data.refresh);
+  };
+
   const onSubmit = async (data: SignInSchema) => {
     try {
-      const response = await axios.post(`${API_URL}/api/user/login/`, data);
+      const response = await axios.post(`${API_URL}/user/login/`, data);
       console.log('로그인 성공', response.data);
-    } catch (error) {
-      console.error('로그인 실패', error);
+      handleResponseData(response.data);
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 300);
+    } catch (error: any) {
+      console.error('로그인 실패', error.response.data);
     }
   };
 
