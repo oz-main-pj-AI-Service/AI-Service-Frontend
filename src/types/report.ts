@@ -17,4 +17,12 @@ export type Report = {
   type: ReportType;
   created_at: string;
   admin_id: string | null;
+  admin_comment: string | null;
+};
+
+export type ReportResponse = {
+  results: Report[];
+  count: number;
+  next: string | null; // URL이 들어옴;; 그 페이지 요청할 주소인듯
+  previous: string | null; // 얘도
 };

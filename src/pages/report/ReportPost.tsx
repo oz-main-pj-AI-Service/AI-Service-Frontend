@@ -13,11 +13,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
 import { usePostReportQuery } from '@/hooks/useReportsQuery';
+import { useNavigate } from 'react-router';
 
 export default function ReportPost() {
+  const navigate = useNavigate();
   const reportMutation = usePostReportQuery();
   console.log(reportMutation);
 
+  // 수정일땐 아이디 받아와서 디폴트값으로 넣어주기
+  // 근데 완료할땐 post가 아니고 editMutation으로 넣어야함
   const form = useForm<ReportFormInput>({
     defaultValues: {
       title: '', // 이게 없으면 undefined 로 시작해서 오류 발생, main쪽에선 안 그렇던데, 왜?
@@ -33,6 +37,8 @@ export default function ReportPost() {
     // 셋다 필수 항목
 
     reportMutation.mutate(data);
+    // 모달 (확인, 취소 둘 다 확인 눌렀을때 목록으로 네비게이팅)
+    navigate('/report');
   };
 
   return (
