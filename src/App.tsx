@@ -22,7 +22,6 @@ import AdminReports from './pages/admin/AdminReports';
 import RecipeResult from './pages/main/RecipeResult';
 import SignUp from './pages/user/signUp';
 import SignUpHandler from './pages/user/SignUpHandler';
-import VarifyEmail from './pages/user/VerifyEmail';
 
 function App() {
   return (
@@ -61,7 +60,6 @@ function App() {
 
           {/* 회원가입 */}
           <Route path="sign-up" element={<SignUp />} />
-          <Route path="verify-email" element={<VarifyEmail />} />
 
           {/* 프로필 */}
           <Route path="profile" element={<Profile />} />
