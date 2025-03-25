@@ -19,6 +19,8 @@ export default function Menu() {
       dietary_type: [],
       last_meal: '',
     },
+    // 유효성 검사
+    // resolver: zodResolver(menuFormSchema),
   });
 
   const onSubmit: SubmitHandler<MenuFormInput> = (data) => {
