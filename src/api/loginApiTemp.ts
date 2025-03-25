@@ -1,6 +1,6 @@
 import { API_URL } from '@/constants/url';
 import { UserToken } from '@/types/user';
-import axios from 'axios';
+import axios, { RawAxiosRequestHeaders } from 'axios';
 // import { useEffect, useState } from 'react';
 
 export const loginApiTemp = {
@@ -10,7 +10,22 @@ export const loginApiTemp = {
       password: '!!test1234',
     });
     const userToken = response.data;
+    console.log(userToken);
     return userToken;
+  },
+
+  // 아 ㅡㅡ API 명세서 Authentication 아니고 Authorization 이라서 이렇게 해야함 ㅡㅡ
+  logOut: async () => {
+    const header: RawAxiosRequestHeaders = {
+      Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
+    };
+    console.log(header);
+    const response = await axios.post<{ message: string }>(`${API_URL}/user/logout/`, null, {
+      headers: header,
+    });
+    localStorage.removeItem('access_temp');
+    localStorage.removeItem('refresh_temp');
+    return response.data;
   },
 
   getAccessTokenTemp: () => {
