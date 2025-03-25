@@ -14,11 +14,7 @@ export default function HistoryLayout() {
   const navigate = useNavigate();
 
   const handleCategoryChange = (value: SearchType) => {
-    if (value === 'all') {
-      navigate('/history');
-    } else {
-      navigate(`/history/${value}`);
-    }
+    navigate(`/history/${value}`);
   };
 
   // 서치바?
