@@ -1,8 +1,9 @@
+// Modal.tsx
 import useModal from '@/states/modal';
 import { useEffect } from 'react';
 
-export default function Modal({ children }: { children: React.ReactNode }) {
-  const { isOpen, closeModal } = useModal();
+export default function Modal() {
+  const { isOpen, content, closeModal } = useModal();
 
   useEffect(() => {
     return () => {
@@ -13,17 +14,15 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   if (!isOpen) return null;
 
   return (
-    <div
-      onClick={closeModal}
-      className="fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center bg-black/80"
-    >
-      <section
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className="rounded bg-white px-8 py-6"
-      >
-        {children}
+    <div className="fixed top-0 left-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-black/80">
+      <section className="rounded bg-white px-8 py-10">
+        {content}
+        <button
+          onClick={closeModal}
+          className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        >
+          닫기
+        </button>
       </section>
     </div>
   );

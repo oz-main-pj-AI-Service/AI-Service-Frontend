@@ -5,6 +5,7 @@ export type darkModeStore = {
 
 export type ModalStore = {
   isOpen: boolean;
-  openModal: () => void;
+  content: React.ReactNode;
+  openModal: (content: React.ReactNode) => void;
   closeModal: () => void;
 };
