@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { loginApiTemp } from '@/api/loginApiTemp';
 import { AxiosError } from 'axios';
 
-export const useUserTokenTemp = () => {
+export const useUserTokenTemp = (type: 'admin' | 'user') => {
   const { data: userToken, refetch } = useQuery<UserToken, AxiosError>({
     queryKey: ['userTokenTemp'],
-    queryFn: loginApiTemp.logIn,
+    queryFn: () => loginApiTemp.logIn(type),
     enabled: false,
   });
 

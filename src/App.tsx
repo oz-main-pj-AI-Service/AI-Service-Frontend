@@ -23,6 +23,7 @@ import RecipeResult from './pages/main/RecipeResult';
 import SignUp from './pages/user/signUp';
 import SignUpHandler from './pages/user/SignUpHandler';
 import ReportEdit from './pages/report/ReportEdit';
+import AdminUserDetail from './pages/admin/AdminUserDetail';
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="users/:id" element={<AdminUserDetail />} />
           <Route path="reports" element={<AdminReports />} />
           <Route path="ai" element={<AdminAi />} />
         </Route>
