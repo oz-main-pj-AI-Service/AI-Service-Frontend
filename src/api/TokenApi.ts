@@ -1,97 +1,77 @@
 import { API_URL } from '@/constants/url';
+import { handleLogout } from '@/pages/user/handleLogout';
 import axios from 'axios';
 
+//accessToken이 필요한 경우만 사용
 const api = axios.create({
   baseURL: API_URL, // 기본 URL 설정
 });
 
-// 인터셉터 설정
-api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem('accessToken');
-  console.log('토큰', accessToken);
+// 요청전 인터셉터 설정
+api.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessToken');
+    console.log('토큰', accessToken);
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-  return config;
-});
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    } else {
+      window.location.href = '/sign-in';
+      throw new Error('⚠️토큰이 없습니다.');
+    }
+
+    config.headers['Content-Type'] = 'application/json';
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
 // 응답 인터셉터 설정 (리프레시 토큰 처리)
 api.interceptors.response.use(
+  //성공
   (response) => response,
+  //에러처리
   async (error: any) => {
-    if (error.response.status === 400) {
+    const originalRequest = error.config;
+    if (error.response.status === 401) {
       // 리프레시 토큰을 사용하여 새로운 엑세스 토큰을 발급받습니다.
-      const refreshToken = localStorage.getItem('refreshToken');
-      try {
-        const response = await api.post('/refresh-token', {
-          refreshToken,
-        });
-        const newAccessToken = response.data.accessToken;
-        localStorage.setItem('accessToken', newAccessToken);
-        // 새로운 엑세스 토큰으로 요청을 다시 시도합니다.
-        error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(error.config);
-      } catch (refreshError: any) {
-        if (refreshError.response?.status === 401 || refreshError.response?.status === 403) {
-          // 리프레시 토큰이 만료된 경우, 로그인 페이지로 리디렉션
+      const errorCode = error.response.data.code;
+
+      switch (errorCode) {
+        case 'not_authenticated':
+          console.error('⚠️인증되지 않은 사용자');
+          window.location.href = '/sign-in';
+          return Promise.reject(error);
+
+        case 'token_not_valid':
+          if (!originalRequest._retry) {
+            originalRequest._retry = true;
+            const refreshToken = localStorage.getItem('refreshToken');
+            try {
+              const response = await api.post('/user/refresh-token', {
+                refreshToken,
+              });
+              const newAccessToken = response.data.accessToken;
+              localStorage.setItem('accessToken', newAccessToken);
+              api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+              return api(originalRequest);
+            } catch (refreshError: any) {
+              console.error('리프레시 토큰 발급 실패:', refreshError);
+              handleLogout();
+              return Promise.reject(refreshError);
+            }
+          }
+          break;
+
+        default:
+          console.error('알수 없는 인증 오류', error.response.data);
           handleLogout();
-        } else {
-          console.error('리프레시 토큰 발급 실패:', refreshError);
-        }
+          return Promise.reject(error);
       }
     }
     return Promise.reject(error);
   },
 );
 
-const handleLogout = async () => {
-  try {
-    const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
-
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenType');
-    localStorage.removeItem('expiresIn');
-
-    const response = await api.post(`/user/logout/`);
-    console.log('로그아웃 응답 :', response);
-
-    if (response.status === 200) {
-      console.log(response.data.message);
-      window.location.href = '/sign-in';
-    }
-  } catch (error: any) {
-    if (error.response) {
-      const { status, data } = error.response;
-      switch (status) {
-        case 401:
-          console.error('인증되지 않은 사용자');
-          break;
-        case 403:
-          if (data.code === 'not_verified') {
-            console.error('인증되지 않은 이메일');
-          } else if (data.code === 'forbidden') {
-            console.error('관리자가 아닙니다');
-          }
-          break;
-        default:
-          console.error('로그아웃 중 오류 발생:', error);
-      }
-    } else if (error.request) {
-      console.error('서버응답없음');
-    } else {
-      console.error('요청설정중 오류 발생', error.message); //undefined
-    } //undefined
-  } finally {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenType');
-    localStorage.removeItem('expiresIn');
-    window.location.href = '/sign-in';
-  }
-};
-
 export default api;
-export { handleLogout };
