@@ -22,6 +22,7 @@ import AdminReports from './pages/admin/AdminReports';
 import RecipeResult from './pages/main/RecipeResult';
 import SignUp from './pages/user/signUp';
 import SignUpHandler from './pages/user/SignUpHandler';
+import ReportEdit from './pages/report/ReportEdit';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route index element={<Report />} />
             <Route path=":id" element={<ReportDetail />} />
             <Route path="post" element={<ReportPost />} />
+            <Route path="edit/:id" element={<ReportEdit />} />
           </Route>
 
           {/* 소셜로그인 */}
