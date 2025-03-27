@@ -1,57 +1,56 @@
-import { API_URL } from '@/constants/url';
+// import { API_URL } from '@/constants/url';
 import {
   DietFormInput,
   DietResponse,
   MenuFormRequest,
-  MenuResponse,
+  // MenuResponse,
   RecipeFormInput,
-  RecipeResponse,
+  // RecipeResponse,
 } from '@/types/ai';
-import axios, { RawAxiosRequestHeaders } from 'axios';
+// import axios, { RawAxiosRequestHeaders } from 'axios';
+import api from './TokenApi';
 
 export const aiApi = {
-  getMenu: async ({
-    requestBody,
-    headers,
-  }: {
-    requestBody: MenuFormRequest;
-    headers: RawAxiosRequestHeaders;
-  }) => {
-    const response = await axios.post<MenuResponse>(
-      `${API_URL}/ai/food-recommendation/`,
-      requestBody,
-      { headers },
-    );
-    return response.data;
-  },
-
-  getDiet: async ({
-    requestBody,
-    headers,
-  }: {
-    requestBody: DietFormInput;
-    headers: RawAxiosRequestHeaders;
-  }) => {
-    const response = await axios.post<DietResponse>(
-      `${API_URL}/ai/health-recommendation/`,
-      requestBody,
-      { headers },
-    );
-    return response.data;
-  },
-
   getRecipe: async ({
     requestBody,
-    headers,
+    // headers,
+    onChunk,
   }: {
     requestBody: RecipeFormInput;
-    headers: RawAxiosRequestHeaders;
+    // headers: RawAxiosRequestHeaders;
+    onChunk: (chunk: string) => void;
   }) => {
-    const response = await axios.post<RecipeResponse>(
-      `${API_URL}/ai/recipe-recommendation/`,
+    let previousText = '';
+
+    const response = await api.post(`/ai/recipe-recommendation/?streaming=true`, requestBody, {
+      headers: {
+        // ...headers,
+        Accept: 'text/event-stream',
+        // Accept: 'application/json',
+      },
+      responseType: 'stream',
+      onDownloadProgress: (progressEvent) => {
+        const text = progressEvent.event.target.responseText;
+        const newText = text.substring(previousText.length);
+        if (newText) {
+          onChunk(newText);
+          previousText = text;
+        }
+      },
+    });
+    return response.data;
+  },
+
+  getMenu: async ({ requestBody }: { requestBody: MenuFormRequest }) => {
+    const response = await api.post<string | undefined>(
+      `/ai/food-recommendation/?streaming=true`,
       requestBody,
-      { headers },
     );
+    return response.data;
+  },
+
+  getDiet: async ({ requestBody }: { requestBody: DietFormInput }) => {
+    const response = await api.post<DietResponse>(`/ai/health-recommendation/`, requestBody);
     return response.data;
   },
 };

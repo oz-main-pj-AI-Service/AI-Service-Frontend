@@ -1,13 +1,11 @@
 import { MenuFormInput, MenuFormRequest } from '@/types/ai';
 import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { RawAxiosRequestHeaders } from 'axios';
 import { useMenuQuery } from '@/hooks/useAiQuery';
 import CheckboxGroup from '@/components/main/CheckboxGroup';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function Menu() {
   const menuMutation = useMenuQuery();
@@ -27,11 +25,6 @@ export default function Menu() {
   const onSubmit: SubmitHandler<MenuFormInput> = (data) => {
     console.log(data);
 
-    // 나중에 로그인 구현 기능 끝나면 정리
-    const requestHeader: RawAxiosRequestHeaders = {
-      Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-      'Content-Type': 'application/json',
-    };
     const requestBody: MenuFormRequest = {
       cuisine_type: data.cuisine_type.join(','),
       food_base: data.food_base.join(','),
@@ -40,12 +33,12 @@ export default function Menu() {
       last_meal: data.last_meal,
     };
 
-    menuMutation.mutate({ requestBody, headers: requestHeader });
+    menuMutation.mutate({ requestBody });
     console.log(menuMutation);
     // console.log(menuMutation.data?.recommendations.recommendations);
   };
 
-  const menu = menuMutation.data?.recommendation.recommendation;
+  // const menu = menuMutation.data?.recommendation.recommendation;
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
@@ -93,16 +86,17 @@ export default function Menu() {
             {/* 메뉴 추천 결과 */}
             <section className="mx-4 w-1/2 grow border p-4">
               <h3 className="text-lg font-bold">결과:</h3>
-              {menu ? (
+              {menuMutation.data ? (
                 <div className="border-b pb-4">
-                  <div className="text-lg font-bold">{menu.food_name}</div>
+                  결과는 받음
+                  {/* <div className="text-lg font-bold">{menu.food_name}</div>
                   <div>{menu.food_type}</div>
                   <div>{menu.description}</div>
                   <div>{menu.reccomendation_reason}</div>
                   <div>칼로리: {menu.nutritional_info.calories} kcal</div>
                   <div>탄수화물: {menu.nutritional_info.carbs} g</div>
                   <div>지방: {menu.nutritional_info.fat} g</div>
-                  <div>단백질: {menu.nutritional_info.protein} g</div>
+                  <div>단백질: {menu.nutritional_info.protein} g</div> */}
                 </div>
               ) : (
                 '추천 식단이 없습니다.'

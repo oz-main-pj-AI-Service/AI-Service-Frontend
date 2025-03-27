@@ -22,7 +22,7 @@ export default function ReportForm({
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <div className="flex items-center justify-between border-b pb-4">
             <h2 className="text-2xl font-bold">문의하기</h2>
-            <Link to="/report">
+            <Link to="/report/page?p=1">
               <Button variant="outline">나의 문의 사항 목록 보기</Button>
             </Link>
           </div>
@@ -48,7 +48,7 @@ export default function ReportForm({
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>유형</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl className="w-full">
                         <SelectTrigger>
                           <SelectValue placeholder="유형을 선택하세요." />

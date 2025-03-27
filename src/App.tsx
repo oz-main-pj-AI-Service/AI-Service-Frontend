@@ -48,7 +48,7 @@ export default function App() {
 
           {/* 문의하기 */}
           <Route path="report">
-            <Route index element={<Report />} />
+            <Route path="page?" element={<Report />} />
             <Route path=":id" element={<ReportDetail />} />
             <Route path="post" element={<ReportPost />} />
             <Route path="edit/:id" element={<ReportEdit />} />

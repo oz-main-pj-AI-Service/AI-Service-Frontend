@@ -4,14 +4,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Report, ReportFormInput, ReportResponse } from '@/types/report';
 
-export const useReportsQuery = () => {
+export const useReportsQuery = (page: string) => {
   return useQuery<ReportResponse, AxiosError>({
-    queryKey: ['reports'],
+    queryKey: ['reports', page],
     queryFn: () =>
       reportApi.getReports({
         headers: {
           Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
         },
+        page: page,
       }),
     enabled: !!loginApiTemp.getAccessTokenTemp(),
   });

@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
-import useDarkMode from '@/states/darkmode';
+import useDarkMode from '@/stores/darkmode';
 import TopNav from './TopNav';
 
 export default function AdminLayout() {

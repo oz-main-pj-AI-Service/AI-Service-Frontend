@@ -17,12 +17,14 @@ export default function ReportEdit() {
     defaultValues: {
       title: '',
       description: '',
+      type: undefined,
     },
     // 유효성 검사
     // resolver: zodResolver(reportFormSchema),
   });
 
-  // 새로고침해도 디폴트 값 유지
+  // 새로고침해야 타입이 들어감
+  // 로딩 상태 추가하면 해결될듯
   useEffect(() => {
     if (report) {
       form.reset({
@@ -37,7 +39,7 @@ export default function ReportEdit() {
     console.log(data);
     editMutation.mutate(data);
     // 모달
-    navigate('/report');
+    navigate('/report/page?p=1');
   };
 
   return <ReportForm form={form} onSubmit={onSubmit} submitText="수정" />;
