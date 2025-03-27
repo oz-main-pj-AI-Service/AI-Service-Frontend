@@ -1,6 +1,9 @@
 import { Link } from 'react-router';
 
 export default function AdminUsers() {
+  // 유저 전체 조회 api 호출 (쿼리 or 서스펜스쿼리)
+  // api/user/admin/
+
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
@@ -113,4 +116,6 @@ export default function AdminUsers() {
 // 검색창이 필요할 듯
 
 // 스웨거에 PUT, PATCH 차이점 물어보기 (전체 수정 PUT이 필요한 이유가 있나?)
+// 해결된듯?
+
 // 요청 URL 등 모든 정보는 스웨거가 맞는건지 다시 한번 확인하기

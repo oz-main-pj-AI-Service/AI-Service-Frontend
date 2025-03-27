@@ -1,8 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 export default function AdminUserDetail() {
   const { id } = useParams();
+
+  // 특정 사용자 정보 조회 api 호출 (쿼리 or 서스펜스쿼리)
+  // 특정 사용자 강제 탈퇴 api 호출 (뮤테이션?)
+  // api/user/admin/id/
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
@@ -23,11 +27,11 @@ export default function AdminUserDetail() {
               </div>
               <div className="flex justify-between gap-2 border-b pb-4">
                 <span className="font-extralight">이메일</span>
-                <span className="font-extralight">example@example.com</span>
+                <span className="font-extralight">emailsample1234@example.com</span>
               </div>
               <div className="flex justify-between gap-2 border-b pb-4">
-                <span className="font-extralight">이름</span>
-                <span className="font-extralight">홍길동</span>
+                <span className="font-extralight">유저네임</span>
+                <span className="font-extralight">한상코더</span>
               </div>
               <div className="flex justify-between gap-2 border-b pb-4">
                 <span className="font-extralight">전화번호</span>
@@ -35,7 +39,7 @@ export default function AdminUserDetail() {
               </div>
               <div className="flex justify-between gap-2 border-b pb-4">
                 <span className="font-extralight">가입일</span>
-                <span className="font-extralight">2024-01-01</span>
+                <span className="font-extralight">2025-03-26</span>
               </div>
               <div className="flex justify-between gap-2 border-b pb-4">
                 <span className="font-extralight">소셜계정 여부</span>
@@ -55,10 +59,12 @@ export default function AdminUserDetail() {
               </div>
             </div>
             <div className="flex justify-between gap-2">
-              <Button className="grow" variant="destructive">
-                삭제
+              <Button className="w-1/2" variant="destructive">
+                강제 탈퇴
               </Button>
-              <Button className="grow">수정</Button>
+              <Button className="w-1/2" asChild>
+                <Link to={`/admin/users/edit/${id}`}>수정</Link>
+              </Button>
             </div>
           </div>
         </section>

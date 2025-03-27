@@ -1,4 +1,4 @@
-import { MenuFormInput } from '@/types/ai';
+import { MenuFormInput, MenuFormRequest } from '@/types/ai';
 import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RawAxiosRequestHeaders } from 'axios';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginApiTemp } from '@/api/loginApiTemp';
+
 export default function Menu() {
   const menuMutation = useMenuQuery();
 
@@ -31,11 +32,11 @@ export default function Menu() {
       Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
       'Content-Type': 'application/json',
     };
-    const requestBody: MenuFormInput = {
-      cuisine_type: data.cuisine_type,
-      food_base: data.food_base,
-      taste: data.taste,
-      dietary_type: data.dietary_type,
+    const requestBody: MenuFormRequest = {
+      cuisine_type: data.cuisine_type.join(','),
+      food_base: data.food_base.join(','),
+      taste: data.taste.join(','),
+      dietary_type: data.dietary_type.join(','),
       last_meal: data.last_meal,
     };
 
@@ -43,6 +44,8 @@ export default function Menu() {
     console.log(menuMutation);
     // console.log(menuMutation.data?.recommendations.recommendations);
   };
+
+  const menu = menuMutation.data?.recommendation.recommendation;
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
@@ -90,20 +93,20 @@ export default function Menu() {
             {/* 메뉴 추천 결과 */}
             <section className="mx-4 w-1/2 grow border p-4">
               <h3 className="text-lg font-bold">결과:</h3>
-              {menuMutation.data
-                ? menuMutation.data.recommendations.recommendations.map((item) => (
-                    <div key={item.food_name} className="border-b pb-4">
-                      <div className="text-lg font-bold">{item.food_name}</div>
-                      <div>{item.food_type}</div>
-                      <div>{item.description}</div>
-                      <div>{item.reccomendation_reason}</div>
-                      <div>칼로리: {item.nutritional_info.calories} kcal</div>
-                      <div>탄수화물: {item.nutritional_info.carbs} g</div>
-                      <div>지방: {item.nutritional_info.fat} g</div>
-                      <div>단백질: {item.nutritional_info.protein} g</div>
-                    </div>
-                  ))
-                : '추천 식단이 없습니다.'}
+              {menu ? (
+                <div className="border-b pb-4">
+                  <div className="text-lg font-bold">{menu.food_name}</div>
+                  <div>{menu.food_type}</div>
+                  <div>{menu.description}</div>
+                  <div>{menu.reccomendation_reason}</div>
+                  <div>칼로리: {menu.nutritional_info.calories} kcal</div>
+                  <div>탄수화물: {menu.nutritional_info.carbs} g</div>
+                  <div>지방: {menu.nutritional_info.fat} g</div>
+                  <div>단백질: {menu.nutritional_info.protein} g</div>
+                </div>
+              ) : (
+                '추천 식단이 없습니다.'
+              )}
             </section>
           </div>
         </div>
@@ -111,7 +114,3 @@ export default function Menu() {
     </main>
   );
 }
-
-// {
-//   menuMutation.data?.response_data;
-// }
