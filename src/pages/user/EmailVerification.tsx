@@ -12,7 +12,7 @@ const EmailVerification = () => {
 
       if (token) {
         try {
-          await axios.post(`${API_URL}/user/verify-email/${token}`);
+          await axios.post(`${API_URL}/user/verify-email/`, { token });
           setverified('성공');
         } catch (error) {
           console.error('이메일 인증 오류:', error);
