@@ -27,6 +27,7 @@ import AdminUserDetail from './pages/admin/AdminUserDetail';
 import AdminReportDetail from './pages/admin/AdminReportDetail';
 import AdminAiDetail from './pages/admin/AdminAiDetail';
 import AdminUsersEdit from './pages/admin/AdminUsersEdit';
+import EmailVerification from './pages/user/EmailVerification';
 
 export default function App() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
           {/* 소셜로그인 */}
           <Route path="naver/callback" element={<SignUpHandler />} />
           <Route path="google/callback" element={<SignUpHandler />} />
+          <Route path="verify-email" element={<EmailVerification />} />
 
           {/* 로그인 */}
           <Route path="sign-in">

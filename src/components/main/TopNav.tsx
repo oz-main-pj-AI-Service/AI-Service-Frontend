@@ -1,9 +1,9 @@
-import { handleLogout } from '@/api/TokenApi';
 import { Link } from 'react-router';
 import { Button } from '../ui/button';
 import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
 import { loginApiTemp } from '@/api/loginApiTemp';
 import useIsLogedIn from '@/states/isLogin';
+import { handleLogout } from '@/pages/user/handleLogout';
 
 export default function TopNav() {
   const accessToken = localStorage.getItem('accessToken');
