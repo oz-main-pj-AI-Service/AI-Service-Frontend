@@ -30,7 +30,7 @@ const SignUpHandler = () => {
     if (code) {
       // 백엔드로 코드 전송
       axios
-        .post(`${API_URL}/api/user/social-login/naver/callback/`, {
+        .post(`${API_URL}/user/social-login/naver/callback/`, {
           code,
           // state,
         })
