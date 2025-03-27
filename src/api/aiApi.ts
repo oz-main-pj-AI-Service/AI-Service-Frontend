@@ -28,7 +28,7 @@ export const aiApi = {
         Accept: 'text/event-stream',
         // Accept: 'application/json',
       },
-      responseType: 'text',
+      responseType: 'stream',
       onDownloadProgress: (progressEvent) => {
         const text = progressEvent.event.target.responseText;
         const newText = text.substring(previousText.length);

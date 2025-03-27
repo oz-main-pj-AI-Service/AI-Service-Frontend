@@ -1,18 +1,15 @@
 import { useReportsQuery } from '@/hooks/useReportsQuery';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { Button } from '@/components/ui/button';
-import {
-  Pagination,
-  PaginationLink,
-  PaginationNext,
-  PaginationContent,
-  PaginationItem,
-  PaginationEllipsis,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+import PagenationBundle from '@/components/PagenationBundle';
+import { PAGE_SIZE } from '@/constants/common';
 
 export default function Report() {
-  const { data: reports } = useReportsQuery();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('p') || '1';
+  console.log(page);
+
+  const { data: reports } = useReportsQuery(page);
   console.log(reports);
 
   return (
@@ -86,31 +83,13 @@ export default function Report() {
           </section>
 
           {/* 페이지네이션 */}
-          {/* 기능 추가하기 + 컴포넌트화 */}
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          {reports && (
+            <PagenationBundle
+              currentPage={parseInt(page)}
+              totalPages={Math.ceil(reports.count / PAGE_SIZE)}
+              url={`/report/page?`}
+            />
+          )}
         </div>
       </div>
     </main>
