@@ -53,7 +53,9 @@ function App() {
           {/* 소셜로그인 */}
           <Route path="naver/callback" element={<SignUpHandler />} />
           <Route path="google/callback" element={<SignUpHandler />} />
-          <Route path="verify-email" element={<EmailVerification />} />
+
+          {/* 이메일 인증 */}
+          <Route path="verify-email/" element={<EmailVerification />} />
 
           {/* 로그인 */}
           <Route path="sign-in">
