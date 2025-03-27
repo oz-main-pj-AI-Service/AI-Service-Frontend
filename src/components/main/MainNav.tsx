@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import useDarkMode from '@/states/darkmode';
+import 한상로고 from '@/assets/한상로고.png';
 
 export default function MainNav() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -9,7 +10,9 @@ export default function MainNav() {
   return (
     <nav className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-zinc-300 dark:bg-zinc-900">
       <h1>
-        <Link to="/">한상비서</Link>
+        <Link to="/">
+          <img src={한상로고} alt="" />
+        </Link>
       </h1>
       <ul>
         <NavLink to="/">

@@ -4,16 +4,17 @@ import { Link } from 'react-router';
 
 export default function Profile() {
   return (
-    <main className="flex flex-col items-center justify-center pt-[100px] pl-[200px]">
-      <section className="flex max-w-5xl flex-col gap-4">
+    <main className="flex h-screen items-center justify-center">
+      <section className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md">
         <h1>회원정보</h1>
         <img src="" alt="프로필사진" />
-        <p>이메일: </p>
+        <p>이메일 </p>
         <Input />
-        <p>전화번호: </p>
+        <p>전화번호 </p>
         <Input />
-        <p>알람받기: </p>
+        <p>알람받기 </p>
         {/* 스위치 넣을 예정 */}
+        <hr />
         <Link to="/profile/">
           <Button>회원탈퇴</Button>
         </Link>
