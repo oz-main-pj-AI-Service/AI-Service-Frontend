@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
-import useDarkMode from '@/states/darkmode';
+import useDarkMode from '@/stores/darkmode';
 import 한상로고 from '@/assets/한상로고.png';
 
 export default function MainNav() {

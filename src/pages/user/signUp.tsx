@@ -8,7 +8,7 @@ import { API_URL } from '@/constants/url';
 import axios from 'axios';
 import 네이버동그라미 from './네이버동그라미.png';
 import 구글동그라미 from './구글동그라미.png';
-import useModal from '@/states/modal';
+import useModal from '@/stores/modal';
 import Modal from '@/components/Modal';
 import 한상로고 from '@/assets/한상로고.png';
 import { Link } from 'react-router';
