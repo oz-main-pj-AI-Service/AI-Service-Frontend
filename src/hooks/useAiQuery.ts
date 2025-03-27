@@ -2,7 +2,7 @@ import { aiApi } from '@/api/aiApi';
 import {
   DietFormInput,
   DietResponse,
-  MenuFormInput,
+  MenuFormRequest,
   MenuResponse,
   RecipeFormInput,
   RecipeResponse,
@@ -25,7 +25,7 @@ export const useMenuQuery = () => {
   return useMutation<
     MenuResponse,
     AxiosError,
-    { requestBody: MenuFormInput; headers: RawAxiosRequestHeaders }
+    { requestBody: MenuFormRequest; headers: RawAxiosRequestHeaders }
   >({
     mutationFn: aiApi.getMenu,
   });

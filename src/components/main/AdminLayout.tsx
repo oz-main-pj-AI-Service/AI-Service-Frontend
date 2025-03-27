@@ -2,14 +2,14 @@ import { Link, NavLink, Outlet } from 'react-router';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import useDarkMode from '@/states/darkmode';
-import { Button } from '../ui/button';
+import TopNav from './TopNav';
 
 export default function AdminLayout() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <>
-      <nav className="fixed top-0 left-0 flex h-full w-[200px] flex-col items-center justify-between bg-zinc-400 dark:bg-zinc-800">
+      <nav className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-zinc-400 dark:bg-zinc-800">
         <h1>
           <Link to="/">한상비서</Link>
         </h1>
@@ -38,9 +38,7 @@ export default function AdminLayout() {
         </div>
       </nav>
 
-      <div className="flex justify-end">
-        <Button>로그아웃</Button>
-      </div>
+      <TopNav />
 
       <Outlet />
     </>

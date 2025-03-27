@@ -32,6 +32,14 @@ export type MenuFormInput = {
   last_meal: string;
 };
 
+export type MenuFormRequest = {
+  cuisine_type: string;
+  food_base: string;
+  taste: string;
+  dietary_type: string;
+  last_meal: string;
+};
+
 // 응답
 export type NutritionInfo = {
   calories: number;
@@ -78,8 +86,8 @@ export type Recipe = {
 export type MenuResponse = {
   request_id: number;
   success: boolean;
-  recommendations: {
-    recommendations: Menu[];
+  recommendation: {
+    recommendation: Menu;
   };
 };
 

@@ -2,7 +2,7 @@ import { API_URL } from '@/constants/url';
 import {
   DietFormInput,
   DietResponse,
-  MenuFormInput,
+  MenuFormRequest,
   MenuResponse,
   RecipeFormInput,
   RecipeResponse,
@@ -14,7 +14,7 @@ export const aiApi = {
     requestBody,
     headers,
   }: {
-    requestBody: MenuFormInput;
+    requestBody: MenuFormRequest;
     headers: RawAxiosRequestHeaders;
   }) => {
     const response = await axios.post<MenuResponse>(

@@ -10,7 +10,8 @@ export default function TopNav() {
 
   // 임시 로그인
   const { isLogedIn, toggleIsLogedIn } = useIsLogedIn();
-  const { refetch } = useUserTokenTemp();
+  const { refetch: refetchUserToken } = useUserTokenTemp('user');
+  const { refetch: refetchAdminToken } = useUserTokenTemp('admin');
 
   return (
     <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 px-8 py-4">
@@ -25,14 +26,26 @@ export default function TopNav() {
           로그아웃
         </Button>
       ) : (
-        <Button
-          onClick={() => {
-            refetch();
-            toggleIsLogedIn();
-          }}
-        >
-          임시 로그인
-        </Button>
+        <>
+          <Button
+            onClick={() => {
+              console.log('관리자 로그인');
+              refetchAdminToken();
+              toggleIsLogedIn();
+            }}
+          >
+            관리자 로그인
+          </Button>
+          <Button
+            onClick={() => {
+              console.log('유저 로그인');
+              refetchUserToken();
+              toggleIsLogedIn();
+            }}
+          >
+            임시 로그인
+          </Button>
+        </>
       )}
 
       {accessToken ? (
