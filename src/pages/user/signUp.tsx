@@ -15,7 +15,7 @@ import { Link } from 'react-router';
 
 const SignUp = () => {
   const { openModal } = useModal();
-
+  //유효성검사
   const {
     register,
     handleSubmit,
