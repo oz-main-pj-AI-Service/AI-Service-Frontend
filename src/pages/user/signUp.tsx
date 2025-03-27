@@ -10,6 +10,8 @@ import 네이버동그라미 from './네이버동그라미.png';
 import 구글동그라미 from './구글동그라미.png';
 import useModal from '@/states/modal';
 import Modal from '@/components/Modal';
+import 한상로고 from '@/assets/한상로고.png';
+import { Link } from 'react-router';
 
 const SignUp = () => {
   const { openModal } = useModal();
@@ -32,7 +34,7 @@ const SignUp = () => {
 
   const onSubmit = async (data: SignUpSchema) => {
     try {
-      const response = await axios.post(`${API_URL}/api/user/register/`, data);
+      const response = await axios.post(`${API_URL}/user/register/`, data);
       if (response.status === 201) {
         console.log('회원가입 성공');
         openModal(<p>이메일 인증을 완료해주세요 : {data.email}</p>);
@@ -42,22 +44,15 @@ const SignUp = () => {
     } catch (error: any) {
       if (error.response.status === 409) {
         const errors = error.response.data;
-        // console.log(errors);
 
-        // 이메일 중복 에러 처리
         if (errors.detail && errors.detail.includes('이미 사용중인 이메일 입니다.')) {
           alert('중복된 이메일입니다.');
-          // console.error('중복된 이메일입니다:', errors.response.data);
-          // console.error('중복된 이메일입니다:', errors.email);
         }
-
-        // 전화번호 중복 에러 처리
         if (errors.detail && errors.detail.includes('이미 사용 중인 핸드폰 번호입니다.')) {
           alert('중복된 전화번호입니다.');
           console.error('중복된 전화번호입니다:', errors.phone_number);
         }
       } else {
-        // 기타 서버 오류 처리
         alert('서버와의 통신 중 문제가 발생했습니다. 다시 시도해 주세요.');
         console.error(error);
       }
@@ -70,61 +65,59 @@ const SignUp = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
       >
-        <img src="" alt="한상비서로고" className="w-full" />
+        <h1>
+          <img src={한상로고} alt="한상비서로고" />
+        </h1>
         <h2 className="mb-4 text-lg font-bold">회원가입</h2>
+        <p>
+          이미 회원이신가요? &nbsp;
+          <Link to="/sign-in" className="text-blue-500">
+            로그인 하기
+          </Link>
+        </p>
+        <input
+          placeholder="닉네임"
+          type="text"
+          {...register('nickname')}
+          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+        />
+        {errors.nickname && <p className="text-xs text-red-500">{errors.nickname.message}</p>}
+        <input
+          placeholder="이메일"
+          type="email"
+          {...register('email')}
+          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+        />
+        {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
 
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">닉네임</label>
-          <input
-            type="text"
-            {...register('nickname')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-          />
-          {errors.nickname && <p className="text-xs text-red-500">{errors.nickname.message}</p>}
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">이메일</label>
-          <input
-            type="email"
-            {...register('email')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-          />
-          {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-        </div>
+        <input
+          placeholder="비밀번호"
+          type="password"
+          {...register('password1')}
+          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+        />
+        {errors.password1 && <p className="text-xs text-red-500">{errors.password1.message}</p>}
 
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">비밀번호</label>
-          <input
-            type="password"
-            {...register('password1')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-          />
-          {errors.password1 && <p className="text-xs text-red-500">{errors.password1.message}</p>}
-        </div>
+        <input
+          placeholder="비밀번호 확인"
+          type="password"
+          {...register('password2')}
+          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+        />
+        {errors.password2 && <p className="text-xs text-red-500">{errors.password2.message}</p>}
 
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">비밀번호 확인</label>
-          <input
-            type="password"
-            {...register('password2')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-          />
-          {errors.password2 && <p className="text-xs text-red-500">{errors.password2.message}</p>}
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">휴대폰번호</label>
-          <input
-            type="tel"
-            {...register('phone_number')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-          />
-          {errors.phone_number && (
-            <p className="text-xs text-red-500">{errors.phone_number.message}</p>
-          )}
-        </div>
+        <input
+          placeholder="전화번호"
+          type="tel"
+          {...register('phone_number')}
+          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+        />
+        {errors.phone_number && (
+          <p className="text-xs text-red-500">{errors.phone_number.message}</p>
+        )}
 
         <Button type="submit">회원가입</Button>
+        <hr />
         <p>sns 간편로그인</p>
         <div className="flex justify-center gap-20">
           <button onClick={goNaverSignUp}>

@@ -23,6 +23,7 @@ import RecipeResult from './pages/main/RecipeResult';
 import SignUp from './pages/user/signUp';
 import SignUpHandler from './pages/user/SignUpHandler';
 import ReportEdit from './pages/report/ReportEdit';
+import EmailVerification from './pages/user/EmailVerification';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           {/* 소셜로그인 */}
           <Route path="naver/callback" element={<SignUpHandler />} />
           <Route path="google/callback" element={<SignUpHandler />} />
+          <Route path="verify-email" element={<EmailVerification />} />
 
           {/* 로그인 */}
           <Route path="sign-in">
