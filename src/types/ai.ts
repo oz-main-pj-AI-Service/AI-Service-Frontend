@@ -16,6 +16,15 @@ export type RecipeFormInput = z.infer<typeof recipeFormSchema>;
 //   difficulty: '쉬움' | '보통' | '어려움';
 // };
 
+export type RecipeStreamResult = {
+  textStream: string;
+  finalRecipe: Recipe | null;
+  error: Error | null;
+  isStreaming: boolean;
+  startStream: (requestData: RecipeFormInput) => void;
+  reset: () => void;
+};
+
 export type DietFormInput = {
   weight: number;
   goal: Option['label'][];

@@ -1,7 +1,7 @@
 import { RecipeFormInput } from '@/types/ai';
 import { useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-import { useRecipeStream } from '@/hooks/tries';
+import { useRecipeStream } from '@/hooks/useAiQuery';
 import { formatText } from '@/lib/utils';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
 // import { useOnlyFetch } from '@/hooks/onlyfetch';
@@ -17,7 +17,7 @@ export default function RecipeResult() {
   // const { textStream, streamMutation } = useStreaming2();
 
   // 후보 2 (JSON 제대로) - 액시오스, 뮤테이션, 상태, 어브토컨트롤러, 로딩, 에러 (풀)
-  const { textStream, finalRecipe, startStream, isStreaming } = useRecipeStream();
+  const { textStream, finalRecipe, startStream } = useRecipeStream();
 
   // 후보 3 (JSON 깨짐, SSE) - 액시오스, 뮤테이션, 상태
   // const { textStream, streamMutation } = useStreaming1();
@@ -57,6 +57,7 @@ export default function RecipeResult() {
   // console.log(recipeStream);
   console.log(textStream);
   console.log(finalRecipe);
+
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
@@ -66,60 +67,34 @@ export default function RecipeResult() {
             <p>검색한 조건 (쿼리스트링): {searchParams.get('q')}</p>
           </section>
           <section className="mt-4 min-h-[500px] w-full border p-4">
-            {/* <p>api 응답 결과</p>
-            <p>{recipeMutation.data?.recipe.name}</p>
-            <p>{recipeMutation.data?.recipe.description}</p>
-            <p>{recipeMutation.data?.recipe.cuisine_type}</p>
-            <p>{recipeMutation.data?.recipe.meal_type}</p>
-            <p>{recipeMutation.data?.recipe.preparation_time}</p>
-            <p>{recipeMutation.data?.recipe.cooking_time}</p>
-            <p>{recipeMutation.data?.recipe.serving_size}</p>
-            <p>{recipeMutation.data?.recipe.difficulty}</p>
-            {recipeMutation.data?.recipe.ingredients.map((ingredient) => (
-              <p key={ingredient.name}>
-                {ingredient.name}: {ingredient.amount}
-              </p>
-            ))}
-            {recipeMutation.data?.recipe.instructions.map((instruction) => (
-              <p key={instruction.step}>
-                {instruction.step}. {instruction.description}
-              </p>
-            ))}
-            <p>{recipeMutation.recipeStream}</p> */}
-            <div>
-              {/* 실시간 스트리밍 텍스트 */}
-              {/* {isStreaming && ( */}
-              <div className="border-b py-4">
-                <h3>생성 중...</h3>
-                {/* <p>{textStream}</p> */}
-                <pre className="whitespace-pre-wrap">{formatText(textStream)}</pre>
-              </div>
-              {/* )} */}
+            {/* 실시간 스트리밍 텍스트 */}
+            <div className="border-b py-4">
+              <h3>생성 중...</h3>
+              {/* <p>{textStream}</p> */}
+              <pre className="whitespace-pre-wrap">{formatText(textStream)}</pre>
+            </div>
 
-              {/* 최종 레시피 */}
-              {/* {finalRecipe && ( */}
-              <div>
-                <h3>완성된 레시피</h3>
-                <h4>{finalRecipe?.name}</h4>
-                <h5>재료:</h5>
-                <ul>
-                  {finalRecipe?.ingredients.map((ingredient, index) => (
-                    <li key={index}>
-                      {ingredient.name}: {ingredient.amount}
-                    </li>
-                  ))}
-                </ul>
-                <h5>조리방법:</h5>
-                <ol>
-                  {finalRecipe?.instructions.map((instruction, index) => (
-                    <li key={index}>
-                      {instruction.step}. {instruction.description}
-                    </li>
-                  ))}
-                </ol>
-                {/* <button onClick={reset}>새로 만들기</button> */}
-              </div>
-              {/* )} */}
+            {/* 최종 레시피 */}
+            <div>
+              <h3>완성된 레시피</h3>
+              <h4>{finalRecipe?.name}</h4>
+              <h5>재료:</h5>
+              <ul>
+                {finalRecipe?.ingredients.map((ingredient, index) => (
+                  <li key={index}>
+                    {ingredient.name}: {ingredient.amount}
+                  </li>
+                ))}
+              </ul>
+              <h5>조리방법:</h5>
+              <ol>
+                {finalRecipe?.instructions.map((instruction, index) => (
+                  <li key={index}>
+                    {instruction.step}. {instruction.description}
+                  </li>
+                ))}
+              </ol>
+              {/* <button onClick={reset}>새로 만들기</button> */}
             </div>
           </section>
         </div>
