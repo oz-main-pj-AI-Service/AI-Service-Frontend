@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Report, ReportFormInput, ReportResponse } from '@/types/report';
 
-export const useReportsQuery = (page: string) => {
+export const useReportsQuery = (page: string = '1') => {
   return useQuery<ReportResponse, AxiosError>({
     queryKey: ['reports', page],
     queryFn: () =>

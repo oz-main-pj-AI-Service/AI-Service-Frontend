@@ -8,6 +8,7 @@ export default function HistorySearch() {
     <div className="w-full">
       <div className="mx-auto max-w-5xl px-4 pb-8 sm:px-6 md:px-8">
         <h2 className="text-center text-xl">{`검색 기록: ${searchParams}`}</h2>
+        <h2 className="text-center text-xl">필요 없어질듯</h2>
         <ul className="flex w-full flex-col gap-8">
           {/* 검색 기록 받아서 맵돌리기 */}
           {/* <HistoryContentCard content={content} /> */}

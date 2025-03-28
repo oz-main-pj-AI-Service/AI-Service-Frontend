@@ -2,7 +2,7 @@ import { useReportsQuery } from '@/hooks/useReportsQuery';
 import { Link, useSearchParams } from 'react-router';
 import { Button } from '@/components/ui/button';
 import PagenationBundle from '@/components/PagenationBundle';
-import { PAGE_SIZE } from '@/constants/common';
+import { formatDateMD } from '@/lib/utils';
 
 export default function Report() {
   const [searchParams] = useSearchParams();
@@ -62,16 +62,15 @@ export default function Report() {
                     formattedStatus = 'X';
                 }
 
-                const date = new Date(report.created_at);
-                const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
-
                 return (
                   <li
                     key={report.id}
                     className="border-b hover:cursor-pointer hover:text-[#FFA500]"
                   >
                     <Link to={`/report/${report.id}`} className="flex justify-between gap-2 py-2">
-                      <div className="w-1/12 min-w-16 text-center">{formattedDate}</div>
+                      <div className="w-1/12 min-w-16 text-center">
+                        {formatDateMD(report.created_at)}
+                      </div>
                       <div className="w-1/12 min-w-16 text-center">{formattedType}</div>
                       <div className="min-w-40 grow pl-4">{report.title}</div>
                       <div className="w-1/12 min-w-16 text-center">{formattedStatus}</div>
@@ -86,7 +85,7 @@ export default function Report() {
           {reports && (
             <PagenationBundle
               currentPage={parseInt(page)}
-              totalPages={Math.ceil(reports.count / PAGE_SIZE)}
+              totalCount={reports.count}
               url={`/report/page?`}
             />
           )}

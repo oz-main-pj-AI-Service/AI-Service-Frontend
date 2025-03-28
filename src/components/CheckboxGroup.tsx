@@ -1,6 +1,6 @@
-import { FormControl, FormField, FormLabel } from '../ui/form';
-import { FormItem } from '../ui/form';
-import { Checkbox } from '../ui/checkbox';
+import { FormControl, FormField, FormLabel } from '@/components/ui/form';
+import { FormItem } from '@/components/ui/form';
+import { Checkbox } from '@/components/ui/checkbox';
 import { UseFormReturn } from 'react-hook-form';
 import { Option } from '@/types/ai';
 

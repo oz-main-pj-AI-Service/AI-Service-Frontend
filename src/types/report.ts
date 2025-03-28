@@ -22,6 +22,6 @@ export type Report = ReportFormInput & {
 export type ReportResponse = {
   results: Report[];
   count: number;
-  next: string | null; // URL이 들어옴;; 그 페이지 요청할 주소인듯
-  previous: string | null; // 얘도
+  next: string | null;
+  previous: string | null;
 };

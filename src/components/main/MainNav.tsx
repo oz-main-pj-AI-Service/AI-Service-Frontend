@@ -31,10 +31,10 @@ export default function MainNav() {
             <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 식단</li>
           )}
         </NavLink>
-        <NavLink to="/history/all">
+        <NavLink to="/history/all/page?p=1">
           {({ isActive }) => {
             isActive = isActive || location.pathname.startsWith('/history');
-            return <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 검색 기록</li>;
+            return <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 추천 기록</li>;
           }}
         </NavLink>
       </ul>
@@ -46,7 +46,7 @@ export default function MainNav() {
 
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
       <div>
-        <Link to="/admin">관리자 페이지</Link>
+        <Link to="/admin/users">관리자 페이지</Link>
       </div>
 
       <div>

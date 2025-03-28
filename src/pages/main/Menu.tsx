@@ -2,7 +2,7 @@ import { MenuFormInput, MenuFormRequest } from '@/types/ai';
 import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMenuQuery } from '@/hooks/useAiQuery';
-import CheckboxGroup from '@/components/main/CheckboxGroup';
+import CheckboxGroup from '@/components/CheckboxGroup';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';

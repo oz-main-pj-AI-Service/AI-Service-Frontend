@@ -2,7 +2,7 @@ import { Link, NavLink, Outlet } from 'react-router';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import useDarkMode from '@/stores/darkmode';
-import TopNav from './TopNav';
+import TopNav from '../main/TopNav';
 
 export default function AdminLayout() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();

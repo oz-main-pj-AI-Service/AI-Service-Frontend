@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from '@/constants/common';
 import {
   Pagination,
   PaginationEllipsis,
@@ -10,13 +11,15 @@ import {
 
 export default function PagenationBundle({
   currentPage,
-  totalPages,
+  totalCount,
   url,
 }: {
   currentPage: number;
-  totalPages: number;
+  totalCount: number;
   url: string;
 }) {
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
   return (
     <Pagination>
       <PaginationContent>
@@ -27,11 +30,18 @@ export default function PagenationBundle({
             <PaginationPrevious href={`${url}p=${currentPage - 1}`} />
           )}
         </PaginationItem>
-        {currentPage > 2 && (
+        {currentPage >= 3 && (
+          <PaginationItem>
+            <PaginationLink href={`${url}p=1`}>1</PaginationLink>
+          </PaginationItem>
+        )}
+
+        {currentPage > 3 && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
         )}
+
         {currentPage > 1 && (
           <PaginationItem>
             <PaginationLink href={`${url}p=${currentPage - 1}`}>{currentPage - 1}</PaginationLink>
@@ -45,11 +55,19 @@ export default function PagenationBundle({
             <PaginationLink href={`${url}p=${currentPage + 1}`}>{currentPage + 1}</PaginationLink>
           </PaginationItem>
         )}
-        {currentPage < totalPages - 1 && (
+
+        {currentPage < totalPages - 2 && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
         )}
+
+        {currentPage <= totalPages - 2 && (
+          <PaginationItem>
+            <PaginationLink href={`${url}p=${totalPages}`}>{totalPages}</PaginationLink>
+          </PaginationItem>
+        )}
+
         <PaginationItem>
           {currentPage === totalPages ? (
             <PaginationNext aria-disabled="true" className="pointer-events-none opacity-50" />

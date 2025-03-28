@@ -1,85 +1,29 @@
 // import HistoryContentCard from '@/components/main/HistoryContentCard';
-import { useParams } from 'react-router';
+import HistoryContentCard from '@/components/main/HistoryContentCard';
+import PagenationBundle from '@/components/PagenationBundle';
+import { useHistoryQuery } from '@/hooks/useAiQuery';
+import { useParams, useSearchParams } from 'react-router';
 
 export default function HistoryCategory() {
   const { category } = useParams();
+  const [page] = useSearchParams();
+  const { data } = useHistoryQuery(page.get('p') || '1');
+  console.log(data);
 
   return (
     <div className="w-full">
       <div className="mx-auto max-w-5xl px-4 pb-8 sm:px-6 md:px-8">
-        <h2 className="my-4 text-center text-xl">{`카테고리 (삭제 예정): ${category}`}</h2>
-
-        <ul className="flex w-full flex-col gap-8">
+        <ul className="flex w-full flex-col gap-1">
           {/* 검색 기록 받아서 맵돌리기 */}
-          {/* <HistoryContentCard content={content} /> */}
+          {data?.results.map((content) => (
+            <HistoryContentCard key={content.id} content={content} />
+          ))}
 
-          <li className="flex w-full flex-col gap-2 border-b pb-4">
-            <h3 className="text-lg font-bold">검색 기록1</h3>
-            <p className="font-extralight text-zinc-600 dark:text-zinc-400">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro, eum nulla. Hic quia
-              optio provident nesciunt mollitia, ipsum inventore reiciendis sint. Hic numquam fugiat
-              consequatur minus itaque maiores corrupti assumenda? Fugit nulla iste placeat numquam
-              maxime esse perferendis repudiandae voluptatibus. Repudiandae, perspiciatis,
-              perferendis dolores unde, adipisci maiores distinctio explicabo reiciendis tenetur
-              quae incidunt porro minima odit! Dignissimos, nisi in. Quidem?
-            </p>
-          </li>
-          <li className="flex w-full flex-col gap-2 border-b pb-4">
-            <h3 className="text-lg font-bold">검색 기록2</h3>
-            <p className="font-extralight text-zinc-600 dark:text-zinc-400">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sapiente dolore.
-              Obcaecati tempore perferendis libero sed optio harum, voluptatum beatae. Corrupti fuga
-              sapiente est sed odit voluptatibus laudantium, quia temporibus! Aut voluptate autem,
-              consequuntur repudiandae eius cupiditate incidunt facilis minus ipsum qui, modi dolor!
-              Aliquam, suscipit in assumenda iste voluptate eos, voluptatum odit, id sunt modi minus
-              libero repellat aspernatur. Recusandae, consequuntur maxime? Dolor, pariatur odio,
-              sapiente voluptatem illo mollitia deleniti debitis tenetur quasi ad, obcaecati eius.
-              Ex quod, vitae praesentium commodi quasi excepturi facere deleniti ut eius veniam
-              recusandae?
-            </p>
-          </li>
-          <li className="flex w-full flex-col gap-2 border-b pb-4">
-            <h3 className="text-lg font-bold">검색 기록2</h3>
-            <p className="font-extralight text-zinc-600 dark:text-zinc-400">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sapiente dolore.
-              Obcaecati tempore perferendis libero sed optio harum, voluptatum beatae. Corrupti fuga
-              sapiente est sed odit voluptatibus laudantium, quia temporibus! Aut voluptate autem,
-              consequuntur repudiandae eius cupiditate incidunt facilis minus ipsum qui, modi dolor!
-              Aliquam, suscipit in assumenda iste voluptate eos, voluptatum odit, id sunt modi minus
-              libero repellat aspernatur. Recusandae, consequuntur maxime? Dolor, pariatur odio,
-              sapiente voluptatem illo mollitia deleniti debitis tenetur quasi ad, obcaecati eius.
-              Ex quod, vitae praesentium commodi quasi excepturi facere deleniti ut eius veniam
-              recusandae?
-            </p>
-          </li>
-          <li className="flex w-full flex-col gap-2 border-b pb-4">
-            <h3 className="text-lg font-bold">검색 기록2</h3>
-            <p className="font-extralight text-zinc-600 dark:text-zinc-400">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sapiente dolore.
-              Obcaecati tempore perferendis libero sed optio harum, voluptatum beatae. Corrupti fuga
-              sapiente est sed odit voluptatibus laudantium, quia temporibus! Aut voluptate autem,
-              consequuntur repudiandae eius cupiditate incidunt facilis minus ipsum qui, modi dolor!
-              Aliquam, suscipit in assumenda iste voluptate eos, voluptatum odit, id sunt modi minus
-              libero repellat aspernatur. Recusandae, consequuntur maxime? Dolor, pariatur odio,
-              sapiente voluptatem illo mollitia deleniti debitis tenetur quasi ad, obcaecati eius.
-              Ex quod, vitae praesentium commodi quasi excepturi facere deleniti ut eius veniam
-              recusandae?
-            </p>
-          </li>
-          <li className="flex w-full flex-col gap-2 border-b pb-4">
-            <h3 className="text-lg font-bold">검색 기록2</h3>
-            <p className="font-extralight text-zinc-600 dark:text-zinc-400">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sapiente dolore.
-              Obcaecati tempore perferendis libero sed optio harum, voluptatum beatae. Corrupti fuga
-              sapiente est sed odit voluptatibus laudantium, quia temporibus! Aut voluptate autem,
-              consequuntur repudiandae eius cupiditate incidunt facilis minus ipsum qui, modi dolor!
-              Aliquam, suscipit in assumenda iste voluptate eos, voluptatum odit, id sunt modi minus
-              libero repellat aspernatur. Recusandae, consequuntur maxime? Dolor, pariatur odio,
-              sapiente voluptatem illo mollitia deleniti debitis tenetur quasi ad, obcaecati eius.
-              Ex quod, vitae praesentium commodi quasi excepturi facere deleniti ut eius veniam
-              recusandae?
-            </p>
-          </li>
+          <PagenationBundle
+            currentPage={parseInt(page.get('p') || '1')}
+            totalCount={data?.count || 1}
+            url={`/history/${category}/page?`}
+          />
         </ul>
       </div>
     </div>

@@ -16,16 +16,22 @@ export const loginApiTemp = {
   },
 
   logOut: async () => {
+    localStorage.removeItem('access_temp');
+    localStorage.removeItem('refresh_temp');
     const header: RawAxiosRequestHeaders = {
       Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
     };
-    console.log('로그아웃 헤더', header);
-    const response = await axios.post<{ message: string }>(`${API_URL}/user/logout/`, null, {
-      headers: header,
-    });
-    localStorage.removeItem('access_temp');
-    localStorage.removeItem('refresh_temp');
-    return response.data;
+    try {
+      const response = await axios.post<{ message: string }>(`${API_URL}/user/logout/`, null, {
+        headers: header,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('로그아웃 실패', error);
+      throw error;
+    } finally {
+      window.location.href = '/';
+    }
   },
 
   getAccessTokenTemp: () => {
