@@ -8,9 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet, useNavigate, useParams } from 'react-router';
 
 export default function HistoryLayout() {
+  const { category } = useParams();
+  console.log(category);
   const navigate = useNavigate();
 
   const handleCategoryChange = (value: SearchType) => {

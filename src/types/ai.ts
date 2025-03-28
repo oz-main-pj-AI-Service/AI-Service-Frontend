@@ -119,3 +119,14 @@ export type Diet = {
 
 // 검색 타입
 export type SearchType = 'all' | 'recipe' | 'menu' | 'diet';
+
+export type HistoryResponse = History[];
+
+export type History = {
+  id: string;
+  user_id: string;
+  request_type: 'RECIPE' | 'FOOD' | 'HEALTH';
+  request_data: RecipeFormInput | MenuFormRequest | DietFormInput;
+  response_data: RecipeResponse | MenuResponse | DietResponse;
+  created_at: string;
+};

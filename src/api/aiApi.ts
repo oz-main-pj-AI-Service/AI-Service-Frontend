@@ -2,6 +2,7 @@
 import {
   DietFormInput,
   DietResponse,
+  HistoryResponse,
   MenuFormRequest,
   // MenuResponse,
   RecipeFormInput,
@@ -44,6 +45,11 @@ export const aiApi = {
 
   getDiet: async ({ requestBody }: { requestBody: DietFormInput }) => {
     const response = await api.post<DietResponse>(`/ai/health-recommendation/`, requestBody);
+    return response.data;
+  },
+
+  getHistory: async () => {
+    const response = await api.get<HistoryResponse>(`/ai/food-result/`);
     return response.data;
   },
 };

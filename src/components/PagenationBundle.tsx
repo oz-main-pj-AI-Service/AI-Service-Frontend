@@ -27,11 +27,18 @@ export default function PagenationBundle({
             <PaginationPrevious href={`${url}p=${currentPage - 1}`} />
           )}
         </PaginationItem>
-        {currentPage > 2 && (
+        {currentPage >= 3 && (
+          <PaginationItem>
+            <PaginationLink href={`${url}p=1`}>1</PaginationLink>
+          </PaginationItem>
+        )}
+
+        {currentPage > 3 && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
         )}
+
         {currentPage > 1 && (
           <PaginationItem>
             <PaginationLink href={`${url}p=${currentPage - 1}`}>{currentPage - 1}</PaginationLink>
@@ -45,11 +52,19 @@ export default function PagenationBundle({
             <PaginationLink href={`${url}p=${currentPage + 1}`}>{currentPage + 1}</PaginationLink>
           </PaginationItem>
         )}
-        {currentPage < totalPages - 1 && (
+
+        {currentPage < totalPages - 2 && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
         )}
+
+        {currentPage <= totalPages - 2 && (
+          <PaginationItem>
+            <PaginationLink href={`${url}p=${totalPages}`}>{totalPages}</PaginationLink>
+          </PaginationItem>
+        )}
+
         <PaginationItem>
           {currentPage === totalPages ? (
             <PaginationNext aria-disabled="true" className="pointer-events-none opacity-50" />

@@ -3,12 +3,13 @@ import api from '@/api/TokenApi';
 import {
   DietFormInput,
   DietResponse,
+  HistoryResponse,
   MenuFormRequest,
   // MenuResponse,
   RecipeFormInput,
   // RecipeResponse,
 } from '@/types/ai';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 
@@ -43,6 +44,13 @@ export const useMenuQuery = () => {
 export const useDietQuery = () => {
   return useMutation<DietResponse, AxiosError, { requestBody: DietFormInput }>({
     mutationFn: aiApi.getDiet,
+  });
+};
+
+export const useHistoryQuery = () => {
+  return useQuery<HistoryResponse, AxiosError>({
+    queryKey: ['history'],
+    queryFn: aiApi.getHistory,
   });
 };
 
