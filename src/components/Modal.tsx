@@ -1,5 +1,5 @@
 // Modal.tsx
-import useModal from '@/states/modal';
+import useModal from '@/stores/modal';
 import { useEffect } from 'react';
 
 export default function Modal() {

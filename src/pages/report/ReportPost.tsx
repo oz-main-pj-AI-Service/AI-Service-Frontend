@@ -23,7 +23,7 @@ export default function ReportPost() {
 
     reportMutation.mutate(data);
     // 모달 (확인, 취소 둘 다 확인 눌렀을때 목록으로 네비게이팅)
-    navigate('/report');
+    navigate('/report/page?p=1');
   };
 
   return <ReportForm form={form} onSubmit={onSubmit} submitText="등록" />;

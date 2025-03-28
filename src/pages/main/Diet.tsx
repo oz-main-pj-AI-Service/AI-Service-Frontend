@@ -1,13 +1,13 @@
 import { DietFormInput } from '@/types/ai';
 import { exercise_frequency, goal } from '@/constants/ai';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { RawAxiosRequestHeaders } from 'axios';
+// import { RawAxiosRequestHeaders } from 'axios';
 import { useDietQuery } from '@/hooks/useAiQuery';
 import { Form, FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { loginApiTemp } from '@/api/loginApiTemp';
+// import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function Diet() {
   const dietMutation = useDietQuery();
@@ -27,11 +27,11 @@ export default function Diet() {
   const onSubmit: SubmitHandler<DietFormInput> = (data) => {
     console.log(data);
 
-    // 나중에 로그인 구현 기능 끝나면 정리
-    const requestHeader: RawAxiosRequestHeaders = {
-      Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-      'Content-Type': 'application/json',
-    };
+    // // 나중에 로그인 구현 기능 끝나면 정리
+    // const requestHeader: RawAxiosRequestHeaders = {
+    //   Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
+    //   'Content-Type': 'application/json',
+    // };
     const requestBody: DietFormInput = {
       weight: data.weight,
       goal: data.goal,
@@ -40,7 +40,7 @@ export default function Diet() {
       disliked_foods: data.disliked_foods,
     };
 
-    dietMutation.mutate({ requestBody, headers: requestHeader });
+    dietMutation.mutate({ requestBody });
   };
 
   return (

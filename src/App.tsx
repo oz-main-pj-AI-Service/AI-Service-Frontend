@@ -23,9 +23,13 @@ import RecipeResult from './pages/main/RecipeResult';
 import SignUp from './pages/user/signUp';
 import SignUpHandler from './pages/user/SignUpHandler';
 import ReportEdit from './pages/report/ReportEdit';
+import AdminUserDetail from './pages/admin/AdminUserDetail';
+import AdminReportDetail from './pages/admin/AdminReportDetail';
+import AdminAiDetail from './pages/admin/AdminAiDetail';
+import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import EmailVerification from './pages/user/EmailVerification';
 
-function App() {
+export default function App() {
   return (
     <>
       <Routes>
@@ -44,7 +48,7 @@ function App() {
 
           {/* 문의하기 */}
           <Route path="report">
-            <Route index element={<Report />} />
+            <Route path="page?" element={<Report />} />
             <Route path=":id" element={<ReportDetail />} />
             <Route path="post" element={<ReportPost />} />
             <Route path="edit/:id" element={<ReportEdit />} />
@@ -74,11 +78,18 @@ function App() {
         {/* 관리자 */}
         {/* 어드민 메인을 따로 만들지 걍 유저관리 페이지로 할지 */}
         {/* 어드민 메인이 잇으면 하위 경로 선택해도 어드민 메인은 선택되어 있다고 네브바에 뜸 */}
+        {/* 그냥 어드민 메인이 없고 바로 네브바에서 /admin/users로 보내주는 것도 방법 */}
+        {/* 네스티드 라우팅 정리하기 */}
+        {/* 유저는 수정 페이지, 문의는 답변 페이지 필요. ai 로그는 이게 끝 */}
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="users/:id" element={<AdminUserDetail />} />
+          <Route path="users/edit/:id" element={<AdminUsersEdit />} />
           <Route path="reports" element={<AdminReports />} />
+          <Route path="reports/:id" element={<AdminReportDetail />} />
           <Route path="ai" element={<AdminAi />} />
+          <Route path="ai/:id" element={<AdminAiDetail />} />
         </Route>
 
         {/* 404 */}
@@ -87,5 +98,3 @@ function App() {
     </>
   );
 }
-
-export default App;

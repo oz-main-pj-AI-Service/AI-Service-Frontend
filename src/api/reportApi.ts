@@ -1,14 +1,15 @@
 import { API_URL } from '@/constants/url';
 import axios, { RawAxiosRequestHeaders } from 'axios';
 import { Report, ReportFormInput, ReportResponse } from '@/types/report';
+import { PAGE_SIZE } from '@/constants/common';
 
 export const reportApi = {
-  getReports: async ({ headers }: { headers: RawAxiosRequestHeaders }) => {
+  getReports: async ({ headers, page }: { headers: RawAxiosRequestHeaders; page: string }) => {
     const response = await axios.get<ReportResponse>(`${API_URL}/reports/`, {
       headers: headers,
       params: {
-        page: 1,
-        page_size: 10,
+        page: parseInt(page),
+        page_size: PAGE_SIZE,
       },
     });
     return response.data;
