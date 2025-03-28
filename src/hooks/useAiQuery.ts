@@ -47,10 +47,10 @@ export const useDietQuery = () => {
   });
 };
 
-export const useHistoryQuery = () => {
+export const useHistoryQuery = (page: string = '1') => {
   return useQuery<HistoryResponse, AxiosError>({
-    queryKey: ['history'],
-    queryFn: aiApi.getHistory,
+    queryKey: ['history', page],
+    queryFn: () => aiApi.getHistory(page),
   });
 };
 

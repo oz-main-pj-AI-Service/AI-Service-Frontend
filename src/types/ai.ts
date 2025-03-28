@@ -61,26 +61,29 @@ export type CookingStep = {
 export type RecipeResponse = {
   recipe_id: number;
   success: boolean;
-  recipe: {
-    name: string;
-    description: string;
-    cuisine_type: string;
-    meal_type: string;
-    preparation_time: number;
-    cooking_time: number;
-    serving_size: number;
-    difficulty: string;
-    ingredients: Ingredient[];
-    instructions: CookingStep[];
-    nutritional_info: NutritionInfo;
-  };
+  recipe: Recipe;
 };
 
+// 이거 없어도 되는거 맞나 확인하기
+// export type Recipe = {
+//   recipe_name: string;
+//   recipe_url: string;
+//   recipe_image_url: string;
+//   recipe_description: string;
+// };
+
 export type Recipe = {
-  recipe_name: string;
-  recipe_url: string;
-  recipe_image_url: string;
-  recipe_description: string;
+  name: string;
+  description: string;
+  cuisine_type: string;
+  meal_type: string;
+  preparation_time: number;
+  cooking_time: number;
+  serving_size: number;
+  difficulty: string;
+  ingredients: Ingredient[];
+  instructions: CookingStep[];
+  nutritional_info: NutritionInfo;
 };
 
 export type MenuResponse = {
@@ -102,11 +105,13 @@ export type Menu = {
 export type DietResponse = {
   request_id: number;
   success: boolean;
-  meal_plan: {
-    daily_calorie_target: number;
-    protein_target: number;
-    meals: Diet[];
-  };
+  meal_plan: DietMealPlan;
+};
+
+export type DietMealPlan = {
+  daily_calorie_target: number;
+  protein_target: number;
+  meals: Diet[];
 };
 
 export type Diet = {
@@ -120,13 +125,33 @@ export type Diet = {
 // 검색 타입
 export type SearchType = 'all' | 'recipe' | 'menu' | 'diet';
 
-export type HistoryResponse = History[];
+export type HistoryResponse = {
+  results: History[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+};
 
 export type History = {
   id: string;
   user_id: string;
-  request_type: 'RECIPE' | 'FOOD' | 'HEALTH';
-  request_data: RecipeFormInput | MenuFormRequest | DietFormInput;
-  response_data: RecipeResponse | MenuResponse | DietResponse;
   created_at: string;
-};
+} & (
+  | {
+      request_type: 'RECIPE';
+      request_data: RecipeFormInput;
+      response_data: Recipe;
+    }
+  | {
+      request_type: 'HEALTH';
+      request_data: DietFormInput;
+      response_data: DietMealPlan;
+    }
+  | {
+      request_type: 'FOOD';
+      request_data: MenuFormRequest;
+      response_data: {
+        recommendation: Menu;
+      };
+    }
+);

@@ -30,6 +30,7 @@ import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import EmailVerification from './pages/user/EmailVerification';
 import { useEffect } from 'react';
 import useDarkMode from './stores/darkmode';
+import HistoryDetail from './components/main/HistoryDetail';
 
 export default function App() {
   const { initializeDarkMode } = useDarkMode();
@@ -50,9 +51,10 @@ export default function App() {
 
           {/* 검색 기록 */}
           <Route path="history" element={<HistoryLayout />}>
-            <Route path=":category" element={<HistoryCategory />} />
+            <Route path=":category/page?" element={<HistoryCategory />} />
             <Route path="search?" element={<HistorySearch />} />
           </Route>
+          <Route path="history/detail/:id" element={<HistoryDetail />} />
 
           {/* 문의하기 */}
           <Route path="report">

@@ -31,10 +31,10 @@ export default function MainNav() {
             <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 식단</li>
           )}
         </NavLink>
-        <NavLink to="/history/all">
+        <NavLink to="/history/all/page?p=1">
           {({ isActive }) => {
             isActive = isActive || location.pathname.startsWith('/history');
-            return <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 검색 기록</li>;
+            return <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 추천 기록</li>;
           }}
         </NavLink>
       </ul>

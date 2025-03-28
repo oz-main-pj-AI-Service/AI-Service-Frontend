@@ -10,6 +10,7 @@ import {
 } from '@/types/ai';
 // import axios, { RawAxiosRequestHeaders } from 'axios';
 import api from './TokenApi';
+import { PAGE_SIZE } from '@/constants/common';
 
 export const aiApi = {
   getRecipe: async ({
@@ -48,8 +49,13 @@ export const aiApi = {
     return response.data;
   },
 
-  getHistory: async () => {
-    const response = await api.get<HistoryResponse>(`/ai/food-result/`);
+  getHistory: async (page: string) => {
+    const response = await api.get<HistoryResponse>(`/ai/food-result/`, {
+      params: {
+        page: parseInt(page),
+        page_size: PAGE_SIZE,
+      },
+    });
     return response.data;
   },
 };

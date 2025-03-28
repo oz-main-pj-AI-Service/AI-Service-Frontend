@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from '@/constants/common';
 import {
   Pagination,
   PaginationEllipsis,
@@ -10,13 +11,15 @@ import {
 
 export default function PagenationBundle({
   currentPage,
-  totalPages,
+  totalCount,
   url,
 }: {
   currentPage: number;
-  totalPages: number;
+  totalCount: number;
   url: string;
 }) {
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
   return (
     <Pagination>
       <PaginationContent>

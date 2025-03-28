@@ -22,8 +22,8 @@ export default function HistoryLayout() {
   // 서치바?
 
   return (
-    <main className="flex h-full w-full flex-col pt-14 pl-[200px]">
-      <div className="bg-background sticky top-0 z-10 flex w-full flex-col items-center py-4">
+    <main className="fixed inset-0 flex flex-col pt-14 pl-[200px]">
+      <div className="bg-background flex w-full flex-col items-center py-4">
         <h2 className="text-center text-2xl font-bold">검색 기록 보기</h2>
 
         <div className="mx-auto mt-4 w-full max-w-md px-4">
@@ -44,7 +44,7 @@ export default function HistoryLayout() {
         </div>
       </div>
 
-      <div className="w-full flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-x-hidden overflow-y-auto">
         <Outlet />
       </div>
     </main>
