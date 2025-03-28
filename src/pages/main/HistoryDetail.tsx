@@ -8,7 +8,7 @@ export default function HistoryDetail() {
   console.log(content);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">추천 기록 상세 정보</h2>
@@ -82,7 +82,10 @@ export default function HistoryDetail() {
               <div className="flex items-center justify-between">
                 <div className="flex gap-2">
                   {content.response_data.meals.map((meal) => (
-                    <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                    <span
+                      key={meal.food_name}
+                      className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                    >
                       {meal.food_type}
                     </span>
                   ))}

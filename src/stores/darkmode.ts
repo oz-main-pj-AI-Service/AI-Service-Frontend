@@ -36,3 +36,5 @@ const useDarkMode = create<darkModeStore>()(
 );
 
 export default useDarkMode;
+
+// 처음에 사용자 설정 받아오기 추가

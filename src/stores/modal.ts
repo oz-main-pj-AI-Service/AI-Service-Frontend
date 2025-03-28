@@ -1,3 +1,4 @@
+// 삭제 예정
 // modal.ts
 import { create } from 'zustand';
 import { ModalStore } from '@/types/stores';

@@ -16,7 +16,7 @@ export default function HistoryLayout() {
   const navigate = useNavigate();
 
   const handleCategoryChange = (value: SearchType) => {
-    navigate(`/history/${value}`);
+    navigate(`/history/${value}/page?p=1`);
   };
 
   // 서치바?
@@ -26,7 +26,7 @@ export default function HistoryLayout() {
       <div className="bg-background flex w-full flex-col items-center py-4">
         <h2 className="text-center text-2xl font-bold">검색 기록 보기</h2>
 
-        <div className="mx-auto mt-4 w-full max-w-md px-4">
+        <div className="mx-auto w-full max-w-md p-4">
           <Select onValueChange={handleCategoryChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="카테고리를 선택하세요" />
@@ -42,6 +42,7 @@ export default function HistoryLayout() {
             </SelectContent>
           </Select>
         </div>
+        <div className="w-full max-w-5xl border px-4 py-2">여기 아마 검색창?</div>
       </div>
 
       <div className="flex-1 overflow-x-hidden overflow-y-auto">
