@@ -1,6 +1,6 @@
 // modal.ts
 import { create } from 'zustand';
-import { ModalStore } from '@/types/states';
+import { ModalStore } from '@/types/stores';
 
 const useModal = create<ModalStore>((set) => ({
   isOpen: false,

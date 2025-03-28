@@ -28,8 +28,16 @@ import AdminReportDetail from './pages/admin/AdminReportDetail';
 import AdminAiDetail from './pages/admin/AdminAiDetail';
 import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import EmailVerification from './pages/user/EmailVerification';
+import { useEffect } from 'react';
+import useDarkMode from './stores/darkmode';
 
 export default function App() {
+  const { initializeDarkMode } = useDarkMode();
+
+  useEffect(() => {
+    initializeDarkMode();
+  }, [initializeDarkMode]);
+
   return (
     <>
       <Routes>

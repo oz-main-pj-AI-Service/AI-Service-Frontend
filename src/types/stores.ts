@@ -1,6 +1,7 @@
 export type darkModeStore = {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
+  initializeDarkMode: () => void;
 };
 
 export type ModalStore = {
