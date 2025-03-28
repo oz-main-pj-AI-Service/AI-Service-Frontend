@@ -52,6 +52,10 @@ const SignUp = () => {
           alert('중복된 전화번호입니다.');
           console.error('중복된 전화번호입니다:', errors.phone_number);
         }
+        if (errors.detail && errors.detail.includes('소셜 가입자 입니다 소셜로 로그인 하세요')) {
+          alert(errors.detail);
+          console.error('중복된 닉네임입니다:', errors.nickname);
+        }
       } else {
         alert('서버와의 통신 중 문제가 발생했습니다. 다시 시도해 주세요.');
         console.error(error);

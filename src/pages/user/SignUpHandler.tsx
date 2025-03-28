@@ -43,7 +43,14 @@ const SignUpHandler = () => {
           }, 300);
         })
         .catch((error) => {
-          console.error('네이버 로그인 실패', error);
+          const errors = error.response.data;
+          if (errors.code === 'already_registered_portal') {
+            alert(errors.error);
+            window.location.href = '/sign-in';
+          } else {
+            alert(errors.error);
+            console.error('네이버 로그인 실패', error);
+          }
         });
     }
   };
@@ -64,7 +71,14 @@ const SignUpHandler = () => {
           }, 300);
         })
         .catch((error) => {
-          console.error('구글 로그인 실패', error);
+          const errors = error.response.data;
+          if (errors.code === 'already_registered_portal') {
+            alert(errors.error);
+            window.location.href = '/sign-in';
+          } else {
+            alert(errors.error);
+            console.error('구글 로그인 실패', error);
+          }
         });
     }
   };
