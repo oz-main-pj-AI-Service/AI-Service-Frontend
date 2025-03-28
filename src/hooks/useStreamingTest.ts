@@ -87,21 +87,17 @@ import { RecipeFormInput } from '@/types/ai';
 // import { API_URL } from '@/constants/url';
 import api from '@/api/TokenApi';
 
-// 이것도 한덩어리 (텍스트)
+// 후보 1
 export const useStreaming2 = () => {
-  const [streamedText, setStreamedText] = useState<string>('');
+  const [textStream, setTextStream] = useState<string>('');
 
   // SSE 형식 처리를 위한 mutation
   const streamMutation = useMutation({
     mutationFn: async (input: RecipeFormInput) => {
-      setStreamedText('');
+      setTextStream('');
 
       // Axios 요청 생성
       const response = await api.post(`/ai/recipe-recommendation/?streaming=true`, input, {
-        // headers: {
-        //   'Content-Type': 'application/json',
-        //   // Accept: 'text/event-stream', // SSE 형식 명시 (근데 이거 넣으면 406)
-        // },
         responseType: 'text', // 텍스트 형식으로 받기
         onDownloadProgress: (progressEvent: AxiosProgressEvent) => {
           const xhr = progressEvent.event.target as XMLHttpRequest;
@@ -134,7 +130,7 @@ export const useStreaming2 = () => {
               }
             }
 
-            setStreamedText(accumulatedText);
+            setTextStream(accumulatedText);
           }
         },
       });
@@ -143,5 +139,5 @@ export const useStreaming2 = () => {
     },
   });
 
-  return { streamedText, streamMutation };
+  return { textStream, streamMutation };
 };

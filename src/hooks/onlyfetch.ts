@@ -8,13 +8,14 @@ interface StreamResponse {
   done?: boolean;
 }
 
+// 작동함
 export const useOnlyFetch = () => {
-  const [streamText, setStreamText] = useState('');
+  const [textStream, setTextStream] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const startStream = async (requestBody: RecipeFormInput) => {
     setIsLoading(true);
-    setStreamText('');
+    setTextStream('');
 
     try {
       const response = await fetch(`${API_URL}/ai/recipe-recommendation/?streaming=true`, {
@@ -74,15 +75,15 @@ export const useOnlyFetch = () => {
             try {
               const data: StreamResponse = JSON.parse(dataStr);
               if (data.content) {
-                setStreamText((prev) => prev + data.content);
+                setTextStream((prev) => prev + data.content);
               }
             } catch (e) {
               // JSON이 아닌 경우 텍스트로 처리
-              setStreamText((prev) => prev + dataStr);
+              setTextStream((prev) => prev + dataStr);
             }
           } else {
             // 'data: ' 접두사가 없는 경우 (비표준)
-            setStreamText((prev) => prev + message);
+            setTextStream((prev) => prev + message);
           }
         }
       }
@@ -93,5 +94,5 @@ export const useOnlyFetch = () => {
     }
   };
 
-  return { streamText, isLoading, startStream };
+  return { textStream, isLoading, startStream };
 };

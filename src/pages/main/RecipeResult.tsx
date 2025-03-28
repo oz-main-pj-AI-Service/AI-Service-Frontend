@@ -1,25 +1,29 @@
-// import { loginApiTemp } from '@/api/loginApiTemp';
-// import { useRecipeQuery, useRecipeStream } from '@/hooks/useAiQuery';
 import { RecipeFormInput } from '@/types/ai';
-// import { RawAxiosRequestHeaders } from 'axios';
 import { useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-// import { API_URL } from '@/constants/url';
-// import { useRecipeStream } from '@/hooks/tries';
+import { useRecipeStream } from '@/hooks/tries';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
-import { useOnlyFetch } from '@/hooks/onlyfetch';
+// import { useOnlyFetch } from '@/hooks/onlyfetch';
+// import { useRecipeQuery, useStreaming1 } from '@/hooks/useAiQuery';
 
 export default function RecipeResult() {
   const [searchParams] = useSearchParams();
-  // const recipeMutation = useRecipeQuery();
 
-  // 받아지지만 한방에
-  // const { streamingText, startStreaming } = useRecipeStream();
+  // fetch만 (JSON 깨짐, SSE) - 상태, 로딩
+  // const { textStream, startStream } = useOnlyFetch();
 
-  // 이것도 한방에
-  // const { streamedText, streamMutation } = useStreaming2();
+  // 후보 1 (JSON 깨짐, SSE) - 액시오스, 뮤테이션, 상태
+  // const { textStream, streamMutation } = useStreaming2();
 
-  const { streamText, startStream } = useOnlyFetch();
+  // 후보 2 (JSON 제대로) - 액시오스, 뮤테이션, 상태, 어브토컨트롤러, 로딩, 에러 (풀)
+  const { textStream, startStream } = useRecipeStream();
+
+  // 후보 3 (JSON 깨짐, SSE) - 액시오스, 뮤테이션, 상태
+  // const { textStream, streamMutation } = useStreaming1();
+
+  // 원본 (청크에 객체 들어오다가 Final에서 JSON 깨짐, data: 로 구분하지 않음. 텍스트 다듬지 않고 그대로 들어옴)
+  // - 액시오스, 뮤테이션, 상태 (aiApi, 간단)
+  // const { recipeStream, mutation } = useRecipeQuery();
 
   useEffect(() => {
     if (!searchParams.get('q')) return;
@@ -39,12 +43,18 @@ export default function RecipeResult() {
     //   // headers: requestHeader
     // });
 
-    // startStreaming(requestBody);
+    // 후보 1, 3
     // streamMutation.mutate(requestBody);
+
+    // onlyFetch, 후보 2
     startStream(requestBody);
+
+    // 원래꺼
+    // mutation.mutate({ requestBody });
   }, [searchParams]);
 
-  console.log(streamText);
+  // console.log(recipeStream);
+  console.log(textStream);
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">

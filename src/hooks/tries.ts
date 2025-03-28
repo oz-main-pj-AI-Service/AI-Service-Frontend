@@ -5,19 +5,18 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosProgressEvent } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
-// 청크 단위로 받아지는데, 받을때마다 렌더링이 일어나지 않음
-
+// 후보 2
 interface UseRecipeStreamResult {
-  streamingText: string;
+  textStream: string;
   finalRecipe: RecipeResponse | null;
   error: Error | null;
   isStreaming: boolean;
-  startStreaming: (requestData: RecipeFormInput) => void;
+  startStream: (requestData: RecipeFormInput) => void;
   reset: () => void;
 }
 
 export const useRecipeStream = (): UseRecipeStreamResult => {
-  const [streamingText, setStreamingText] = useState<string>('');
+  const [textStream, setTextStream] = useState<string>('');
   const [finalRecipe, setFinalRecipe] = useState<RecipeResponse | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -28,7 +27,7 @@ export const useRecipeStream = (): UseRecipeStreamResult => {
       abortController.abort();
       setAbortController(null);
     }
-    setStreamingText('');
+    setTextStream('');
     setFinalRecipe(null);
     setError(null);
     setIsStreaming(false);
@@ -77,7 +76,7 @@ export const useRecipeStream = (): UseRecipeStreamResult => {
                   continue;
                 }
 
-                setStreamingText((prev) => prev + data);
+                setTextStream((prev) => prev + data);
               }
             }
           },
@@ -103,7 +102,7 @@ export const useRecipeStream = (): UseRecipeStreamResult => {
     },
   });
 
-  const startStreaming = useCallback(
+  const startStream = useCallback(
     (requestData: RecipeFormInput) => {
       reset();
       setIsStreaming(true);
@@ -122,11 +121,11 @@ export const useRecipeStream = (): UseRecipeStreamResult => {
   }, [abortController]);
 
   return {
-    streamingText,
+    textStream,
     finalRecipe,
     error,
     isStreaming,
-    startStreaming,
+    startStream,
     reset,
   };
 };

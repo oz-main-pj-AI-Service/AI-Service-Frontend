@@ -13,21 +13,14 @@ import api from './TokenApi';
 export const aiApi = {
   getRecipe: async ({
     requestBody,
-    // headers,
     onChunk,
   }: {
     requestBody: RecipeFormInput;
-    // headers: RawAxiosRequestHeaders;
     onChunk: (chunk: string) => void;
   }) => {
     let previousText = '';
 
     const response = await api.post(`/ai/recipe-recommendation/?streaming=true`, requestBody, {
-      headers: {
-        // ...headers,
-        Accept: 'text/event-stream',
-        // Accept: 'application/json',
-      },
       responseType: 'stream',
       onDownloadProgress: (progressEvent) => {
         const text = progressEvent.event.target.responseText;
