@@ -7,11 +7,6 @@ import { handleLogout } from '@/pages/user/handleLogout';
 
 export default function TopNav() {
   const accessToken = localStorage.getItem('accessToken');
-
-
-  return (
-    <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 px-8 py-4">
-  // 임시 로그인
   const { isLogedIn, toggleIsLogedIn } = useIsLogedIn();
   const { refetch: refetchUserToken } = useUserTokenTemp('user');
   const { refetch: refetchAdminToken } = useUserTokenTemp('admin');
@@ -50,7 +45,6 @@ export default function TopNav() {
           </Button>
         </>
       )}
-
 
       {accessToken ? (
         <>
