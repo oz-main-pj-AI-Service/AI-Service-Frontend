@@ -41,9 +41,17 @@ const SignUpHandler = () => {
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          alert('회원가입이 완료되었습니다.');
         })
         .catch((error) => {
-          console.error('네이버 로그인 실패', error);
+          const errors = error.response.data;
+          if (errors.code === 'already_registered_portal') {
+            alert(errors.error);
+            window.location.href = '/sign-in';
+          } else {
+            alert(errors.error);
+            console.error('네이버 로그인 실패', error);
+          }
         });
     }
   };
@@ -62,9 +70,17 @@ const SignUpHandler = () => {
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          alert('회원가입이 완료되었습니다.');
         })
         .catch((error) => {
-          console.error('구글 로그인 실패', error);
+          const errors = error.response.data;
+          if (errors.code === 'already_registered_portal') {
+            alert(errors.error);
+            window.location.href = '/sign-in';
+          } else {
+            alert(errors.error);
+            console.error('구글 로그인 실패', error);
+          }
         });
     }
   };

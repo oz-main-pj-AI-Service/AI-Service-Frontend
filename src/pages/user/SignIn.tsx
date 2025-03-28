@@ -24,9 +24,11 @@ const SignIn = () => {
     },
   });
 
-  const handleResponseData = (data: { access: string; refresh: string }) => {
-    localStorage.setItem('accessToken', data.access);
-    localStorage.setItem('refreshToken', data.refresh);
+  const handleResponseData = (data: { access_token: string; refresh_token: string }) => {
+    localStorage.setItem('accessToken', data.access_token);
+    localStorage.setItem('refreshToken', data.refresh_token);
+    localStorage.setItem('tokenType', 'Bearer');
+    localStorage.setItem('expiresIn', String(3600));
   };
 
   const onSubmit = async (data: SignInSchema) => {
@@ -34,9 +36,11 @@ const SignIn = () => {
       const response = await axios.post(`${API_URL}/user/login/`, data);
       console.log('로그인 성공', response.data);
       handleResponseData(response.data);
+      console.log(response.data);
+
       setTimeout(() => {
         window.location.href = '/';
-      }, 300);
+      }, 1000);
     } catch (error: any) {
       console.error('로그인 실패', error.response.data);
     }
