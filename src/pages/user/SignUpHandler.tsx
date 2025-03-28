@@ -41,6 +41,7 @@ const SignUpHandler = () => {
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          alert('회원가입이 완료되었습니다.');
         })
         .catch((error) => {
           const errors = error.response.data;
@@ -69,6 +70,7 @@ const SignUpHandler = () => {
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          alert('회원가입이 완료되었습니다.');
         })
         .catch((error) => {
           const errors = error.response.data;
