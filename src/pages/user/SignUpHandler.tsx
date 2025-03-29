@@ -41,6 +41,7 @@ const SignUpHandler = () => {
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          //로그인시 이거 안뜨게 조건 추가해야 함
           alert('회원가입이 완료되었습니다.');
         })
         .catch((error) => {
@@ -88,6 +89,7 @@ const SignUpHandler = () => {
   useEffect(() => {
     const urlParams = new URL(window.location.href);
     const code = urlParams.searchParams.get('code') as string;
+
     if (urlParams.href.includes('naver')) {
       naverSignUp(code);
     } else if (urlParams.href.includes('google')) {
