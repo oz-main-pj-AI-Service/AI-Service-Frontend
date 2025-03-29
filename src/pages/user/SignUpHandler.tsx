@@ -89,7 +89,6 @@ const SignUpHandler = () => {
   useEffect(() => {
     const urlParams = new URL(window.location.href);
     const code = urlParams.searchParams.get('code') as string;
-    const promptValue = urlParams.searchParams.get('prompt') as string;
 
     if (urlParams.href.includes('naver')) {
       naverSignUp(code);
