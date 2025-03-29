@@ -41,7 +41,7 @@ const SignUpHandler = () => {
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
-
+          //로그인시 이거 안뜨게 조건 추가해야 함
           alert('회원가입이 완료되었습니다.');
         })
         .catch((error) => {
