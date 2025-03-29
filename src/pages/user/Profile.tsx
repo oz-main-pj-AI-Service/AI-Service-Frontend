@@ -4,13 +4,24 @@ import { Link } from 'react-router';
 import 한상로고 from '@/assets/한상로고.png';
 import { useEffect, useState } from 'react';
 import api from '@/api/TokenApi';
+import useModal from '@/states/modal';
+import Modal from '@/components/Modal';
+import DeleteAccountModal from '@/components/user/DeleteAccountModal';
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({
     email: '',
     phone_number: '',
     profile_image: '',
+    nickname: '',
   });
+  const { openModal } = useModal();
+
+  const openDeleteAccount = () => {
+    openModal(
+      <DeleteAccountModal profileImage={userInfo.profile_image} nickname={userInfo.nickname} />,
+    );
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -22,6 +33,7 @@ export default function Profile() {
           email: userProfile.email || '',
           phone_number: userProfile.phone_number || '',
           profile_image: userProfile.profile_image || '',
+          nickname: userProfile.nickname || '',
         });
       } catch (error) {
         console.error('프로필 정보 가져오기 실패:', error);
@@ -40,19 +52,19 @@ export default function Profile() {
           </h1>
           <h1>회원정보</h1>
           <img src={userInfo.profile_image} alt="프로필사진" />
+          <p>{userInfo.nickname}</p>
           <p>이메일 </p>
           <Input value={userInfo.email} readOnly />
           <p>전화번호 </p>
           <Input value={userInfo.phone_number} readOnly />
           <hr />
-          <Link to="/profile/">
-            <Button>회원탈퇴</Button>
-          </Link>
+          <Button onClick={openDeleteAccount}>회원탈퇴</Button>
           <Link to="/profile/profile-edit">
             <Button>회원 정보 수정</Button>
           </Link>
         </section>
       </div>
+      <Modal />
     </main>
   );
 }
