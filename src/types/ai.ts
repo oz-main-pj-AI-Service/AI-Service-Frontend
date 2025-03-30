@@ -108,7 +108,7 @@ export type Menu = {
   food_type: string;
   description: string;
   nutritional_info: NutritionInfo;
-  reccomendation_reason: string;
+  recommendation_reason: string;
 };
 
 export type DietResponse = {
@@ -121,6 +121,7 @@ export type DietMealPlan = {
   daily_calorie_target: number;
   protein_target: number;
   meals: Diet[];
+  recommendation_reason: string;
 };
 
 export type Diet = {
