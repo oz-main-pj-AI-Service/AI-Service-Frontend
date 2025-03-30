@@ -1,6 +1,13 @@
-import { Link } from 'react-router';
+import { useSearchParams } from 'react-router';
+import PagenationBundle from '@/components/PagenationBundle';
+import { useHistoryQuery } from '@/hooks/useAiQuery';
+import LogContentCard from '@/components/admin/LogContentCard';
 
 export default function AdminAi() {
+  const [page] = useSearchParams();
+  const { data: logs } = useHistoryQuery(page.get('p') || '1');
+  console.log(logs);
+
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
@@ -8,102 +15,20 @@ export default function AdminAi() {
           <h2 className="text-2xl font-bold">AI 로그 관리</h2>
 
           <div className="w-full border px-4 py-2">여기 아마 검색창?</div>
-
-          <section className="py-4">
-            {/* 리스트 말고 다른거로? */}
-            <ul className="flex justify-between gap-2 border-b pb-2">
-              <li className="w-1/12 min-w-60 grow text-center">이메일</li>
-              <li className="w-1/12 min-w-36 grow text-center">전화번호</li>
-              <li className="w-1/12 min-w-20 grow text-center">이름</li>
-              <li className="w-1/12 min-w-16 text-center">활성화</li>
-            </ul>
-
-            {/* 문의 사항 목록 */}
-            <ul className="flex flex-col gap-2 py-2">
-              <li className="border-b hover:cursor-pointer hover:text-[#FFA500]">
-                <Link to={`/admin/ai/1`} className="flex justify-between gap-2 py-2">
-                  <div className="w-1/12 min-w-60 grow text-center">
-                    accountsample1234@gmail.com
-                  </div>
-                  <div className="w-1/12 min-w-36 grow text-center">010-1234-5678</div>
-                  <div className="w-1/12 min-w-20 grow text-center">홍길동</div>
-                  <div className="w-1/12 min-w-16 text-center">O</div>
-                </Link>
-              </li>
-              {/* 받아와서 맵 돌리기 (서스펜스쿼리로 바꾸면 ? 떼기)
-              {reports?.results.map((report) => {
-                // 여기 데이터 다듬는거 함수로 분리
-                let formattedType = '';
-                switch (report.type) {
-                  case 'ERROR':
-                    formattedType = '오류';
-                    break;
-                  case 'QUESTION':
-                    formattedType = '문의';
-                    break;
-                  case 'FEATURE_REQUEST':
-                    formattedType = '기능 요청';
-                    break;
-                  case 'OTHER':
-                    formattedType = '기타';
-                    break;
-                }
-
-                let formattedStatus = '';
-                switch (report.status) {
-                  case 'RESOLVED':
-                    formattedStatus = 'O';
-                    break;
-                  default:
-                    formattedStatus = 'X';
-                }
-
-                const date = new Date(report.created_at);
-                const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
-
-                return (
-                  <li
-                    key={report.id}
-                    className="border-b hover:cursor-pointer hover:text-[#FFA500]"
-                  >
-                    <Link to={`/report/${report.id}`} className="flex justify-between gap-2 py-2">
-                      <div className="w-1/12 min-w-16 text-center">{formattedDate}</div>
-                      <div className="w-1/12 min-w-16 text-center">{formattedType}</div>
-                      <div className="min-w-40 grow pl-4">{report.title}</div>
-                      <div className="w-1/12 min-w-16 text-center">{formattedStatus}</div>
-                    </Link>
-                  </li>
-                );
-              })} */}
-            </ul>
-          </section>
+          <ul className="flex w-full flex-col gap-1">
+            {/* 검색 기록 받아서 카테고리 필터 돌려서 맵돌리기 */}
+            {logs?.results
+              // 필터링하면 원래 페이지에서 10개 있던거 중에서 필터링된 것만 나와서 1페이지에 10개를 보장할 수 없음
+              // .filter((content) => content.request_type.toLowerCase() === category) // all 이면 필터하지 말아야 함
+              .map((content) => <LogContentCard key={content.id} content={content} />)}
+          </ul>
 
           {/* 페이지네이션 */}
-          {/* 기능 추가하기 + 컴포넌트화 */}
-          {/* <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination> */}
+          <PagenationBundle
+            currentPage={parseInt(page.get('p') ?? '1')}
+            totalCount={logs?.count ?? 1}
+            url="/admin/ai"
+          />
         </section>
       </div>
     </main>
