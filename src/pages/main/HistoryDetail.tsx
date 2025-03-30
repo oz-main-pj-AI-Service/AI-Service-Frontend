@@ -1,3 +1,4 @@
+import { formatDateYMD } from '@/lib/utils';
 import { History } from '@/types/ai';
 import { useParams } from 'react-router';
 
@@ -8,7 +9,7 @@ export default function HistoryDetail() {
   console.log(content);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto">
+    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">추천 기록 상세 정보</h2>
@@ -21,7 +22,7 @@ export default function HistoryDetail() {
                   {content.request_type}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border-b pb-8">
                 <div className="flex gap-2">
                   <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
                     {content.response_data.cuisine_type}
@@ -34,12 +35,67 @@ export default function HistoryDetail() {
                   </span>
                 </div>
                 <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                  {content.created_at}
+                  {formatDateYMD(content.created_at)}
                 </span>
               </div>
-              <p className="font-extralight text-zinc-600 dark:text-zinc-200">
-                {content.response_data.description}
-              </p>
+
+              <div className="flex flex-col gap-2 border-b pb-8">
+                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  {content.response_data.description}
+                </p>
+                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  총 시간:{' '}
+                  {content.response_data.preparation_time + content.response_data.cooking_time}분
+                  (준비 {content.response_data.preparation_time}분 + 조리{' '}
+                  {content.response_data.cooking_time}분)
+                </p>
+                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  양: {content.response_data.serving_size}인분
+                </p>
+              </div>
+
+              <div>
+                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">재료</h4>
+                <ol className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  {content.response_data.ingredients.map((ingredient, index) => (
+                    <li key={ingredient.name}>
+                      {index + 1}. {ingredient.name}: {ingredient.amount}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div>
+                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">조리 순서</h4>
+                <ol className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  {content.response_data.instructions.map((instruction) => (
+                    <li key={instruction.step}>
+                      {instruction.step}. {instruction.description}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="border-b pb-8">
+                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">영양 정보</h4>
+                <ol className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  <li>칼로리: {content.response_data.nutrition_info.calories} kcal</li>
+                  <li>탄수화물: {content.response_data.nutrition_info.carbs} g</li>
+                  <li>지방: {content.response_data.nutrition_info.fat} g</li>
+                  <li>단백질: {content.response_data.nutrition_info.protein} g</li>
+                </ol>
+              </div>
+
+              <div>
+                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
+                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  재료: {content.request_data.ingredients.join(', ')}
+                </p>
+                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  양: {content.request_data.serving_size}인분
+                </p>
+                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+                  시간: {content.request_data.cooking_time}분
+                </p>
+              </div>
             </>
           )}
 

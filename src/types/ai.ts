@@ -92,7 +92,7 @@ export type Recipe = {
   difficulty: string;
   ingredients: Ingredient[];
   instructions: CookingStep[];
-  nutritional_info: NutritionInfo;
+  nutrition_info: NutritionInfo;
 };
 
 export type MenuResponse = {
@@ -148,7 +148,9 @@ export type History = {
 } & (
   | {
       request_type: 'RECIPE';
-      request_data: RecipeFormInput;
+      request_data: Omit<RecipeFormInput, 'ingredients'> & {
+        ingredients: string[];
+      };
       response_data: Recipe;
     }
   | {

@@ -27,7 +27,7 @@ export default function HistoryLayout() {
         <h2 className="text-center text-2xl font-bold">검색 기록 보기</h2>
 
         <div className="mx-auto w-full max-w-md p-4">
-          <Select onValueChange={handleCategoryChange}>
+          <Select defaultValue={category} onValueChange={handleCategoryChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="카테고리를 선택하세요" />
             </SelectTrigger>
