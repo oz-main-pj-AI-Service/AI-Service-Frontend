@@ -48,7 +48,7 @@ export default function App() {
           <Route path="menu" element={<Menu />} />
           <Route path="diet" element={<Diet />} />
 
-          {/* 검색 기록 */}
+          {/* 추천 기록 */}
           <Route path="history">
             <Route element={<HistoryLayout />}>
               <Route path=":category/page?" element={<HistoryCategory />} />
@@ -100,8 +100,8 @@ export default function App() {
             </Route>
 
             <Route path="ai">
-              <Route index element={<AdminAi />} />
-              <Route path=":id" element={<AdminAiDetail />} />
+              <Route path="page?" element={<AdminAi />} />
+              <Route path="detail/:id" element={<AdminAiDetail />} />
             </Route>
           </Route>
 

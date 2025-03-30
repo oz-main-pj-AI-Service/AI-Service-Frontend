@@ -24,7 +24,7 @@ export default function AdminLayout() {
               <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} 문의 사항</li>
             )}
           </NavLink>
-          <NavLink to="/admin/ai">
+          <NavLink to="/admin/ai/page?p=1">
             {({ isActive }) => (
               <li className={isActive ? 'active' : ''}>{isActive ? '👉' : ''} ai 로그</li>
             )}
