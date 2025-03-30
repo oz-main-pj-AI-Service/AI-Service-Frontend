@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import 한상로고 from '@/assets/한상로고.png';
 import { useEffect, useState } from 'react';
 import api from '@/api/TokenApi';
-import { useModal } from '@/stores/modal';
+import useModal from '@/stores/modal';
 import Modal from '@/components/Modal';
 import DeleteAccountModal from '@/components/user/DeleteAccountModal';
 

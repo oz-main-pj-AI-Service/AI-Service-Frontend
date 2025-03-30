@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { ModalStore } from '@/types/stores';
 
-export const useModal = create<ModalStore>((set) => ({
+const useModal = create<ModalStore>((set) => ({
   isOpen: false,
   content: null,
   openModal: (content: React.ReactNode) => set({ isOpen: true, content }),

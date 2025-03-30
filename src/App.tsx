@@ -49,12 +49,12 @@ export default function App() {
           <Route path="diet" element={<Diet />} />
 
           {/* 검색 기록 */}
-          <Route path="history" element={<HistoryLayout />}>
-            <Route path=":category/page?" element={<HistoryCategory />} />
-            {/* <Route path="search?" element={<HistorySearch />} /> */}
-            <Route>
-              <Route path="detail/:id" element={<HistoryDetail />} />
+          <Route path="history">
+            <Route element={<HistoryLayout />}>
+              <Route path=":category/page?" element={<HistoryCategory />} />
+              {/* <Route path="search?" element={<HistorySearch />} /> */}
             </Route>
+            <Route path="detail/:id" element={<HistoryDetail />} />
           </Route>
 
           {/* 문의하기 */}

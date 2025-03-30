@@ -92,7 +92,7 @@ export type Recipe = {
   difficulty: string;
   ingredients: Ingredient[];
   instructions: CookingStep[];
-  nutritional_info: NutritionInfo;
+  nutrition_info: NutritionInfo;
 };
 
 export type MenuResponse = {
@@ -108,7 +108,7 @@ export type Menu = {
   food_type: string;
   description: string;
   nutritional_info: NutritionInfo;
-  reccomendation_reason: string;
+  recommendation_reason: string;
 };
 
 export type DietResponse = {
@@ -121,6 +121,7 @@ export type DietMealPlan = {
   daily_calorie_target: number;
   protein_target: number;
   meals: Diet[];
+  recommendation_reason: string;
 };
 
 export type Diet = {
@@ -148,7 +149,9 @@ export type History = {
 } & (
   | {
       request_type: 'RECIPE';
-      request_data: RecipeFormInput;
+      request_data: Omit<RecipeFormInput, 'ingredients'> & {
+        ingredients: string[];
+      };
       response_data: Recipe;
     }
   | {
