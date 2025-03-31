@@ -117,10 +117,17 @@ export type Menu = {
   recommendation_reason: string;
 };
 
+// export type DietResponse = {
+//   request_id: number;
+//   success: boolean;
+//   meal_plan: DietMealPlan;
+// };
+
 export type DietResponse = {
-  request_id: number;
-  success: boolean;
-  meal_plan: DietMealPlan;
+  daily_calorie_target: number;
+  protein_target: number;
+  meals: Diet[];
+  recommendation_reason: string;
 };
 
 export type DietMealPlan = {

@@ -6,6 +6,7 @@ import CheckboxGroup from '@/components/CheckboxGroup';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { formatStreamText } from '@/lib/utils';
 
 export default function Menu() {
   // const menuMutation = useMenuQuery();
@@ -90,7 +91,9 @@ export default function Menu() {
             {/* 메뉴 추천 결과 */}
             <section className="mx-4 w-1/2 grow border p-4">
               <h3 className="text-lg font-bold">결과:</h3>
-              <div className="border-b pb-4">{textStream}</div>
+              <div className="border-b pb-4">
+                <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
+              </div>
               {finalRecipe && (
                 <div className="border-b pb-4">
                   <div className="text-lg font-bold">{finalRecipe.recommendation.food_name}</div>

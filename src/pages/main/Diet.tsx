@@ -7,6 +7,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl } from '@/components/
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { formatStreamText } from '@/lib/utils';
 // import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function Diet() {
@@ -137,17 +138,19 @@ export default function Diet() {
             {/* 식단 추천 결과 */}
             <section className="mx-4 w-1/2 grow border p-4">
               <h3 className="text-lg font-bold">결과:</h3>
-              <div className="border-b pb-4">{textStream}</div>
+              <div className="border-b pb-4">
+                <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
+              </div>
               {finalRecipe && (
                 <>
-                  <div className="border-b pb-4">
-                    <p>하루 칼로리 목표: {finalRecipe?.meal_plan.daily_calorie_target} kcal</p>
-                    <p>하루 단백질 목표: {finalRecipe?.meal_plan.protein_target} g</p>
+                  <div className="border-b pb-2">
+                    <p>추천 이유: {finalRecipe.recommendation_reason}</p>
+                    <p>하루 칼로리 목표: {finalRecipe.daily_calorie_target} kcal</p>
+                    <p>하루 단백질 목표: {finalRecipe.protein_target} g</p>
                   </div>
-                  {finalRecipe.meal_plan.meals.map((item) => (
-                    <div key={item.food_name} className="border-b pb-4">
-                      <div className="text-lg font-bold">{item.type}</div>
-                      <div>{item.food_name}</div>
+                  {finalRecipe.meals.map((item) => (
+                    <div key={item.food_name} className="border-b pb-2">
+                      <div className="text-lg font-bold">{item.food_name}</div>
                       <div>{item.food_type}</div>
                       <div>{item.description}</div>
                       <div>칼로리: {item.nutritional_info.calories} kcal</div>

@@ -2,7 +2,7 @@ import { RecipeFormInput } from '@/types/ai';
 import { useSearchParams } from 'react-router';
 import { useEffect } from 'react';
 import { useRecipeQuery } from '@/hooks/useAiQuery';
-import { formatText } from '@/lib/utils';
+import { formatStreamText } from '@/lib/utils';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
 // import { useOnlyFetch } from '@/hooks/onlyfetch';
 // import { useRecipeQuery, useStreaming1 } from '@/hooks/useAiQuery';
@@ -72,14 +72,13 @@ export default function RecipeResult() {
           <section className="mt-4 min-h-[500px] w-full border p-4">
             {/* 실시간 스트리밍 텍스트 */}
             <div className="border-b py-4">
-              <h3>생성 중...</h3>
               {/* <p>{textStream}</p> */}
-              <pre className="whitespace-pre-wrap">{formatText(textStream)}</pre>
+              <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
             </div>
 
             {/* 최종 레시피 */}
-            <div>
-              <h3>완성된 레시피</h3>
+            <div className="pt-4">
+              <h3 className="text-lg font-bold">완성된 레시피</h3>
               <h4>{finalRecipe?.name}</h4>
               <h5>재료:</h5>
               <ul>
