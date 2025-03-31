@@ -47,6 +47,8 @@ export default function Diet() {
     startStream(requestBody);
   };
 
+  console.log(finalRecipe);
+
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">

@@ -23,10 +23,22 @@ api.interceptors.request.use(
 
     config.headers['Content-Type'] = 'application/json';
 
-    // 임시
-    config.transformResponse = (data) => data;
-    config.decompress = false;
-    config.maxRedirects = 0;
+    // 특정 AI 추천 엔드포인트에만 특수 설정 적용
+    const recommendationEndpoints = [
+      '/ai/food-recommendation/',
+      '/ai/health-recommendation/',
+      '/ai/recipe-recommendation/',
+    ];
+
+    const shouldApplySpecialConfig =
+      recommendationEndpoints.some((endpoint) => config.url?.includes(endpoint)) &&
+      !config.url?.includes('/ai/food-result/');
+
+    if (shouldApplySpecialConfig) {
+      config.transformResponse = (data) => data;
+      config.decompress = false;
+      config.maxRedirects = 0;
+    }
 
     return config;
   },
