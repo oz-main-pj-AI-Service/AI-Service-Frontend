@@ -10,7 +10,10 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 // import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function Diet() {
-  const dietMutation = useDietQuery();
+  // const dietMutation = useDietQuery();
+
+  // isStreaming, error 받아와서 로딩 에러 처리 하기
+  const { startStream, finalRecipe, textStream } = useDietQuery();
 
   const form = useForm<DietFormInput>({
     defaultValues: {
@@ -40,7 +43,8 @@ export default function Diet() {
       disliked_foods: data.disliked_foods,
     };
 
-    dietMutation.mutate({ requestBody });
+    // dietMutation.mutate({ requestBody });
+    startStream(requestBody);
   };
 
   return (
@@ -131,14 +135,14 @@ export default function Diet() {
             {/* 식단 추천 결과 */}
             <section className="mx-4 w-1/2 grow border p-4">
               <h3 className="text-lg font-bold">결과:</h3>
-              {dietMutation.data && (
-                <div className="border-b pb-4">
-                  <p>하루 칼로리 목표: {dietMutation.data?.meal_plan.daily_calorie_target} kcal</p>
-                  <p>하루 단백질 목표: {dietMutation.data?.meal_plan.protein_target} g</p>
-                </div>
-              )}
-              {dietMutation.data
-                ? dietMutation.data.meal_plan.meals.map((item) => (
+              <div className="border-b pb-4">{textStream}</div>
+              {finalRecipe && (
+                <>
+                  <div className="border-b pb-4">
+                    <p>하루 칼로리 목표: {finalRecipe?.meal_plan.daily_calorie_target} kcal</p>
+                    <p>하루 단백질 목표: {finalRecipe?.meal_plan.protein_target} g</p>
+                  </div>
+                  {finalRecipe.meal_plan.meals.map((item) => (
                     <div key={item.food_name} className="border-b pb-4">
                       <div className="text-lg font-bold">{item.type}</div>
                       <div>{item.food_name}</div>
@@ -149,8 +153,9 @@ export default function Diet() {
                       <div>지방: {item.nutritional_info.fat} g</div>
                       <div>단백질: {item.nutritional_info.protein} g</div>
                     </div>
-                  ))
-                : '추천 식단이 없습니다.'}
+                  ))}
+                </>
+              )}
             </section>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { RecipeFormInput } from '@/types/ai';
 import { useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-import { useRecipeStream } from '@/hooks/useAiQuery';
+import { useRecipeQuery } from '@/hooks/useAiQuery';
 import { formatText } from '@/lib/utils';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
 // import { useOnlyFetch } from '@/hooks/onlyfetch';
@@ -17,7 +17,7 @@ export default function RecipeResult() {
   // const { textStream, streamMutation } = useStreaming2();
 
   // 후보 2 (JSON 제대로) - 액시오스, 뮤테이션, 상태, 어브토컨트롤러, 로딩, 에러 (풀)
-  const { textStream, finalRecipe, startStream } = useRecipeStream();
+  // const { textStream, finalRecipe, startStream } = useRecipeQuery();
 
   // 후보 3 (JSON 깨짐, SSE) - 액시오스, 뮤테이션, 상태
   // const { textStream, streamMutation } = useStreaming1();
@@ -25,6 +25,9 @@ export default function RecipeResult() {
   // 원본 (청크에 객체 들어오다가 Final에서 JSON 깨짐, data: 로 구분하지 않음. 텍스트 다듬지 않고 그대로 들어옴)
   // - 액시오스, 뮤테이션, 상태 (aiApi, 간단)
   // const { recipeStream, mutation } = useRecipeQuery();
+
+  // isStreaming, error 받아와서 로딩 에러 처리 하기
+  const { startStream, finalRecipe, textStream } = useRecipeQuery();
 
   useEffect(() => {
     if (!searchParams.get('q')) return;

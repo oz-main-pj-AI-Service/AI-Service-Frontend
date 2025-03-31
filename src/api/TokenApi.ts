@@ -23,6 +23,11 @@ api.interceptors.request.use(
 
     config.headers['Content-Type'] = 'application/json';
 
+    // 임시
+    config.transformResponse = (data) => data;
+    config.decompress = false;
+    config.maxRedirects = 0;
+
     return config;
   },
   (error) => Promise.reject(error),

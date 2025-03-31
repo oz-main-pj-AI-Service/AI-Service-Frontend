@@ -6,7 +6,7 @@ import LogContentCard from '@/components/admin/LogContentCard';
 export default function AdminAi() {
   const [page] = useSearchParams();
   const { data: logs } = useHistoryQuery(page.get('p') || '1');
-  console.log(logs);
+  console.log(typeof logs);
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
