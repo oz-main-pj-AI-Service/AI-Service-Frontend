@@ -30,6 +30,7 @@ import AdminUserDetail from './pages/admin/AdminUserDetail';
 import AdminReportDetail from './pages/admin/AdminReportDetail';
 import AdminAiDetail from './pages/admin/AdminAiDetail';
 import AdminUsersEdit from './pages/admin/AdminUsersEdit';
+import AdminReportComment from './pages/admin/AdminReportComment';
 
 export default function App() {
   const { initializeDarkMode } = useDarkMode();
@@ -95,8 +96,9 @@ export default function App() {
             </Route>
 
             <Route path="reports">
-              <Route index element={<AdminReports />} />
-              <Route path=":id" element={<AdminReportDetail />} />
+              <Route path="page?" element={<AdminReports />} />
+              <Route path="detail/:id" element={<AdminReportDetail />} />
+              <Route path="comment/:id" element={<AdminReportComment />} />
             </Route>
 
             <Route path="ai">
