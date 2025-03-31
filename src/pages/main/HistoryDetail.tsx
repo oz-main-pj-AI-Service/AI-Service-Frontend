@@ -1,6 +1,6 @@
-import { useParams } from 'react-router';
 import { formatDateYMD } from '@/lib/utils';
 import { History } from '@/types/ai';
+import { useParams } from 'react-router';
 
 export default function HistoryDetail() {
   const { id } = useParams() as { id: string };
