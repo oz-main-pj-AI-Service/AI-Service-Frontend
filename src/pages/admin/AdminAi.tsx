@@ -27,7 +27,7 @@ export default function AdminAi() {
           <PagenationBundle
             currentPage={parseInt(page.get('p') ?? '1')}
             totalCount={logs?.count ?? 1}
-            url="/admin/ai"
+            url="/admin/ai/page?"
           />
         </section>
       </div>

@@ -46,7 +46,7 @@ export default function MainNav() {
 
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
       <div>
-        <Link to="/admin/users">관리자 페이지</Link>
+        <Link to="/admin/users/page?p=1">관리자 페이지</Link>
       </div>
 
       <div>

@@ -89,7 +89,7 @@ export default function App() {
           {/* 유저는 수정 페이지, 문의는 답변 페이지 필요. ai 로그는 이게 끝 */}
           <Route path="admin" element={<AdminLayout />}>
             <Route path="users">
-              <Route index element={<AdminUsers />} />
+              <Route path="page?" element={<AdminUsers />} />
               <Route path=":id" element={<AdminUserDetail />} />
               <Route path="edit/:id" element={<AdminUsersEdit />} />
             </Route>

@@ -57,9 +57,7 @@ export default function HistoryContentCard({ content }: { content: History }) {
               <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
                 {content.response_data.recommendation.food_type}
               </span>
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                {formatDateYMD(content.created_at)}
-              </span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-400">{content.created_at}</span>
             </div>
             <p className="font-extralight text-zinc-600 dark:text-zinc-200">
               {content.response_data.recommendation.description}
@@ -89,9 +87,7 @@ export default function HistoryContentCard({ content }: { content: History }) {
                   </span>
                 ))}
               </div>
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                {formatDateYMD(content.created_at)}
-              </span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-400">{content.created_at}</span>
             </div>
           </>
         )}
