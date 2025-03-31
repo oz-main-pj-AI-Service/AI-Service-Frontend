@@ -6,9 +6,13 @@ import CheckboxGroup from '@/components/CheckboxGroup';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { formatStreamText } from '@/lib/utils';
 
 export default function Menu() {
-  const menuMutation = useMenuQuery();
+  // const menuMutation = useMenuQuery();
+
+  // isStreaming, error 받아와서 로딩 에러 처리 하기
+  const { mutation, startStream, finalRecipe, textStream } = useMenuQuery();
 
   const form = useForm<MenuFormInput>({
     defaultValues: {
@@ -33,11 +37,12 @@ export default function Menu() {
       last_meal: data.last_meal,
     };
 
-    menuMutation.mutate({ requestBody });
-    console.log(menuMutation);
+    startStream(requestBody);
+    console.log(mutation);
     // console.log(menuMutation.data?.recommendations.recommendations);
   };
 
+  console.log(finalRecipe);
   // const menu = menuMutation.data?.recommendation.recommendation;
 
   return (
@@ -86,20 +91,20 @@ export default function Menu() {
             {/* 메뉴 추천 결과 */}
             <section className="mx-4 w-1/2 grow border p-4">
               <h3 className="text-lg font-bold">결과:</h3>
-              {menuMutation.data ? (
+              <div className="border-b pb-4">
+                <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
+              </div>
+              {finalRecipe && (
                 <div className="border-b pb-4">
-                  결과는 받음
-                  {/* <div className="text-lg font-bold">{menu.food_name}</div>
-                  <div>{menu.food_type}</div>
-                  <div>{menu.description}</div>
-                  <div>{menu.reccomendation_reason}</div>
-                  <div>칼로리: {menu.nutritional_info.calories} kcal</div>
-                  <div>탄수화물: {menu.nutritional_info.carbs} g</div>
-                  <div>지방: {menu.nutritional_info.fat} g</div>
-                  <div>단백질: {menu.nutritional_info.protein} g</div> */}
+                  <div className="text-lg font-bold">{finalRecipe.recommendation.food_name}</div>
+                  <div>{finalRecipe.recommendation.food_type}</div>
+                  <div>{finalRecipe.recommendation.description}</div>
+                  <div>{finalRecipe.recommendation.recommendation_reason}</div>
+                  <div>칼로리: {finalRecipe.recommendation.nutritional_info.calories} kcal</div>
+                  <div>탄수화물: {finalRecipe.recommendation.nutritional_info.carbs} g</div>
+                  <div>지방: {finalRecipe.recommendation.nutritional_info.fat} g</div>
+                  <div>단백질: {finalRecipe.recommendation.nutritional_info.protein} g</div>
                 </div>
-              ) : (
-                '추천 식단이 없습니다.'
               )}
             </section>
           </div>
