@@ -1,6 +1,7 @@
 import { PAGE_SIZE } from '@/constants/common';
 import api from './TokenApi';
 import { User, UserResponse } from '@/types/user';
+import { ReportAnswerFormInput } from '@/types/report';
 
 export const adminApi = {
   getUsers: async (page: string) => {
@@ -30,6 +31,13 @@ export const adminApi = {
 
   deleteUser: async (id: string) => {
     const response = await api.delete(`/user/admin/${id}`);
+    return response.data;
+  },
+
+  patchReportComment: async (id: string, data: ReportAnswerFormInput) => {
+    const response = await api.patch<ReportAnswerFormInput>(`/reports/${id}/admin/`, data, {
+      params: { id: id },
+    });
     return response.data;
   },
 };
