@@ -3,12 +3,17 @@ import { Button } from '../ui/button';
 import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
 import { loginApiTemp } from '@/api/loginApiTemp';
 import { handleLogout } from '@/pages/user/handleLogout';
+import { useEffect, useState } from 'react';
+import { useAuthStore } from '@/stores/authStore';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import useDarkMode from '@/stores/darkmode';
 
 export default function TopNav() {
-  const accessToken = localStorage.getItem('accessToken');
+  const [isLogin, setIsLogin] = useState(false);
+  const { accessToken } = useAuthStore();
+  // console.log(accessToken);
+  console.log(isLogin);
 
   // 임시 다크모드
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -17,6 +22,11 @@ export default function TopNav() {
   const { refetch: refetchUserToken } = useUserTokenTemp('user');
   const { refetch: refetchAdminToken } = useUserTokenTemp('admin');
 
+  useEffect(() => {
+    if (accessToken) {
+      setIsLogin(true);
+    }
+  }, []);
   return (
     <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 bg-[var(--bg-light)] px-8 py-4 dark:bg-[var(--bg-dark)]">
       {/* 임시 다크모드 */}

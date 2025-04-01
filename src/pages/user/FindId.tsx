@@ -1,7 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+// import { useState } from 'react';
 
 export default function FindId() {
+  // const [phoneNumber,setPhoneNumber]=useState('')
+  // const [email,setEmail]=useState('')
+
+  // const handleFindId = async ()=>{
+  //   if()
+  // }
+
   return (
     <main className="flex flex-col items-center justify-center pt-[100px] pl-[200px]">
       <section className="flex max-w-5xl flex-col gap-4">

@@ -1,21 +1,17 @@
 import api from '@/api/TokenApi';
+import { useAuthStore } from '@/stores/authStore';
 
 const handleLogout = async () => {
   try {
-    const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
-
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenType');
-    localStorage.removeItem('expiresIn');
-
     const response = await api.post(`/user/logout/`);
     console.log('로그아웃 응답 :', response);
 
     if (response.status === 200) {
       console.log(response.data.message);
       window.location.href = '/sign-in';
+      useAuthStore.getState().clearAuth();
+      // 로직(.ts) 파일에서 접근하는 경우에는 getState() 메서드를 사용해서 전역 상태, 함수 접근
+      // 컴포넌트 (.tsx) 파일에서 접근하는 경우에는  const {accessToken} = useAuthStore() 와 같이 훅으로 접근 가능
     }
   } catch (error: any) {
     if (error.response) {
@@ -40,11 +36,7 @@ const handleLogout = async () => {
       console.error('요청설정중 오류 발생', error.message); //undefined
     } //undefined
   } finally {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenType');
-    localStorage.removeItem('expiresIn');
-    window.location.href = '/sign-in';
+    // window.location.href = '/sign-in';
   }
 };
 

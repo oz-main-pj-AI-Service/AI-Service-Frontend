@@ -9,6 +9,7 @@ import 네이버 from './네이버.png';
 import 구글 from './구글.png';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
+import { useAuthStore } from '@/stores/authStore';
 import logo_black from '@/assets/logo_black.png';
 
 const SignIn = () => {
@@ -24,25 +25,41 @@ const SignIn = () => {
     },
   });
 
-  const handleResponseData = (data: { access_token: string; refresh_token: string }) => {
-    localStorage.setItem('accessToken', data.access_token);
-    localStorage.setItem('refreshToken', data.refresh_token);
-    localStorage.setItem('tokenType', 'Bearer');
-    localStorage.setItem('expiresIn', String(3600));
+  const handleResponseData = (data: {
+    access_token: string;
+    refresh_token: string;
+    token_type: string;
+    expires_in: number;
+    admin: string;
+  }) => {
+    useAuthStore.getState().setAuthData({
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+      token_type: data.token_type || 'Bearer', // 기본값 설정
+      expires_in: data.expires_in || 3600,
+      admin: data.admin,
+    });
   };
 
   const onSubmit = async (data: SignInSchema) => {
     try {
       const response = await axios.post(`${API_URL}/user/login/`, data);
-      console.log('로그인 성공', response.data);
+      // console.log('로그인 성공', response.data);
       handleResponseData(response.data);
-      console.log(response.data);
+      console.log(response);
 
       setTimeout(() => {
         window.location.href = '/';
+        // navigate('/');
       }, 1000);
     } catch (error: any) {
-      console.error('로그인 실패', error.response.data);
+      // console.error('로그인 실패', error.response.data);
+      if (error.response.status === 403) {
+        alert('관리자에게 문의해주세요');
+      } else {
+        alert(error.response.data.error);
+      }
+      // console.log(error);
     }
   };
 
