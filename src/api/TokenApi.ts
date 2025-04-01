@@ -17,7 +17,6 @@ api.interceptors.request.use(
     if (config.url !== '/user/refresh-token/' && accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
-
     config.headers['Content-Type'] = 'application/json';
 
     // 특정 AI 추천 엔드포인트에만 특수 설정 적용
@@ -36,7 +35,6 @@ api.interceptors.request.use(
       config.decompress = false;
       config.maxRedirects = 0;
     }
-
     return config;
   },
   (error) => Promise.reject(error),
