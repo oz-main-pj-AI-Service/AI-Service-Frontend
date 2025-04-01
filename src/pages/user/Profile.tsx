@@ -17,12 +17,45 @@ export default function Profile() {
     is_social: false,
   });
   const { openModal } = useModal();
-  const [editProfile, setEditProfile] = useState(false);
+  const [editProfile, setEditProfile] = useState(true);
+  console.log(editProfile);
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const openDeleteAccount = () => {
     openModal(
       <DeleteAccountModal profileImage={userInfo.profile_image} nickname={userInfo.nickname} />,
     );
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      // 변경된 필드만 전송
+      const payload = {
+        nickname: userInfo.nickname,
+        phone_number: userInfo.phone_number,
+      };
+
+      // PATCH 요청 실행
+      const response = await api.patch('/user/profile/', payload);
+
+      // 성공 시 상태 업데이트 및 읽기 전용 모드로 전환
+      setUserInfo((prev) => ({
+        ...prev,
+        ...response.data, // 서버에서 반환된 업데이트된 데이터 적용
+      }));
+      setEditProfile(true);
+      alert('프로필이 성공적으로 수정되었습니다! 🎉');
+    } catch (error) {
+      console.error('프로필 수정 실패:', error);
+      alert('수정에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
 
   useEffect(() => {
@@ -54,20 +87,36 @@ export default function Profile() {
           </h1>
           <h1>회원정보</h1>
           <img src={userInfo.profile_image || 기본프로필} alt="프로필사진" className="h-16 w-16" />
-          <p>닉네임</p>
-          <Input type="text" value={userInfo.nickname} readOnly />
           <p>이메일 </p>
-          <Input value={userInfo.email} readOnly={editProfile} />
+          <p>{userInfo.email}</p>
+          <p>닉네임</p>
+          <Input
+            name="nickname"
+            type="text"
+            value={userInfo.nickname}
+            readOnly={editProfile}
+            onChange={handleInputChange}
+          />
           {userInfo.is_social ? (
             <h2>소셜 계정으로 가입된 사용자입니다.</h2>
           ) : (
             <>
               <p>전화번호 </p>
-              <Input value={userInfo.phone_number} readOnly={editProfile} />
+              <Input
+                name="phone_number"
+                value={userInfo.phone_number}
+                readOnly={editProfile}
+                onChange={handleInputChange}
+              />
               <hr />
-              <Button onClick={() => setEditProfile(true)}>회원 정보 수정</Button>
+              {editProfile ? (
+                <Button onClick={() => setEditProfile(false)}>회원 정보 수정</Button>
+              ) : (
+                <Button onClick={handleSaveProfile}>수정 완료</Button>
+              )}
             </>
           )}
+
           <Button onClick={openDeleteAccount}>회원탈퇴</Button>
         </section>
       </div>
