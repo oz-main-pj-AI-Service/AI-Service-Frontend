@@ -17,6 +17,26 @@ api.interceptors.request.use(
     if (config.url !== '/user/refresh-token/' && accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
+    config.headers['Content-Type'] = 'application/json';
+
+    // 특정 AI 추천 엔드포인트에만 특수 설정 적용
+    const recommendationEndpoints = [
+      '/ai/food-recommendation/',
+      '/ai/health-recommendation/',
+      '/ai/recipe-recommendation/',
+    ];
+
+    const shouldApplySpecialConfig =
+      recommendationEndpoints.some((endpoint) => config.url?.includes(endpoint)) &&
+      !config.url?.includes('/ai/food-result/');
+
+    if (shouldApplySpecialConfig) {
+      config.transformResponse = (data) => data;
+      config.decompress = false;
+      config.maxRedirects = 0;
+    }
+
     return config;
   },
   (error) => Promise.reject(error),

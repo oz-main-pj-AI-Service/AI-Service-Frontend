@@ -6,7 +6,7 @@ import LogContentCard from '@/components/admin/LogContentCard';
 export default function AdminAi() {
   const [page] = useSearchParams();
   const { data: logs } = useHistoryQuery(page.get('p') || '1');
-  console.log(logs);
+  console.log(typeof logs);
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
@@ -15,6 +15,7 @@ export default function AdminAi() {
           <h2 className="text-2xl font-bold">AI 로그 관리</h2>
 
           <div className="w-full border px-4 py-2">여기 아마 검색창?</div>
+
           <ul className="flex w-full flex-col gap-1">
             {/* 검색 기록 받아서 카테고리 필터 돌려서 맵돌리기 */}
             {logs?.results
@@ -27,7 +28,7 @@ export default function AdminAi() {
           <PagenationBundle
             currentPage={parseInt(page.get('p') ?? '1')}
             totalCount={logs?.count ?? 1}
-            url="/admin/ai"
+            url="/admin/ai/page?"
           />
         </section>
       </div>

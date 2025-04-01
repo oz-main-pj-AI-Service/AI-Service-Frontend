@@ -10,6 +10,7 @@ import useModal from '@/stores/modal';
 import 네이버 from './네이버.png';
 import 구글 from './구글.png';
 import Modal from '@/components/Modal';
+import logo_black from '@/assets/logo_black.png';
 import { Link } from 'react-router';
 
 const SignUp = () => {
@@ -102,7 +103,7 @@ const SignUp = () => {
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
           <h1>
-            <img src="" alt="한상비서로고" />
+            <img src={logo_black} alt="한상비서로고" />
           </h1>
           <h2 className="mb-4 text-lg font-bold">회원가입</h2>
           <p>
