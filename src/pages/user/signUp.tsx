@@ -19,6 +19,9 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
     formState: { errors },
     reset,
   } = useForm<SignUpSchema>({
@@ -31,6 +34,35 @@ const SignUp = () => {
       phone_number: '',
     },
   });
+
+  const handleEmailCheck = async () => {
+    const email = getValues('email');
+
+    if (!email) {
+      setError('email', {
+        type: 'manual',
+        message: '이메일을 입력해주세요',
+      });
+      return;
+    }
+    try {
+      clearErrors('email');
+
+      const response = await axios.get(`${API_URL}/user/check-email/`, {
+        params: { email },
+      });
+
+      if (response.status === 200) {
+        alert('사용 가능한 이메일입니다');
+      }
+    } catch (error: any) {
+      setError('email', {
+        type: 'required',
+        message: '이미 사용 중인 이메일입니다',
+      });
+      console.error('이메일 확인 중 오류 발생:', error);
+    }
+  };
 
   const onSubmit = async (data: SignUpSchema) => {
     try {
@@ -45,9 +77,9 @@ const SignUp = () => {
       if (error.response.status === 409) {
         const errors = error.response.data;
 
-        if (errors.detail && errors.detail.includes('이미 사용중인 이메일 입니다.')) {
-          alert('중복된 이메일입니다.');
-        }
+        // if (errors.detail && errors.detail.includes('이미 사용중인 이메일 입니다.')) {
+        //   alert('중복된 이메일입니다.');
+        // }
         if (errors.detail && errors.detail.includes('이미 사용 중인 핸드폰 번호입니다.')) {
           alert('중복된 전화번호입니다.');
           console.error('중복된 전화번호입니다:', errors.phone_number);
@@ -87,14 +119,18 @@ const SignUp = () => {
             className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
           {errors.nickname && <p className="text-xs text-red-500">{errors.nickname.message}</p>}
-          <input
-            placeholder="이메일"
-            type="email"
-            {...register('email')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-          />
+          <div className="flex">
+            <input
+              placeholder="이메일"
+              type="email"
+              {...register('email')}
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            />
+            <Button onClick={handleEmailCheck} type="button">
+              중복 검사
+            </Button>
+          </div>
           {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-
           <input
             placeholder="비밀번호"
             type="password"

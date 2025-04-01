@@ -3,14 +3,23 @@ import { Button } from '../ui/button';
 import { useUserTokenTemp } from '@/hooks/useUserTokenTemp';
 import { loginApiTemp } from '@/api/loginApiTemp';
 import { handleLogout } from '@/pages/user/handleLogout';
+import { useEffect, useState } from 'react';
+import { useAuthStore } from '@/stores/authStore';
 
 export default function TopNav() {
-  const accessToken = localStorage.getItem('accessToken');
+  const [isLogin, setIsLogin] = useState(false);
+  const { accessToken } = useAuthStore();
+  // console.log(accessToken);
 
   // 임시 로그인
   const { refetch: refetchUserToken } = useUserTokenTemp('user');
   const { refetch: refetchAdminToken } = useUserTokenTemp('admin');
 
+  useEffect(() => {
+    if (accessToken) {
+      setIsLogin(true);
+    }
+  }, []);
   return (
     <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 px-8 py-4">
       {/* 임시 로그인 */}

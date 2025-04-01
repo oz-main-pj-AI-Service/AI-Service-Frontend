@@ -1,30 +1,12 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
-
-interface TokenData {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresIn: number;
-}
-
-const handleResponseData = (data: any) => {
-  const tokenData: TokenData = {
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token,
-    tokenType: data.token_type,
-    expiresIn: data.expires_in,
-  };
-
-  localStorage.setItem('accessToken', tokenData.accessToken);
-  localStorage.setItem('refreshToken', tokenData.refreshToken);
-  localStorage.setItem('tokenType', tokenData.tokenType);
-  localStorage.setItem('expiresIn', String(tokenData.expiresIn));
-};
+import { useAuthStore } from '@/stores/authStore';
 
 const SignUpHandler = () => {
   // console.log(code);
+
+  const { setAuthData } = useAuthStore();
 
   const naverSignUp = (code: string) => {
     if (code) {
@@ -36,13 +18,18 @@ const SignUpHandler = () => {
         })
         .then((response) => {
           const data = response.data;
-          handleResponseData(data);
+          setAuthData(data);
+          // console.log(data);
+
           // 성공 시 메인 페이지로 이동
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
-          //로그인시 이거 안뜨게 조건 추가해야 함
-          alert('회원가입이 완료되었습니다.');
+          if (!data.is_new_user) {
+            alert('로그인이 완료되었습니다');
+          } else {
+            alert('회원가입이 완료되었습니다.');
+          }
         })
         .catch((error) => {
           const errors = error.response.data;
@@ -66,12 +53,17 @@ const SignUpHandler = () => {
         })
         .then((response) => {
           const data = response.data;
-          handleResponseData(data);
+          setAuthData(data);
+          // handleResponseData(data);
           // 성공 시 메인 페이지로 이동
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
-          alert('회원가입이 완료되었습니다.');
+          if (!data.is_new_user) {
+            alert('로그인이 완료되었습니다');
+          } else {
+            alert('회원가입이 완료되었습니다.');
+          }
         })
         .catch((error) => {
           const errors = error.response.data;
@@ -101,4 +93,3 @@ const SignUpHandler = () => {
 };
 
 export default SignUpHandler;
-export { handleResponseData };
