@@ -48,7 +48,7 @@ export default function EditPw() {
   const onSubmit = async (data: { password1: string; password2: string }) => {
     try {
       const requestData = { ...data, email };
-      const response = await axios.post(`${API_URL}/change-pw/`, requestData);
+      const response = await axios.post(`${API_URL}/user/change-pw/`, requestData);
       if (response.status === 200) {
         console.log(response);
       }
