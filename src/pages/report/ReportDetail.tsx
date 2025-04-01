@@ -18,7 +18,7 @@ export default function ReportDetail() {
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <div className="flex justify-between border-b pb-4">
             <h2 className="text-2xl font-bold">{report?.title}</h2>
-            {report?.status === 'CLOSED' ? (
+            {report?.admin_comment ? (
               <div className="flex items-center rounded-lg bg-teal-900 px-2 py-1 text-sm text-white">
                 답변 완료
               </div>
@@ -45,7 +45,7 @@ export default function ReportDetail() {
 
           <div>
             <h3 className="border-b pb-2 text-lg font-bold">답변</h3>
-            {report?.status === 'CLOSED' ? (
+            {report?.admin_comment ? (
               <p className="pt-2">
                 <span>{report?.admin_comment}</span>
               </p>
@@ -57,7 +57,7 @@ export default function ReportDetail() {
           </div>
 
           <div className="flex justify-end gap-2">
-            {report?.status === 'CLOSED' ? (
+            {report?.admin_comment ? (
               <Button variant="outline" disabled>
                 수정하기
               </Button>

@@ -11,10 +11,12 @@
 /* 정의되지 않았다고 나옴. 설정 & 사용법이 맞는지 확인하기 */
 /* css파일에서는 '//'로 주석처리하니 오류가 떠서 위에처럼 바꿔두었습니다 */
 @theme {
-  --primary: #ffa500;
-  --secondary: #0f0f0f;
-  --bg-dark: #0c0c0c;
-  --bg-light: #cfcfcf;
+  --point-orange: #ffa500;
+  --point-red: #dd3446;
+  --bg-dark-point: #161616;
+  --bg-dark: #1f1f1f;
+  --bg-light: #faf9f6;
+  --bg-light-point: #e0e0e0;
 }
 
 html {
@@ -40,8 +42,9 @@ input::-webkit-outer-spin-button {
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  /* --background: var(--bg-light); // 토글 배경색과 알맹이가 색깔이 같아짐 */
+  /* 토글 배경색과 알맹이가 색깔이 같아짐 */
+  --background: var(--bg-light);
+  /* --background: oklch(1 0 0); */
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
@@ -75,8 +78,9 @@ input::-webkit-outer-spin-button {
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  /* --background: var(--bg-dark); // 피그마에서 색 가져오기, 이걸 섦정하면 글자색이 검정으로 변함 */
+  /* 피그마에서 색 가져오기, 이걸 섦정하면 글자색이 검정으로 변함 */
+  --background: var(--bg-dark);
+  /* --background: oklch(0.141 0.005 285.823); */
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.985 0 0);
