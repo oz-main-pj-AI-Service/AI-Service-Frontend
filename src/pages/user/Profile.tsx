@@ -18,7 +18,6 @@ export default function Profile() {
   });
   const { openModal } = useModal();
   const [editProfile, setEditProfile] = useState(true);
-  console.log(editProfile);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -36,7 +35,6 @@ export default function Profile() {
 
   const handleSaveProfile = async () => {
     try {
-      // 변경된 필드만 전송
       const payload = {
         nickname: userInfo.nickname,
         phone_number: userInfo.phone_number,
@@ -48,7 +46,7 @@ export default function Profile() {
       // 성공 시 상태 업데이트 및 읽기 전용 모드로 전환
       setUserInfo((prev) => ({
         ...prev,
-        ...response.data, // 서버에서 반환된 업데이트된 데이터 적용
+        ...response.data,
       }));
       setEditProfile(true);
       alert('프로필이 성공적으로 수정되었습니다! 🎉');
@@ -63,7 +61,7 @@ export default function Profile() {
       try {
         const response = await api.get('/user/profile/');
         const userProfile = response.data;
-        console.log('응답', response);
+        // console.log('응답', response);
         setUserInfo({
           email: userProfile.email || '',
           phone_number: userProfile.phone_number || '',
