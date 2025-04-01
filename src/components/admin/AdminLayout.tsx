@@ -50,7 +50,7 @@ export default function AdminLayout() {
               );
             }}
           </NavLink>
-          <NavLink to="/admin/ai/page?p=1" draggable={false}>
+          <NavLink to="/admin/ai/all/page?p=1" draggable={false}>
             {({ isActive }) => {
               isActive = isActive || location.pathname.startsWith('/admin/ai');
               return (

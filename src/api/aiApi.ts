@@ -1,4 +1,10 @@
-import { DietFormInput, HistoryResponse, MenuFormRequest, RecipeFormInput } from '@/types/ai';
+import {
+  DietFormInput,
+  HistoryResponse,
+  MenuFormRequest,
+  RecipeFormInput,
+  SearchType,
+} from '@/types/ai';
 import api from './TokenApi';
 import { PAGE_SIZE } from '@/constants/common';
 import { AxiosError } from 'axios';
@@ -164,12 +170,31 @@ export const aiApi = {
     );
   },
 
-  getHistory: async (page: string) => {
+  // getHistory: async (
+  //   page: string,
+  //   requestType: SearchType = 'all',
+  //   search?: string | null,
+  // ) => {
+  //   const response = await api.get<HistoryResponse>(`/ai/food-result/`, {
+  //     params: {
+  //       page: parseInt(page),
+  //       page_size: PAGE_SIZE,
+  //       request_type: requestType,
+  //     },
+  //   });
+  //   return response.data;
+  // },
+  getHistory: async (page: string, requestType: SearchType = 'all', search?: string | null) => {
+    const params: any = {
+      page: parseInt(page),
+      page_size: PAGE_SIZE,
+      request_type: requestType,
+    };
+
+    if (search) params.search = search;
+
     const response = await api.get<HistoryResponse>(`/ai/food-result/`, {
-      params: {
-        page: parseInt(page),
-        page_size: PAGE_SIZE,
-      },
+      params,
     });
     return response.data;
   },

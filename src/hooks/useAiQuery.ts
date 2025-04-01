@@ -13,6 +13,7 @@ import {
   DietResponse,
   HistoryResponse,
   StreamResult,
+  SearchType,
   // DietMealPlan,
 } from '@/types/ai';
 
@@ -50,10 +51,10 @@ import {
 //   });
 // };
 
-export const useHistoryQuery = (page: string = '1') => {
+export const useHistoryQuery = (page: string = '1', requestType: SearchType, search?: string) => {
   return useQuery<HistoryResponse, AxiosError>({
-    queryKey: ['history', page],
-    queryFn: () => aiApi.getHistory(page),
+    queryKey: ['history', page, search, requestType],
+    queryFn: () => aiApi.getHistory(page, requestType, search),
   });
 };
 

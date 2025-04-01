@@ -39,7 +39,7 @@ export type MenuFormInput = {
   cuisine_type: Option['label'][];
   food_base: Option['label'][];
   taste: Option['label'][];
-  dietary_type: Option['label'][];
+  dietary_type: Option['label'];
   last_meal: string;
 };
 

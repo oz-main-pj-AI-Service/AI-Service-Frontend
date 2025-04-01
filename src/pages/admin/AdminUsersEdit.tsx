@@ -12,23 +12,21 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { User } from '@/types/user';
+import { useAdminUserDetailQuery } from '@/hooks/useAdminQuery';
+import { useEffect } from 'react';
 
 export default function AdminUsersEdit() {
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
   const navigate = useNavigate();
 
   // 특정 사용자 정보 조회 api 호출 (쿼리 or 서스펜스쿼리)
+  const { data: user } = useAdminUserDetailQuery(id);
+  console.log(user);
   // 특정 사용자 정보 수정 api 호출 (뮤테이션)
   // api/user/admin/id/
 
   // 이것도 나중에 디폴트 값 유즈이펙트안에서 넣어주기
   const form = useForm<User>({
-    defaultValues: {
-      nickname: '',
-      phone_number: '',
-      email_verified: false,
-      status: 'ACTIVE',
-    },
     // 유효성 검사
     // resolver: zodResolver(reportFormSchema),
   });
@@ -42,6 +40,15 @@ export default function AdminUsersEdit() {
     // 모달 (확인, 취소 둘 다 확인 눌렀을때 현재 유저 정보 페이지로 네비게이팅)
     navigate(`/admin/users/${id}`);
   };
+
+  useEffect(() => {
+    form.reset({
+      nickname: user?.nickname ?? '',
+      phone_number: user?.phone_number ?? '',
+      email_verified: user?.email_verified ?? false,
+      status: user?.is_active ? 'ACTIVE' : 'INACTIVE',
+    });
+  }, [user]);
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">

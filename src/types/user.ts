@@ -10,7 +10,7 @@ export type User = {
   nickname: string;
   phone_number: string;
   profile_image: string;
-  status: 'ACTIVE' | 'SUSPENDED' | 'DELETED';
+  status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'DELETED';
   created_at: string;
   updated_at: string;
   deleted_at?: string;

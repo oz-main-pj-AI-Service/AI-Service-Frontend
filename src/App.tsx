@@ -8,9 +8,8 @@ import RecipeResult from './pages/main/RecipeResult';
 import Menu from './pages/main/Menu';
 import Diet from './pages/main/Diet';
 import HistoryLayout from './components/main/HistoryLayout';
-import HistoryCategory from './pages/main/HistoryCategory';
+import History from './pages/main/History';
 import HistoryDetail from './pages/main/HistoryDetail';
-// import HistorySearch from './pages/main/HistorySearch';
 import SignIn from './pages/user/SignIn';
 import Profile from './pages/user/Profile';
 import SignUp from './pages/user/signUp';
@@ -52,8 +51,7 @@ export default function App() {
           {/* 추천 기록 */}
           <Route path="history">
             <Route element={<HistoryLayout />}>
-              <Route path=":category/page?" element={<HistoryCategory />} />
-              {/* <Route path="search?" element={<HistorySearch />} /> */}
+              <Route path=":category/page?" element={<History />} />
             </Route>
             <Route path="detail/:id" element={<HistoryDetail />} />
           </Route>
@@ -87,7 +85,7 @@ export default function App() {
           <Route path="profile" element={<Profile />} />
 
           {/* 관리자 */}
-          {/* 유저는 수정 페이지, 문의는 답변 페이지 필요. ai 로그는 이게 끝 */}
+          {/* 유저는 수정 페이지 수정 필요, ai 로그는 이게 끝 */}
           <Route path="admin" element={<AdminLayout />}>
             <Route path="users">
               <Route path="page?" element={<AdminUsers />} />
@@ -102,7 +100,7 @@ export default function App() {
             </Route>
 
             <Route path="ai">
-              <Route path="page?" element={<AdminAi />} />
+              <Route path=":category/page?" element={<AdminAi />} />
               <Route path="detail/:id" element={<AdminAiDetail />} />
             </Route>
           </Route>

@@ -1,6 +1,6 @@
 import { RecipeFormInput } from '@/types/ai';
 import { useSearchParams } from 'react-router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRecipeQuery } from '@/hooks/useAiQuery';
 import { formatStreamText } from '@/lib/utils';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
@@ -61,6 +61,14 @@ export default function RecipeResult() {
   console.log(textStream);
   console.log(finalRecipe);
 
+  const resultsSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if ((textStream || finalRecipe) && resultsSectionRef.current) {
+      resultsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [textStream, finalRecipe]);
+
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
@@ -69,7 +77,7 @@ export default function RecipeResult() {
           <section className="w-full border p-4">
             <p>검색한 조건 (쿼리스트링): {searchParams.get('q')}</p>
           </section>
-          <section className="mt-4 min-h-[500px] w-full border p-4">
+          <section className="mt-4 min-h-[500px] w-full border p-4" ref={resultsSectionRef}>
             {/* 실시간 스트리밍 텍스트 */}
             <div className="border-b py-4">
               {/* <p>{textStream}</p> */}

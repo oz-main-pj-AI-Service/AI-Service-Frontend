@@ -42,7 +42,7 @@ export default function HistoryLayout() {
             </SelectContent>
           </Select>
         </div>
-        <div className="w-full max-w-5xl border px-4 py-2">여기 아마 검색창? / 카테고리 아직</div>
+        {/* <div className="w-full max-w-5xl border px-4 py-2">여기 아마 검색창? / 카테고리 아직</div> */}
       </div>
 
       <div className="flex-1 overflow-x-hidden overflow-y-auto">

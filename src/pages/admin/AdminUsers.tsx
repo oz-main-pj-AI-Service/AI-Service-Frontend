@@ -14,7 +14,7 @@ export default function AdminUsers() {
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">회원 관리</h2>
 
-          <div className="w-full border px-4 py-2">여기 아마 검색창?</div>
+          {/* <div className="w-full border px-4 py-2">여기 아마 검색창?</div> */}
           <div className="py-4">
             {/* 리스트 말고 다른거로? */}
             <ul className="flex justify-between gap-2 border-b pb-2">

@@ -10,8 +10,8 @@ const api = axios.create({
 // 요청전 인터셉터 설정
 api.interceptors.request.use(
   (config) => {
-    // const accessToken = localStorage.getItem('accessToken'); // 실제 로그인용 토큰
-    const accessToken = localStorage.getItem('access_temp'); // 임시 로그인용 토큰
+    const accessToken = localStorage.getItem('accessToken'); // 실제 로그인용 토큰
+    // const accessToken = localStorage.getItem('access_temp'); // 임시 로그인용 토큰
     console.log('토큰', accessToken);
 
     if (accessToken) {

@@ -16,8 +16,8 @@ export const loginApiTemp = {
   },
 
   logOut: async () => {
-    localStorage.removeItem('access_temp');
-    localStorage.removeItem('refresh_temp');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     const header: RawAxiosRequestHeaders = {
       Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
     };
@@ -35,7 +35,7 @@ export const loginApiTemp = {
   },
 
   getAccessTokenTemp: () => {
-    return localStorage.getItem('access_temp');
+    return localStorage.getItem('accessToken');
   },
 };
 
