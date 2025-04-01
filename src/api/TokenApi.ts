@@ -12,7 +12,11 @@ let isRefreshing = false;
 
 api.interceptors.request.use(
   (config) => {
+
+    // const accessToken = localStorage.getItem('accessToken');
+
     const { accessToken } = useAuthStore.getState();
+
 
     if (config.url !== '/user/refresh-token/' && accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;

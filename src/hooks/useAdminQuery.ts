@@ -27,3 +27,13 @@ export const useAdminReportCommentQuery = (id: string) => {
     },
   });
 };
+
+export const useAdminUserDeleteQuery = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => adminApi.deleteUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+    },
+  });
+};
