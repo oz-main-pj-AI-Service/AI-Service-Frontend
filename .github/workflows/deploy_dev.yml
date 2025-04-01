@@ -14,7 +14,7 @@ jobs:
 
       - name: .env 파일 생성
         run: |
-          cat <<EOF > AI-Service-Frontend/.env
+          cat <<EOF > oz-main-pj-AI-Service/AI-Service-Frontend/.env
           VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }}
           VITE_NAVER_CLIENT_SECRET=${{secrets.VITE_NAVER_CLIENT_SECRET}}
           VITE_NAVER_CALLBACK_URI=${{ secrets.VITE_NAVER_CALLBACK_URI }}
