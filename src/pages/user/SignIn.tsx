@@ -9,7 +9,6 @@ import 네이버 from './네이버.png';
 import 구글 from './구글.png';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
-import 한상로고 from '@/assets/한상로고.png';
 import { useAuthStore } from '@/stores/authStore';
 
 const SignIn = () => {
@@ -30,12 +29,14 @@ const SignIn = () => {
     refresh_token: string;
     token_type: string;
     expires_in: number;
+    admin: string;
   }) => {
     useAuthStore.getState().setAuthData({
       access_token: data.access_token,
       refresh_token: data.refresh_token,
       token_type: data.token_type || 'Bearer', // 기본값 설정
       expires_in: data.expires_in || 3600,
+      admin: data.admin,
     });
   };
 
@@ -44,7 +45,7 @@ const SignIn = () => {
       const response = await axios.post(`${API_URL}/user/login/`, data);
       // console.log('로그인 성공', response.data);
       handleResponseData(response.data);
-      // console.log(response.data);
+      console.log(response);
 
       setTimeout(() => {
         window.location.href = '/';
@@ -69,7 +70,7 @@ const SignIn = () => {
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
           <h1>
-            <img src={한상로고} alt="한상비서로고" />
+            <img src="" alt="한상비서로고" />
           </h1>
           <h2 className="mb-4 text-lg font-bold">로그인</h2>
           <p>

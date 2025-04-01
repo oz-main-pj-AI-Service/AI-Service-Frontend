@@ -49,6 +49,7 @@ api.interceptors.response.use(
             refresh_token: response.data.refresh_token || refreshToken, // 새 리프레시 토큰 없을 경우 기존 값 유지
             token_type: response.data.token_type || 'Bearer',
             expires_in: response.data.expires_in || 3600,
+            admin: response.data.admin,
           };
 
           useAuthStore.getState().setAuthData(newData);

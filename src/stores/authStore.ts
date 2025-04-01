@@ -7,7 +7,7 @@ type ResponseData = {
   refresh_token: string;
   token_type: string;
   expires_in: number;
-  // isLoginUser: boolean;
+  admin: string;
 };
 
 type TokenData = {
@@ -15,7 +15,7 @@ type TokenData = {
   refreshToken: string;
   tokenType: string;
   expiresIn: number;
-  // isLoginUser: boolean;
+  admin: string;
 };
 
 type AuthState = TokenData & {
@@ -30,6 +30,7 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: '',
       tokenType: '',
       expiresIn: 0,
+      admin: '',
       // isLoginUser: false,
       setAuthData: (data) =>
         set({
@@ -37,6 +38,7 @@ export const useAuthStore = create<AuthState>()(
           refreshToken: data.refresh_token,
           tokenType: data.token_type,
           expiresIn: data.expires_in,
+          admin: data.admin,
         }),
       clearAuth: () =>
         set({
@@ -44,6 +46,7 @@ export const useAuthStore = create<AuthState>()(
           refreshToken: '',
           tokenType: '',
           expiresIn: 0,
+          admin: '',
           // isLoginUser: false,
         }),
     }),
@@ -55,6 +58,7 @@ export const useAuthStore = create<AuthState>()(
         refreshToken: state.refreshToken,
         tokenType: state.tokenType,
         expiresIn: state.expiresIn,
+        admin: state.admin,
         // isLoginUser: state.isLoginUser,
       }),
     },

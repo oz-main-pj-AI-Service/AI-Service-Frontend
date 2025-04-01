@@ -1,11 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import 한상로고 from '@/assets/한상로고.png';
 import { useEffect, useState } from 'react';
 import api from '@/api/TokenApi';
 import Modal from '@/components/Modal';
 import DeleteAccountModal from '@/components/user/DeleteAccountModal';
-import 기본프로필 from '@/assets/기본프로필.png';
 import useModal from '@/stores/modal';
 
 export default function Profile() {
@@ -81,10 +79,9 @@ export default function Profile() {
       <div className="flex h-screen items-center justify-center">
         <section className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md">
           <h1>
-            <img src={한상로고} alt="한상로고" />
+            <img src="" alt="한상로고" />
           </h1>
           <h1>회원정보</h1>
-          <img src={userInfo.profile_image || 기본프로필} alt="프로필사진" className="h-16 w-16" />
           <p>이메일 </p>
           <p>{userInfo.email}</p>
           <p>닉네임</p>
