@@ -9,7 +9,7 @@ import 네이버 from './네이버.png';
 import 구글 from './구글.png';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
-import 한상로고 from '@/assets/한상로고.png';
+import logo_black from '@/assets/logo_black.png';
 
 const SignIn = () => {
   const {
@@ -54,7 +54,7 @@ const SignIn = () => {
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
           <h1>
-            <img src={한상로고} alt="한상비서로고" />
+            <img src={logo_black} alt="한상비서로고" />
           </h1>
           <h2 className="mb-4 text-lg font-bold">로그인</h2>
           <p>
