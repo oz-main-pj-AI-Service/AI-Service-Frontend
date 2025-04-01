@@ -12,21 +12,17 @@ jobs:
       - name: GitHub Repository 파일 불러오기
         uses: actions/checkout@v4
 
-      - name: .env 파일 생성
-        run: |
-          cat <<EOF > oz-main-pj-AI-Service/AI-Service-Frontend/.env
-          VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }}
-          VITE_NAVER_CLIENT_SECRET=${{secrets.VITE_NAVER_CLIENT_SECRET}}
-          VITE_NAVER_CALLBACK_URI=${{ secrets.VITE_NAVER_CALLBACK_URI }}
-          VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
-          VITE_GOOGLE_CLIENT_SECRET=${{secrets.VITE_GOOGLE_CLIENT_SECRET}}
-          VITE_GOOGLE_CALLBACK_URI=${{ secrets.VITE_GOOGLE_CALLBACK_URI }}
-          EOF
-
       - name: 의존성 설치
         run: npm install
 
       - name: 빌드
+        env:
+          VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
+          VITE_NAVER_CLIENT_SECRET: ${{secrets.VITE_NAVER_CLIENT_SECRET}}
+          VITE_NAVER_CALLBACK_URI: ${{ secrets.VITE_NAVER_CALLBACK_URI }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_GOOGLE_CLIENT_SECRET: ${{secrets.VITE_GOOGLE_CLIENT_SECRET}}
+          VITE_GOOGLE_CALLBACK_URI: ${{ secrets.VITE_GOOGLE_CALLBACK_URI }}
         run: npm run build
 
       - name: 중간 확인
