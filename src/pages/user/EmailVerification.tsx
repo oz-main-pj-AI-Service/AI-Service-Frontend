@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
+import { useNavigate } from 'react-router';
 
 const EmailVerification = () => {
+  const navigate = useNavigate();
   const [verified, setverified] = useState('진행 중');
   useEffect(() => {
     const verifyEmail = async () => {
@@ -14,6 +16,7 @@ const EmailVerification = () => {
         try {
           await axios.post(`${API_URL}/user/verify-email/`, { token });
           setverified('성공');
+          navigate('/sign-in');
         } catch (error) {
           console.error('이메일 인증 오류:', error);
           setverified('실패');

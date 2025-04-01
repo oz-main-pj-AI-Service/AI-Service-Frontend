@@ -1,26 +1,26 @@
 import { API_URL } from '@/constants/url';
 import { handleLogout } from '@/pages/user/handleLogout';
+import { useAuthStore } from '@/stores/authStore';
 import axios from 'axios';
 
-//accessToken이 필요한 경우만 사용
 const api = axios.create({
-  baseURL: API_URL, // 기본 URL 설정
+  baseURL: API_URL,
 });
 
-// 요청전 인터셉터 설정
+// 리프레시 토큰 요청 중복 방지 플래그
+let isRefreshing = false;
+
 api.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem('accessToken'); // 실제 로그인용 토큰
-    // const accessToken = localStorage.getItem('access_temp'); // 임시 로그인용 토큰
-    console.log('토큰', accessToken);
 
-    if (accessToken) {
+    // const accessToken = localStorage.getItem('accessToken');
+
+    const { accessToken } = useAuthStore.getState();
+
+
+    if (config.url !== '/user/refresh-token/' && accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
-    } else {
-      window.location.href = '/sign-in';
-      throw new Error('⚠️토큰이 없습니다.');
     }
-
     config.headers['Content-Type'] = 'application/json';
 
     // 특정 AI 추천 엔드포인트에만 특수 설정 적용
@@ -39,55 +39,65 @@ api.interceptors.request.use(
       config.decompress = false;
       config.maxRedirects = 0;
     }
-
     return config;
   },
   (error) => Promise.reject(error),
 );
 
-// 응답 인터셉터 설정 (리프레시 토큰 처리)
 api.interceptors.response.use(
-  //성공
   (response) => response,
-  //에러처리
-  async (error: any) => {
+  async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401) {
-      // 리프레시 토큰을 사용하여 새로운 엑세스 토큰을 발급받습니다.
-      const errorCode = error.response.data.code;
+    const errorCode = error?.response?.data?.code;
 
-      switch (errorCode) {
-        case 'not_authenticated':
-          console.error('⚠️인증되지 않은 사용자');
-          window.location.href = '/sign-in';
-          return Promise.reject(error);
+    // 1. 토큰 만료 케이스 (401 & token_not_valid)
+    if (
+      error.response?.status === 401 &&
+      errorCode === 'token_not_valid' &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
 
-        case 'token_not_valid':
-          if (!originalRequest._retry) {
-            originalRequest._retry = true;
-            const refreshToken = localStorage.getItem('refreshToken');
-            try {
-              const response = await api.post('/user/refresh-token', {
-                refreshToken,
-              });
-              const newAccessToken = response.data.accessToken;
-              localStorage.setItem('accessToken', newAccessToken);
-              api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-              return api(originalRequest);
-            } catch (refreshError: any) {
-              console.error('리프레시 토큰 발급 실패:', refreshError);
-              handleLogout();
-              return Promise.reject(refreshError);
-            }
-          }
-          break;
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const { refreshToken } = useAuthStore.getState();
+          const response = await api.post('/user/refresh-token/', {
+            refresh_token: refreshToken, // 필드명 수정
+          });
 
-        default:
-          console.error('알수 없는 인증 오류', error.response.data);
+          const newData = {
+            access_token: response.data.access_token,
+            refresh_token: response.data.refresh_token || refreshToken, // 새 리프레시 토큰 없을 경우 기존 값 유지
+            token_type: response.data.token_type || 'Bearer',
+            expires_in: response.data.expires_in || 3600,
+            admin: response.data.admin,
+          };
+
+          useAuthStore.getState().setAuthData(newData);
+          originalRequest.headers.Authorization = `Bearer ${newData.access_token}`;
+          isRefreshing = false;
+          return api(originalRequest);
+        } catch (refreshError) {
+          console.error('토큰 갱신 실패:', refreshError);
+          useAuthStore.getState().clearAuth();
           handleLogout();
-          return Promise.reject(error);
+          return Promise.reject(refreshError);
+        }
       }
     }
+
+    // 2. 미인증 사용자 케이스
+    if (errorCode === 'not_authenticated') {
+      useAuthStore.getState().clearAuth();
+      window.location.href = '/sign-in';
+    }
+
+    // 3. 토큰 없는 경우
+    if (!useAuthStore.getState().accessToken) {
+      window.location.href = '/sign-in';
+    }
+
     return Promise.reject(error);
   },
 );

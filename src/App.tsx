@@ -30,6 +30,7 @@ import AdminReportDetail from './pages/admin/AdminReportDetail';
 import AdminAiDetail from './pages/admin/AdminAiDetail';
 import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import AdminReportComment from './pages/admin/AdminReportComment';
+import EditPw from './pages/user/EditPw';
 
 export default function App() {
   const { initializeDarkMode } = useDarkMode();
@@ -76,6 +77,7 @@ export default function App() {
             <Route index element={<SignIn />} />
             <Route path="find-id" element={<FindId />} />
             <Route path="find-pw" element={<FindPw />} />
+            <Route path="edit-pw" element={<EditPw />} />
           </Route>
 
           {/* 회원가입 */}
