@@ -33,8 +33,12 @@ const SignUpHandler = () => {
         })
         .catch((error) => {
           const errors = error.response.data;
+          console.log(errors);
           if (errors.code === 'already_registered_portal') {
             alert(errors.error);
+            window.location.href = '/sign-in';
+          } else if (errors.code === 'inactive_user') {
+            alert('관리자에게 문의해주세요');
             window.location.href = '/sign-in';
           } else {
             alert(errors.error);

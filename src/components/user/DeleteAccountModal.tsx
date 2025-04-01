@@ -21,7 +21,10 @@ export default function DeleteAccountModal({
     }
 
     try {
-      await api.delete('/user/profile/');
+      const requestBody = {
+        status: 'DELETED',
+      };
+      await api.patch('/user/profile/', requestBody);
       clearAuth();
       alert('회원탈퇴가 완료되었습니다');
       window.location.href = '/';

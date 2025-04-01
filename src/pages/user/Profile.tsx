@@ -61,7 +61,7 @@ export default function Profile() {
       try {
         const response = await api.get('/user/profile/');
         const userProfile = response.data;
-        // console.log('응답', response);
+        console.log('응답', response);
         setUserInfo({
           email: userProfile.email || '',
           phone_number: userProfile.phone_number || '',

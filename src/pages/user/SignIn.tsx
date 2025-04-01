@@ -52,7 +52,12 @@ const SignIn = () => {
       }, 1000);
     } catch (error: any) {
       // console.error('로그인 실패', error.response.data);
-      alert(error.response.data.error);
+      if (error.response.status === 403) {
+        alert('관리자에게 문의해주세요');
+      } else {
+        alert(error.response.data.error);
+      }
+      // console.log(error);
     }
   };
 

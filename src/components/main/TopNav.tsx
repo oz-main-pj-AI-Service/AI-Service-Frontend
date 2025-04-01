@@ -10,6 +10,7 @@ export default function TopNav() {
   const [isLogin, setIsLogin] = useState(false);
   const { accessToken } = useAuthStore();
   // console.log(accessToken);
+  console.log(isLogin);
 
   // 임시 로그인
   const { refetch: refetchUserToken } = useUserTokenTemp('user');
