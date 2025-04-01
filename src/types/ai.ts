@@ -16,14 +16,16 @@ export type RecipeFormInput = z.infer<typeof recipeFormSchema>;
 //   difficulty: '쉬움' | '보통' | '어려움';
 // };
 
-export type RecipeStreamResult = {
+export type StreamResult<T = RecipeFormInput, R = { recommendation: Recipe }> = {
   textStream: string;
-  finalRecipe: Recipe | null;
+  finalRecipe: R | null;
   error: Error | null;
   isStreaming: boolean;
-  startStream: (requestData: RecipeFormInput) => void;
+  startStream: (requestData: T) => void;
   reset: () => void;
 };
+
+export type RecipeStreamResult = StreamResult<RecipeFormInput, { recommendation: Recipe }>;
 
 export type DietFormInput = {
   weight: number;
@@ -96,12 +98,16 @@ export type Recipe = {
 };
 
 export type MenuResponse = {
-  request_id: number;
-  success: boolean;
-  recommendation: {
-    recommendation: Menu;
-  };
+  recommendation: Menu;
 };
+
+// export type MenuResponse = {
+//   request_id: number;
+//   success: boolean;
+//   recommendation: {
+//     recommendation: Menu;
+//   };
+// };
 
 export type Menu = {
   food_name: string;
@@ -111,10 +117,17 @@ export type Menu = {
   recommendation_reason: string;
 };
 
+// export type DietResponse = {
+//   request_id: number;
+//   success: boolean;
+//   meal_plan: DietMealPlan;
+// };
+
 export type DietResponse = {
-  request_id: number;
-  success: boolean;
-  meal_plan: DietMealPlan;
+  daily_calorie_target: number;
+  protein_target: number;
+  meals: Diet[];
+  recommendation_reason: string;
 };
 
 export type DietMealPlan = {

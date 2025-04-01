@@ -22,3 +22,10 @@ export type User = {
   last_login?: string;
   email_verified: boolean;
 };
+
+export type UserResponse = {
+  results: User[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+};

@@ -10,6 +10,7 @@ import 구글 from './구글.png';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
 import { useAuthStore } from '@/stores/authStore';
+import logo_black from '@/assets/logo_black.png';
 
 const SignIn = () => {
   const {
@@ -70,7 +71,7 @@ const SignIn = () => {
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
           <h1>
-            <img src="" alt="한상비서로고" />
+            <img src={logo_black} alt="한상비서로고" />
           </h1>
           <h2 className="mb-4 text-lg font-bold">로그인</h2>
           <p>

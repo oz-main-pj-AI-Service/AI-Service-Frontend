@@ -1,8 +1,8 @@
 import { RecipeFormInput } from '@/types/ai';
 import { useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-import { useRecipeStream } from '@/hooks/useAiQuery';
-import { formatText } from '@/lib/utils';
+import { useRecipeQuery } from '@/hooks/useAiQuery';
+import { formatStreamText } from '@/lib/utils';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
 // import { useOnlyFetch } from '@/hooks/onlyfetch';
 // import { useRecipeQuery, useStreaming1 } from '@/hooks/useAiQuery';
@@ -17,7 +17,7 @@ export default function RecipeResult() {
   // const { textStream, streamMutation } = useStreaming2();
 
   // 후보 2 (JSON 제대로) - 액시오스, 뮤테이션, 상태, 어브토컨트롤러, 로딩, 에러 (풀)
-  const { textStream, finalRecipe, startStream } = useRecipeStream();
+  // const { textStream, finalRecipe, startStream } = useRecipeQuery();
 
   // 후보 3 (JSON 깨짐, SSE) - 액시오스, 뮤테이션, 상태
   // const { textStream, streamMutation } = useStreaming1();
@@ -25,6 +25,9 @@ export default function RecipeResult() {
   // 원본 (청크에 객체 들어오다가 Final에서 JSON 깨짐, data: 로 구분하지 않음. 텍스트 다듬지 않고 그대로 들어옴)
   // - 액시오스, 뮤테이션, 상태 (aiApi, 간단)
   // const { recipeStream, mutation } = useRecipeQuery();
+
+  // isStreaming, error 받아와서 로딩 에러 처리 하기
+  const { startStream, finalRecipe, textStream } = useRecipeQuery();
 
   useEffect(() => {
     if (!searchParams.get('q')) return;
@@ -69,14 +72,13 @@ export default function RecipeResult() {
           <section className="mt-4 min-h-[500px] w-full border p-4">
             {/* 실시간 스트리밍 텍스트 */}
             <div className="border-b py-4">
-              <h3>생성 중...</h3>
               {/* <p>{textStream}</p> */}
-              <pre className="whitespace-pre-wrap">{formatText(textStream)}</pre>
+              <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
             </div>
 
             {/* 최종 레시피 */}
-            <div>
-              <h3>완성된 레시피</h3>
+            <div className="pt-4">
+              <h3 className="text-lg font-bold">완성된 레시피</h3>
               <h4>{finalRecipe?.name}</h4>
               <h5>재료:</h5>
               <ul>

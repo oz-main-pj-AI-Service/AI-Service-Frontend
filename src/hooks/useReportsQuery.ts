@@ -9,9 +9,6 @@ export const useReportsQuery = (page: string = '1') => {
     queryKey: ['reports', page],
     queryFn: () =>
       reportApi.getReports({
-        headers: {
-          Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-        },
         page: page,
       }),
     enabled: !!loginApiTemp.getAccessTokenTemp(),
@@ -26,9 +23,6 @@ export const useSingleReportQuery = (id: string) => {
         params: {
           report_id: id,
         },
-        headers: {
-          Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-        },
       }),
     enabled: !!loginApiTemp.getAccessTokenTemp(),
   });
@@ -41,10 +35,6 @@ export const usePostReportQuery = () => {
     mutationFn: (report) =>
       reportApi.postReport({
         report,
-        headers: {
-          Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-          'Content-Type': 'application/json',
-        },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] });
@@ -60,10 +50,6 @@ export const useEditReportQuery = (id: string) => {
       reportApi.editReport({
         params: { report_id: id },
         report,
-        headers: {
-          Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-          'Content-Type': 'application/json',
-        },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] });
@@ -78,9 +64,6 @@ export const useDeleteReportQuery = () => {
     mutationFn: (id) =>
       reportApi.deleteReport({
         params: { report_id: id },
-        headers: {
-          Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
-        },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] });

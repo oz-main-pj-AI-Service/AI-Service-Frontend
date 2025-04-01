@@ -17,7 +17,7 @@ export default function ReportEdit() {
     defaultValues: {
       title: '',
       description: '',
-      type: undefined,
+      type: report?.type,
     },
     // 유효성 검사
     // resolver: zodResolver(reportFormSchema),
@@ -39,7 +39,7 @@ export default function ReportEdit() {
     console.log(data);
     editMutation.mutate(data);
     // 모달
-    navigate('/report/page?p=1');
+    navigate(`/report/${id}`);
   };
 
   return <ReportForm form={form} onSubmit={onSubmit} submitText="수정" />;

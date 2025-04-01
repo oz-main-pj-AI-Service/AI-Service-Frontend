@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Link } from 'react-router';
+import logo_black from '@/assets/logo_black.png';
 import { useEffect, useState } from 'react';
 import api from '@/api/TokenApi';
 import Modal from '@/components/Modal';
@@ -79,7 +81,7 @@ export default function Profile() {
       <div className="flex h-screen items-center justify-center">
         <section className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md">
           <h1>
-            <img src="" alt="한상로고" />
+            <img src={logo_black} alt="한상로고" />
           </h1>
           <h1>회원정보</h1>
           <p>이메일 </p>

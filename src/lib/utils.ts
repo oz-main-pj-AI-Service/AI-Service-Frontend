@@ -15,7 +15,7 @@ export function formatDateYMD(dateString: string) {
   return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
 }
 
-export const formatText = (text: string) => {
+export const formatStreamText = (text: string) => {
   // 1. 문장 끝(마침표, 느낌표, 물음표) 다음에 줄바꿈 추가
   let formatted = text.replace(/([.!?])\s+/g, '$1\n');
 
