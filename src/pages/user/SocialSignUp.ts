@@ -23,7 +23,7 @@ const goNaverSignIn = () => {
 };
 
 const goGoogleSignIn = () => {
-  const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GoogleClientId}&redirect_uri=${GoogleCallbackUrl}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email&prompt=none`;
+  const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GoogleClientId}&redirect_uri=${GoogleCallbackUrl}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email&prompt=consent`;
   window.location.href = googleUrl;
 };
 
