@@ -81,8 +81,7 @@ const SignIn = () => {
           <h1>
             <img src={logo_black} alt="한상비서로고" />
           </h1>
-          <h2 className="mb-4 text-lg font-bold">로그인</h2>
-          <p>
+          <p className="text-xs">
             회원이 아니신가요? &nbsp;
             <Link to="/sign-up" className="text-blue-500">
               회원가입 하기
@@ -112,8 +111,8 @@ const SignIn = () => {
             <Link to="/sign-in/find-id">아이디 찾기</Link>
             <Link to="/sign-in/find-pw">비밀번호 찾기</Link>
           </div>
-          <Button>로그인하기</Button>
-          <hr />
+          <Button className="text-xl text-white dark:bg-[var(--point-orange)]">로그인</Button>
+          <hr className="dark:border-gray-200" />
           <p className="text-center">sns 간편 로그인</p>
           <div className="flex justify-center gap-20">
             <button onClick={goNaverSignIn}>
