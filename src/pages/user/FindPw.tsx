@@ -36,7 +36,7 @@ export default function FindPw() {
     }
   };
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <section className="flex h-screen items-center justify-center dark:text-black">
         <form
           onSubmit={handleSubmit(onSubmit)}

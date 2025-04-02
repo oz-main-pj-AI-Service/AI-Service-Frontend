@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useDeleteReportQuery, useSingleReportQuery } from '@/hooks/useReportsQuery';
+import { formatDateYMD, formatReportTypeToText } from '@/lib/utils';
 import { useNavigate, useParams } from 'react-router';
 
 export default function ReportDetail() {
@@ -13,9 +14,9 @@ export default function ReportDetail() {
   const deleteReportMutation = useDeleteReportQuery();
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
-        <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
+        <section className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-8 sm:px-6">
           <div className="flex justify-between border-b pb-4">
             <h2 className="text-2xl font-bold">{report?.title}</h2>
             {report?.admin_comment ? (
@@ -29,28 +30,28 @@ export default function ReportDetail() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400">
-            <span>id (테스트 용): {id}</span>
-            {/* 여기도 데이터 다듬는거 함수로 분리 해놓으면 그거 가져다가 쓰기 */}
-            <span>문의 날짜: {report?.created_at}</span>
-            <span>문의 유형: {report?.type}</span>
+          <div className="flex justify-between gap-2 text-zinc-500 dark:text-zinc-400">
+            <span>유형: {formatReportTypeToText(report?.type ?? 'OTHER')}</span>
+            <span>날짜: {formatDateYMD(report?.created_at ?? '')}</span>
           </div>
 
           <div>
             <h3 className="border-b pb-2 text-lg font-bold">문의</h3>
             <p className="pt-2">
-              <span className="whitespace-pre-wrap">{report?.description}</span>
+              <span className="font-extralight whitespace-pre-wrap text-zinc-600 dark:text-zinc-200">
+                {report?.description}
+              </span>
             </p>
           </div>
 
           <div>
             <h3 className="border-b pb-2 text-lg font-bold">답변</h3>
             {report?.admin_comment ? (
-              <p className="pt-2">
+              <p className="pt-2 font-extralight whitespace-pre-wrap text-zinc-600 dark:text-zinc-200">
                 <span>{report?.admin_comment}</span>
               </p>
             ) : (
-              <p className="pt-2">
+              <p className="pt-2 font-extralight whitespace-pre-wrap text-zinc-600 dark:text-zinc-200">
                 <span>답변 대기 중</span>
               </p>
             )}

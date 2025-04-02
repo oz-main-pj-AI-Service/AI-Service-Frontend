@@ -9,7 +9,7 @@ export default function AdminUsers() {
   console.log(users);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 max-md:pb-20 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">회원 관리</h2>
@@ -19,9 +19,9 @@ export default function AdminUsers() {
             {/* 리스트 말고 다른거로? */}
             <ul className="flex justify-between gap-2 border-b pb-2">
               <li className="w-1/12 min-w-60 grow text-center">이메일</li>
-              <li className="w-1/12 min-w-36 grow text-center">전화번호</li>
+              <li className="w-1/12 min-w-36 grow text-center max-md:hidden">전화번호</li>
               <li className="w-1/12 min-w-20 grow text-center">이름</li>
-              <li className="w-1/12 min-w-16 text-center">활성화</li>
+              <li className="w-1/12 min-w-16 text-center max-md:hidden">활성화</li>
             </ul>
 
             {/* 유저 목록 */}
@@ -29,10 +29,18 @@ export default function AdminUsers() {
               {users?.results.map((user) => (
                 <li key={user.id} className="border-b hover:cursor-pointer hover:text-[#FFA500]">
                   <Link to={`/admin/users/${user.id}`} className="flex justify-between gap-2 py-2">
-                    <div className="w-1/12 min-w-60 grow text-center">{user.email}</div>
-                    <div className="w-1/12 min-w-36 grow text-center">{user.phone_number}</div>
-                    <div className="w-1/12 min-w-20 grow text-center">{user.nickname}</div>
-                    <div className="w-1/12 min-w-16 text-center">O</div>
+                    <div className="w-1/12 min-w-60 grow text-center max-md:text-sm">
+                      {user.email}
+                    </div>
+                    <div className="w-1/12 min-w-36 grow text-center max-md:hidden">
+                      {user.phone_number}
+                    </div>
+                    <div className="w-1/12 min-w-20 grow text-center max-md:text-sm">
+                      {user.nickname}
+                    </div>
+                    <div className="w-1/12 min-w-16 text-center max-md:hidden">
+                      {user.is_active ? 'O' : 'X'}
+                    </div>
                   </Link>
                 </li>
               ))}

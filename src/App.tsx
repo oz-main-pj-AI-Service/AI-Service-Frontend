@@ -32,6 +32,7 @@ import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import AdminReportComment from './pages/admin/AdminReportComment';
 import EditPw from './pages/user/EditPw';
 import AuthRoute from './pages/user/AuthRoute';
+import MobileMyPage from './pages/main/MobileMyPage';
 
 export default function App() {
   const { initializeDarkMode } = useDarkMode();
@@ -65,6 +66,9 @@ export default function App() {
             <Route path="post" element={<ReportPost />} />
             <Route path="edit/:id" element={<ReportEdit />} />
           </Route>
+
+          {/* 모바일 마이페이지 */}
+          <Route path="m-my-page" element={<MobileMyPage />} />
 
           {/* 소셜로그인 */}
           <Route path="naver/callback" element={<SignUpHandler />} />
