@@ -1,48 +1,49 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-
-interface TokenData {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresIn: number;
-}
-
-const handleResponseData = (data: any) => {
-  const tokenData: TokenData = {
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token,
-    tokenType: data.token_type,
-    expiresIn: data.expires_in,
-  };
-
-  localStorage.setItem('accessToken', tokenData.accessToken);
-  localStorage.setItem('refreshToken', tokenData.refreshToken);
-  localStorage.setItem('tokenType', tokenData.tokenType);
-  localStorage.setItem('expiresIn', String(tokenData.expiresIn));
-};
+import { API_URL } from '@/constants/url';
+import { useAuthStore } from '@/stores/authStore';
 
 const SignUpHandler = () => {
   // console.log(code);
+
+  const { setAuthData } = useAuthStore();
 
   const naverSignUp = (code: string) => {
     if (code) {
       // 백엔드로 코드 전송
       axios
-        .post('https://api.hansang.ai.kr/api/user/social-login/naver/callback/', {
+        .post(`${API_URL}/user/social-login/naver/callback/`, {
           code,
           // state,
         })
         .then((response) => {
           const data = response.data;
-          handleResponseData(data);
+          setAuthData(data);
+          // console.log(data);
+
           // 성공 시 메인 페이지로 이동
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          if (!data.is_new_user) {
+            alert('로그인이 완료되었습니다');
+          } else {
+            alert('회원가입이 완료되었습니다.');
+          }
         })
         .catch((error) => {
-          console.error('네이버 로그인 실패', error);
+          const errors = error.response.data;
+          console.log(errors);
+          if (errors.code === 'already_registered_portal') {
+            alert(errors.error);
+            window.location.href = '/sign-in';
+          } else if (errors.code === 'inactive_user') {
+            alert('관리자에게 문의해주세요');
+            window.location.href = '/sign-in';
+          } else {
+            alert(errors.error);
+            console.error('네이버 로그인 실패', error);
+          }
         });
     }
   };
@@ -51,19 +52,32 @@ const SignUpHandler = () => {
     if (code) {
       // 백엔드로 코드 전송
       axios
-        .post('https://api.hansang.ai.kr/api/user/social-login/google/callback/', {
+        .post(`${API_URL}/user/social-login/google/callback/`, {
           code,
         })
         .then((response) => {
           const data = response.data;
-          handleResponseData(data);
+          setAuthData(data);
+          // handleResponseData(data);
           // 성공 시 메인 페이지로 이동
           setTimeout(() => {
             window.location.href = '/';
           }, 300);
+          if (!data.is_new_user) {
+            alert('로그인이 완료되었습니다');
+          } else {
+            alert('회원가입이 완료되었습니다.');
+          }
         })
         .catch((error) => {
-          console.error('구글 로그인 실패', error);
+          const errors = error.response.data;
+          if (errors.code === 'already_registered_portal') {
+            alert(errors.error);
+            window.location.href = '/sign-in';
+          } else {
+            alert(errors.error);
+            console.error('구글 로그인 실패', error);
+          }
         });
     }
   };
@@ -71,6 +85,7 @@ const SignUpHandler = () => {
   useEffect(() => {
     const urlParams = new URL(window.location.href);
     const code = urlParams.searchParams.get('code') as string;
+
     if (urlParams.href.includes('naver')) {
       naverSignUp(code);
     } else if (urlParams.href.includes('google')) {
@@ -82,4 +97,3 @@ const SignUpHandler = () => {
 };
 
 export default SignUpHandler;
-export { handleResponseData };

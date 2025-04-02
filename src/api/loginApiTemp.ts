@@ -1,20 +1,41 @@
 import { API_URL } from '@/constants/url';
 import { UserToken } from '@/types/user';
-import axios from 'axios';
+import axios, { RawAxiosRequestHeaders } from 'axios';
 // import { useEffect, useState } from 'react';
 
 export const loginApiTemp = {
-  logIn: async () => {
-    const response = await axios.post<UserToken>(`${API_URL}/user/login/`, {
-      email: 'test@test.com',
-      password: '!!test1234',
-    });
+  logIn: async (type: 'admin' | 'user') => {
+    const inputBody =
+      type === 'admin'
+        ? { email: 'admin@admin.com', password: '1234' }
+        : { email: 'test@test.com', password: '!!test1234' };
+    const response = await axios.post<UserToken>(`${API_URL}/user/login/`, inputBody);
     const userToken = response.data;
+    console.log(userToken);
     return userToken;
   },
 
+  logOut: async () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    const header: RawAxiosRequestHeaders = {
+      Authorization: `Bearer ${loginApiTemp.getAccessTokenTemp()}`,
+    };
+    try {
+      const response = await axios.post<{ message: string }>(`${API_URL}/user/logout/`, null, {
+        headers: header,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('로그아웃 실패', error);
+      throw error;
+    } finally {
+      window.location.href = '/';
+    }
+  },
+
   getAccessTokenTemp: () => {
-    return localStorage.getItem('access_temp');
+    return localStorage.getItem('accessToken');
   },
 };
 

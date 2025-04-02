@@ -1,55 +1,103 @@
+import { API_URL } from '@/constants/url';
+import { handleLogout } from '@/pages/user/handleLogout';
+import { useAuthStore } from '@/stores/authStore';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://hansang.ai.kr/api/', // 기본 URL 설정
+  baseURL: API_URL,
 });
 
-// 인터셉터 설정
-api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem('accessToken');
-  if (accessToken) {
-    const tokens = JSON.parse(accessToken);
-    config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-  }
-  return config;
-});
+// 리프레시 토큰 요청 중복 방지 플래그
+let isRefreshing = false;
 
-// 응답 인터셉터 설정 (리프레시 토큰 처리)
+api.interceptors.request.use(
+  (config) => {
+    // const accessToken = localStorage.getItem('accessToken');
+
+    const { accessToken } = useAuthStore.getState();
+
+    if (config.url !== '/user/refresh-token/' && accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    config.headers['Content-Type'] = 'application/json';
+
+    // 특정 AI 추천 엔드포인트에만 특수 설정 적용
+    const recommendationEndpoints = [
+      '/ai/food-recommendation/',
+      '/ai/health-recommendation/',
+      '/ai/recipe-recommendation/',
+    ];
+
+    const shouldApplySpecialConfig =
+      recommendationEndpoints.some((endpoint) => config.url?.includes(endpoint)) &&
+      !config.url?.includes('/ai/food-result/');
+
+    if (shouldApplySpecialConfig) {
+      config.transformResponse = (data) => data;
+      config.decompress = false;
+      config.maxRedirects = 0;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 api.interceptors.response.use(
   (response) => response,
-  async (error: any) => {
-    if (error.response.status === 401) {
-      // 리프레시 토큰을 사용하여 새로운 엑세스 토큰을 발급받습니다.
-      const refreshToken = localStorage.getItem('refreshToken');
-      try {
-        const response = await axios.post('/refresh-token', {
-          refreshToken,
-        });
-        const newAccessToken = response.data.accessToken;
-        localStorage.setItem('accessToken', newAccessToken);
-        // 새로운 엑세스 토큰으로 요청을 다시 시도합니다.
-        error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(error.config);
-      } catch (error: any) {
-        if (error.response.status === 401 || error.response.status === 403) {
-          // 리프레시 토큰이 만료된 경우, 로그인 페이지로 리디렉션
+  async (error) => {
+    const originalRequest = error.config;
+    const errorCode = error?.response?.data?.code;
+
+    // 1. 토큰 만료 케이스 (401 & token_not_valid)
+    if (
+      error.response?.status === 401 &&
+      errorCode === 'token_not_valid' &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const { refreshToken } = useAuthStore.getState();
+          const response = await api.post('/user/refresh-token/', {
+            refresh_token: refreshToken, // 필드명 수정
+          });
+
+          const newData = {
+            access_token: response.data.access_token,
+            refresh_token: response.data.refresh_token || refreshToken, // 새 리프레시 토큰 없을 경우 기존 값 유지
+            token_type: response.data.token_type || 'Bearer',
+            expires_in: response.data.expires_in || 3600,
+            admin: response.data.admin,
+          };
+
+          useAuthStore.getState().setAuthData(newData);
+          originalRequest.headers.Authorization = `Bearer ${newData.access_token}`;
+          isRefreshing = false;
+          return api(originalRequest);
+        } catch (refreshError) {
+          console.error('토큰 갱신 실패:', refreshError);
+          useAuthStore.getState().clearAuth();
           handleLogout();
-        } else {
-          console.error('리프레시 토큰 발급 실패:', error);
+          return Promise.reject(refreshError);
         }
       }
     }
+
+    // 2. 미인증 사용자 케이스
+    if (errorCode === 'not_authenticated') {
+      useAuthStore.getState().clearAuth();
+      window.location.href = '/sign-in';
+    }
+
+    // 3. 토큰 없는 경우
+    if (!useAuthStore.getState().accessToken) {
+      window.location.href = '/sign-in';
+    }
+
     return Promise.reject(error);
   },
 );
 
-const handleLogout = () => {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  localStorage.removeItem('tokenType');
-  localStorage.removeItem('expiresIn');
-  window.location.href = '/login';
-};
-
 export default api;
-export { handleLogout };

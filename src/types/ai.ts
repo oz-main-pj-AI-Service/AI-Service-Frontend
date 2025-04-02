@@ -16,6 +16,17 @@ export type RecipeFormInput = z.infer<typeof recipeFormSchema>;
 //   difficulty: '쉬움' | '보통' | '어려움';
 // };
 
+export type StreamResult<T = RecipeFormInput, R = { recommendation: Recipe }> = {
+  textStream: string;
+  finalRecipe: R | null;
+  error: Error | null;
+  isStreaming: boolean;
+  startStream: (requestData: T) => void;
+  reset: () => void;
+};
+
+export type RecipeStreamResult = StreamResult<RecipeFormInput, { recommendation: Recipe }>;
+
 export type DietFormInput = {
   weight: number;
   goal: Option['label'][];
@@ -28,7 +39,15 @@ export type MenuFormInput = {
   cuisine_type: Option['label'][];
   food_base: Option['label'][];
   taste: Option['label'][];
-  dietary_type: Option['label'][];
+  dietary_type: Option['label'];
+  last_meal: string;
+};
+
+export type MenuFormRequest = {
+  cuisine_type: string;
+  food_base: string;
+  taste: string;
+  dietary_type: string;
   last_meal: string;
 };
 
@@ -53,52 +72,69 @@ export type CookingStep = {
 export type RecipeResponse = {
   recipe_id: number;
   success: boolean;
-  recipe: {
-    name: string;
-    description: string;
-    cuisine_type: string;
-    meal_type: string;
-    preparation_time: number;
-    cooking_time: number;
-    serving_size: number;
-    difficulty: string;
-    ingredients: Ingredient[];
-    instructions: CookingStep[];
-    nutritional_info: NutritionInfo;
-  };
+  recipe: Recipe;
 };
 
+// 이거 없어도 되는거 맞나 확인하기
+// export type Recipe = {
+//   recipe_name: string;
+//   recipe_url: string;
+//   recipe_image_url: string;
+//   recipe_description: string;
+// };
+
 export type Recipe = {
-  recipe_name: string;
-  recipe_url: string;
-  recipe_image_url: string;
-  recipe_description: string;
+  name: string;
+  description: string;
+  cuisine_type: string;
+  meal_type: string;
+  preparation_time: number;
+  cooking_time: number;
+  serving_size: number;
+  difficulty: string;
+  ingredients: Ingredient[];
+  instructions: CookingStep[];
+  nutrition_info: NutritionInfo;
 };
 
 export type MenuResponse = {
-  request_id: number;
-  success: boolean;
-  recommendations: {
-    recommendations: Menu[];
-  };
+  recommendation: Menu;
 };
+
+// export type MenuResponse = {
+//   request_id: number;
+//   success: boolean;
+//   recommendation: {
+//     recommendation: Menu;
+//   };
+// };
 
 export type Menu = {
   food_name: string;
   food_type: string;
   description: string;
   nutritional_info: NutritionInfo;
-  reccomendation_reason: string;
+  recommendation_reason: string;
 };
 
+// export type DietResponse = {
+//   request_id: number;
+//   success: boolean;
+//   meal_plan: DietMealPlan;
+// };
+
 export type DietResponse = {
-  request_id: number;
-  success: boolean;
-  meal_plan: {
-    daily_calorie_target: number;
-    protein_target: number;
-    meals: Diet[];
-  };
+  daily_calorie_target: number;
+  protein_target: number;
+  meals: Diet[];
+  recommendation_reason: string;
+};
+
+export type DietMealPlan = {
+  daily_calorie_target: number;
+  protein_target: number;
+  meals: Diet[];
+  recommendation_reason: string;
 };
 
 export type Diet = {
@@ -111,3 +147,36 @@ export type Diet = {
 
 // 검색 타입
 export type SearchType = 'all' | 'recipe' | 'menu' | 'diet';
+
+export type HistoryResponse = {
+  results: History[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+};
+
+export type History = {
+  id: string;
+  user: string;
+  created_at: string;
+} & (
+  | {
+      request_type: 'RECIPE';
+      request_data: Omit<RecipeFormInput, 'ingredients'> & {
+        ingredients: string[];
+      };
+      response_data: Recipe;
+    }
+  | {
+      request_type: 'HEALTH';
+      request_data: DietFormInput;
+      response_data: DietMealPlan;
+    }
+  | {
+      request_type: 'FOOD';
+      request_data: MenuFormRequest;
+      response_data: {
+        recommendation: Menu;
+      };
+    }
+);

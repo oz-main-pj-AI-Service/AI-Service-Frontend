@@ -1,18 +1,17 @@
-import { FormControl, FormField, FormLabel } from '../ui/form';
-import { FormItem } from '../ui/form';
-import { Checkbox } from '../ui/checkbox';
-import { UseFormReturn } from 'react-hook-form';
+import { FormControl, FormField, FormLabel, FormItem } from '@/components/ui/form';
+import { Checkbox } from '@/components/ui/checkbox';
+import { UseFormReturn, FieldPath } from 'react-hook-form';
 import { Option } from '@/types/ai';
 
-export default function CheckboxGroup({
+export default function CheckboxGroup<TFormValues extends Record<string, any>>({
   form,
   options,
   optionName,
   label,
 }: {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<TFormValues>;
   options: readonly Option[];
-  optionName: string;
+  optionName: FieldPath<TFormValues>;
   label: string;
 }) {
   return (
@@ -25,7 +24,7 @@ export default function CheckboxGroup({
             <FormLabel className="text-base">{label}</FormLabel>
             {/* <FormDescription>설명</FormDescription> */}
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-2 rounded-lg border px-2 py-1">
             {options.map((type) => (
               <FormField
                 key={type.id}
@@ -34,20 +33,23 @@ export default function CheckboxGroup({
                 render={({ field }) => {
                   // console.log(field);
                   return (
-                    <FormItem className="flex flex-row items-start space-y-0 space-x-3">
-                      <FormLabel className="text-sm">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(type.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, type.id])
-                                : field.onChange(
-                                    field.value?.filter((value: string) => value !== type.id),
-                                  );
-                            }}
-                          />
-                        </FormControl>
+                    <FormItem className="flex grow items-center">
+                      <FormControl className="hidden">
+                        <Checkbox
+                          checked={field.value?.includes(type.id)}
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? field.onChange([...field.value, type.id])
+                              : field.onChange(
+                                  field.value?.filter((value: string) => value !== type.id),
+                                );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        data-state={field.value?.includes(type.id) ? 'checked' : 'unchecked'}
+                        className="flex w-full items-center justify-center rounded-md py-2.5 font-normal hover:cursor-pointer data-[state=checked]:bg-[var(--point-orange)] dark:data-[state=checked]:text-black"
+                      >
                         {type.label}
                       </FormLabel>
                     </FormItem>
