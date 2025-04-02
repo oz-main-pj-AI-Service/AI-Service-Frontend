@@ -70,7 +70,11 @@ const SignUp = () => {
       const response = await axios.post(`${API_URL}/user/register/`, data);
       if (response.status === 201) {
         console.log('회원가입 성공');
-        openModal(<p>이메일 인증을 완료해주세요 : {data.email}</p>);
+        openModal(
+          <p className="text-center">
+            이메일 인증을 완료해주세요 <br /> {data.email}
+          </p>,
+        );
         reset();
         // 회원가입 성공 후 추가 작업 수행
       }

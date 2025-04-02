@@ -4,7 +4,6 @@ import { useAuthStore } from '@/stores/authStore';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import useDarkMode from '@/stores/darkmode';
-import { Button } from '../ui/button';
 
 export default function TopNav() {
   const { accessToken } = useAuthStore();
@@ -24,7 +23,7 @@ export default function TopNav() {
       {accessToken ? (
         <>
           <Link to="/profile">회원정보</Link>
-          <Button onClick={handleLogout}>로그아웃</Button>
+          <button onClick={handleLogout}>로그아웃</button>
         </>
       ) : (
         <>

@@ -2,14 +2,9 @@ import api from '@/api/TokenApi';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { useAuthStore } from '@/stores/authStore';
+import { Input } from '../ui/input';
 
-export default function DeleteAccountModal({
-  profileImage,
-  nickname,
-}: {
-  profileImage: string;
-  nickname: string;
-}) {
+export default function DeleteAccountModal({ nickname }: { nickname: string }) {
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { clearAuth } = useAuthStore();
@@ -33,15 +28,14 @@ export default function DeleteAccountModal({
     }
   };
   return (
-    <div className="dark:text-black">
-      <h1>회원 탈퇴</h1>
-      <img src={profileImage} alt="" />
-      <p>{nickname}</p>
-      <p>회원탈퇴를 계속하시려면 '회원탈퇴'를 입력해주세요. </p>
-      <input
+    <div className="flex flex-col items-center justify-center gap-3 dark:text-black">
+      <br />
+      <p className="font-bold">{nickname} 님 </p>
+      <p className="text-gray-600">회원탈퇴를 계속하시려면 '회원탈퇴'를 입력해주세요. </p>
+      <Input
         type="text"
         placeholder="회원탈퇴"
-        className="border"
+        className="w-1/2"
         onChange={(e) => {
           setInputValue(e.target.value);
           setErrorMessage('');
