@@ -12,6 +12,7 @@ import 구글 from './구글.png';
 import Modal from '@/components/Modal';
 import logo_black from '@/assets/logo_black.png';
 import { Link } from 'react-router';
+import { Input } from '@/components/ui/input';
 
 const SignUp = () => {
   const { openModal } = useModal();
@@ -102,65 +103,66 @@ const SignUp = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
-          <h1>
+          <h1 className="flex items-center justify-center">
             <img src={logo_black} alt="한상비서로고" />
           </h1>
-          <p className="text-xs">
+          <p className="text-center text-xs">
             이미 회원이신가요? &nbsp;
             <Link to="/sign-in" className="text-blue-500">
               로그인 하기
             </Link>
           </p>
-          <input
+          <Input
             placeholder="닉네임"
             type="text"
             {...register('nickname')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            className="focus:shadow-outline placeholder:text-s w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
           {errors.nickname && <p className="text-xs text-red-500">{errors.nickname.message}</p>}
           <div className="flex">
-            <input
+            <Input
               placeholder="이메일"
               type="email"
               {...register('email')}
-              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+              className="focus:shadow-outline placeholder:text-s w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             />
             <Button onClick={handleEmailCheck} type="button">
-              중복 검사
+              중복검사
             </Button>
           </div>
           {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-          <input
+          <Input
             placeholder="비밀번호"
             type="password"
             {...register('password1')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            className="focus:shadow-outline placeholder:text-s w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
           {errors.password1 && <p className="text-xs text-red-500">{errors.password1.message}</p>}
 
-          <input
+          <Input
             placeholder="비밀번호 확인"
             type="password"
             {...register('password2')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            className="focus:shadow-outline placeholder:text-s w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
           {errors.password2 && <p className="text-xs text-red-500">{errors.password2.message}</p>}
 
-          <input
+          <Input
             placeholder="전화번호"
             type="tel"
             {...register('phone_number')}
-            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            className="focus:shadow-outline placeholder:text-s w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
           {errors.phone_number && (
             <p className="text-xs text-red-500">{errors.phone_number.message}</p>
           )}
 
-          <Button className="text-xl text-white dark:bg-[var(--point-orange)]" type="submit">
+          <Button className="text-white dark:bg-[var(--point-orange)]" type="submit">
             회원가입
           </Button>
+
           <hr className="dark:border-gray-200" />
-          <p className="text-center">sns 간편로그인</p>
+          <p className="text-center text-xs">sns 간편로그인</p>
           <div className="flex justify-center gap-20">
             <h1 onClick={goNaverSignUp}>
               <img src={네이버} alt="네이버로그인" className="h-15 w-15" />
