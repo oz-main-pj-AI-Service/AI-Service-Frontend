@@ -12,9 +12,10 @@ export default function RecipeResultComponent({
 }) {
   return (
     <>
-      {/* 제목, 태그 */}
-      {/* 제목 */}
+      <h3 className="py-4 text-xl font-bold">최종 결과</h3>
+
       <div className="flex flex-col items-center">
+        {/* 제목 */}
         <div className="flex w-full justify-between pt-8">
           <h3 className="text-lg font-bold text-[var(--point-orange)]">{recipe.name}</h3>
           {requestType && (
@@ -23,6 +24,7 @@ export default function RecipeResultComponent({
             </span>
           )}
         </div>
+        {/* 태그 */}
         <div className="flex w-full items-center justify-between border-b py-8">
           <div className="flex gap-2">
             <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">

@@ -1,4 +1,4 @@
-import { formatDateYMD } from '@/lib/utils';
+import { formatDateYMD, formatTypeToText } from '@/lib/utils';
 import { History } from '@/types/ai';
 import { Link } from 'react-router';
 
@@ -6,7 +6,7 @@ export default function HistoryContentCard({ content }: { content: History }) {
   // console.log(content);
 
   return (
-    <li className="w-full border-b hover:cursor-pointer hover:text-[#FFA500] hover:opacity-70">
+    <li className="w-full border-b hover:cursor-pointer hover:text-[var(--point-orange)] hover:opacity-70">
       <Link
         to={`/history/detail/${encodeURIComponent(JSON.stringify(content))}`}
         className="flex flex-col gap-4 pt-3 pb-4"
@@ -17,7 +17,7 @@ export default function HistoryContentCard({ content }: { content: History }) {
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold">{content.response_data.name}</h3>
               <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                {content.request_type}
+                {formatTypeToText(content.request_type)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -50,7 +50,7 @@ export default function HistoryContentCard({ content }: { content: History }) {
                 {content.response_data.recommendation.food_name}
               </h3>
               <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                {content.request_type}
+                {formatTypeToText(content.request_type)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -73,7 +73,7 @@ export default function HistoryContentCard({ content }: { content: History }) {
                 {content.response_data.meals.map((meal) => meal.food_name).join('\n')}
               </h3>
               <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                {content.request_type}
+                {formatTypeToText(content.request_type)}
               </span>
             </div>
             <div className="flex items-center justify-between">

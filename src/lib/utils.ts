@@ -27,3 +27,18 @@ export const formatStreamText = (text: string) => {
 
   return formatted;
 };
+
+export const formatTypeToText = (requestType: 'ALL' | 'RECIPE' | 'FOOD' | 'HEALTH'): string => {
+  switch (requestType) {
+    case 'ALL':
+      return '전체';
+    case 'RECIPE':
+      return '레시피';
+    case 'FOOD':
+      return '메뉴';
+    case 'HEALTH':
+      return '식단';
+    default:
+      return '기타';
+  }
+};

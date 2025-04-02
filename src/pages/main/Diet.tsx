@@ -10,13 +10,14 @@ import { formatStreamText } from '@/lib/utils';
 import RadioboxGroup from '@/components/main/RadioboxGroup';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import DietResultComponent from '@/components/main/DietResultComponent';
 // import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function Diet() {
   // const dietMutation = useDietQuery();
 
   // isStreaming, error 받아와서 로딩 에러 처리 하기
-  const { startStream, finalRecipe, textStream } = useDietQuery();
+  const { startStream, finalRecipe, textStream, isStreaming } = useDietQuery();
 
   const form = useForm<DietFormInput>({
     defaultValues: {
@@ -52,11 +53,11 @@ export default function Diet() {
 
   console.log(finalRecipe);
 
-  const resultsSectionRef = useRef<HTMLElement>(null);
+  const streamDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if ((textStream || finalRecipe) && resultsSectionRef.current) {
-      resultsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if ((textStream || finalRecipe) && streamDivRef.current) {
+      streamDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [textStream, finalRecipe]);
 
@@ -64,35 +65,32 @@ export default function Diet() {
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-8 sm:px-6">
-          <h2 className="text-center text-2xl font-bold">조건 넣고 식단 추천받기</h2>
+          <h2 className="text-center text-2xl font-bold">
+            선택한 조건에 따른 식단을 추천 받아보세요
+          </h2>
 
           {/* 식단 추천 결과 */}
-          <section className="mx-4 min-h-32 grow rounded-lg border p-4" ref={resultsSectionRef}>
-            <h3 className="text-lg font-bold">결과:</h3>
-            <div className="border-b pb-4">
-              <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
-            </div>
-            {finalRecipe && (
-              <>
-                <div className="border-b pb-2">
-                  <p>추천 이유: {finalRecipe.recommendation_reason}</p>
-                  <p>하루 칼로리 목표: {finalRecipe.daily_calorie_target} kcal</p>
-                  <p>하루 단백질 목표: {finalRecipe.protein_target} g</p>
-                </div>
-                {finalRecipe.meals.map((item) => (
-                  <div key={item.food_name} className="border-b pb-2">
-                    <div className="text-lg font-bold">{item.food_name}</div>
-                    <div>{item.food_type}</div>
-                    <div>{item.description}</div>
-                    <div>칼로리: {item.nutritional_info.calories} kcal</div>
-                    <div>탄수화물: {item.nutritional_info.carbs} g</div>
-                    <div>지방: {item.nutritional_info.fat} g</div>
-                    <div>단백질: {item.nutritional_info.protein} g</div>
-                  </div>
-                ))}
-              </>
-            )}
-          </section>
+          <div className="mx-4 flex grow flex-col gap-6 rounded-lg border p-4">
+            {/* <h3 className="text-lg font-bold">결과:</h3> */}
+
+            {/* 실시간 스트리밍 텍스트 */}
+            <section className="flex flex-col rounded-lg border p-4">
+              {!textStream && <p className="text-center text-sm text-zinc-500">AI 응답...</p>}
+              <div className="py-2">
+                <pre className="whitespace-pre-wrap text-zinc-600 dark:text-zinc-200">
+                  {formatStreamText(textStream)}
+                </pre>
+              </div>
+            </section>
+
+            {/* 최종 식단 */}
+            <section className="flex flex-col rounded-lg border p-4" ref={streamDivRef}>
+              {(!textStream || isStreaming) && (
+                <p className="text-center text-sm text-zinc-500">식단 추천 결과</p>
+              )}
+              {finalRecipe && <DietResultComponent diet={finalRecipe} />}
+            </section>
+          </div>
 
           <section className="mx-4 grow">
             <Form {...form}>

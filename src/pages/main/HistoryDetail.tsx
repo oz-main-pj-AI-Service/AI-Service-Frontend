@@ -1,7 +1,8 @@
-import RecipeResult from '@/components/main/RecipeResultComponent';
-import { formatDateYMD } from '@/lib/utils';
-import { History } from '@/types/ai';
 import { useParams } from 'react-router';
+import { History } from '@/types/ai';
+import DietResultComponent from '@/components/main/DietResultComponent';
+import MenuResultComponent from '@/components/main/MenuResultComponent';
+import RecipeResultComponent from '@/components/main/RecipeResultComponent';
 
 export default function HistoryDetail() {
   const { id } = useParams() as { id: string };
@@ -18,7 +19,7 @@ export default function HistoryDetail() {
           {/* 레시피 */}
           {content.request_type === 'RECIPE' && (
             <>
-              <RecipeResult
+              <RecipeResultComponent
                 recipe={content.response_data}
                 requestType={content.request_type}
                 createdAt={content.created_at}
@@ -43,49 +44,14 @@ export default function HistoryDetail() {
           {/* 메뉴 */}
           {content.request_type === 'FOOD' && (
             <>
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold">
-                  {content.response_data.recommendation.food_name}
-                </h3>
-                <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                  {content.request_type}
-                </span>
-              </div>
-              <div className="flex items-center justify-between border-b pb-8">
-                <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                  {content.response_data.recommendation.food_type}
-                </span>
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                  {formatDateYMD(content.created_at)}
-                </span>
-              </div>
-
-              <div>
-                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">상세 정보</h4>
-                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
-                  {content.response_data.recommendation.description}
-                </p>
-              </div>
-              <div>
-                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">추천 이유</h4>
-                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
-                  {content.response_data.recommendation.recommendation_reason}
-                </p>
-              </div>
-              <div className="border-b pb-8">
-                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">영양 정보</h4>
-                <ol className="font-extralight text-zinc-600 dark:text-zinc-200">
-                  <li>
-                    칼로리: {content.response_data.recommendation.nutritional_info.calories} kcal
-                  </li>
-                  <li>탄수화물: {content.response_data.recommendation.nutritional_info.carbs} g</li>
-                  <li>지방: {content.response_data.recommendation.nutritional_info.fat} g</li>
-                  <li>단백질: {content.response_data.recommendation.nutritional_info.protein} g</li>
-                </ol>
-              </div>
+              <MenuResultComponent
+                menu={content.response_data.recommendation}
+                requestType={content.request_type}
+                createdAt={content.created_at}
+              />
 
               {/* 요청 내용 (한글로 바꿔주기) */}
-              <div>
+              <div className="border-t pt-8">
                 <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
                 <p className="font-extralight text-zinc-600 dark:text-zinc-200">
                   나라별 음식: {content.request_data.cuisine_type}
@@ -109,67 +75,11 @@ export default function HistoryDetail() {
           {/* 식단 */}
           {content.request_type === 'HEALTH' && (
             <>
-              <div className="flex items-start justify-between">
-                <h3 className="text-lg font-bold whitespace-pre-line">
-                  {content.response_data.meals.map((meal) => meal.food_name).join('\n')}
-                </h3>
-                <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                  {content.request_type}
-                </span>
-              </div>
-              <div className="flex items-center justify-between border-b pb-8">
-                <div className="flex gap-2">
-                  {content.response_data.meals.map((meal) => (
-                    <span
-                      key={meal.food_name}
-                      className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
-                    >
-                      {meal.food_type}
-                    </span>
-                  ))}
-                </div>
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                  {formatDateYMD(content.created_at)}
-                </span>
-              </div>
-
-              <div className="border-b pb-8">
-                <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">추천 이유</h4>
-                <p className="font-extralight text-zinc-600 dark:text-zinc-200">
-                  {content.response_data.recommendation_reason}
-                </p>
-              </div>
-              <ul className="flex flex-col gap-8">
-                {content.response_data.meals.map((meal, index) => (
-                  <li key={meal.food_name} className="flex flex-col gap-4">
-                    <h4 className="font-bold text-zinc-600 dark:text-zinc-200">
-                      {index + 1}. {meal.food_name}
-                    </h4>
-                    <div className="flex gap-2">
-                      <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                        {meal.food_type}
-                      </span>
-                      <span className="rounded-full bg-zinc-100 px-2 py-1 text-sm text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                        {meal.type}
-                      </span>
-                    </div>
-                    <p className="font-extralight text-zinc-600 dark:text-zinc-200">
-                      {meal.description}
-                    </p>
-                    <div className="border-b pb-8">
-                      <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">
-                        - 영양 정보
-                      </h4>
-                      <ol className="font-extralight text-zinc-600 dark:text-zinc-200">
-                        <li>칼로리: {meal.nutritional_info.calories} kcal</li>
-                        <li>탄수화물: {meal.nutritional_info.carbs} g</li>
-                        <li>지방: {meal.nutritional_info.fat} g</li>
-                        <li>단백질: {meal.nutritional_info.protein} g</li>
-                      </ol>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <DietResultComponent
+                diet={content.response_data}
+                requestType={content.request_type}
+                createdAt={content.created_at}
+              />
 
               {/* 요청 내용 */}
               <div>
