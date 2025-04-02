@@ -1,10 +1,12 @@
 import { Link, NavLink } from 'react-router';
 import useDarkMode from '@/stores/darkmode';
+import { useAuthStore } from '@/stores/authStore';
 import logo from '@/assets/logo.png';
 import logo_black from '@/assets/logo_black.png';
 
 export default function MainNav() {
   const { isDarkMode } = useDarkMode();
+  const { admin } = useAuthStore();
 
   return (
     <nav className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[var(--bg-light-point)] py-6 dark:bg-[var(--bg-dark-point)]">
@@ -21,7 +23,9 @@ export default function MainNav() {
           </Link>
         </h1>
       )}
-      <div className="flex flex-col gap-2">
+
+      {/* 메뉴 목록 */}
+      <div className="flex grow flex-col gap-2 py-28">
         <NavLink to="/" draggable={false}>
           {({ isActive }) => {
             isActive = isActive || location.pathname.startsWith('/recipe');
@@ -73,17 +77,19 @@ export default function MainNav() {
       </div>
 
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
-      <div className="w-36 rounded-sm py-2 text-center hover:bg-zinc-300 dark:hover:bg-zinc-800">
-        <Link to="/admin/users/page?p=1" draggable={false}>
-          관리자 페이지
-        </Link>
-      </div>
-
-      <div className="w-36 rounded-sm py-2 text-center hover:bg-zinc-300 dark:hover:bg-zinc-800">
-        <Link to="/report/post" draggable={false}>
-          문의하기
-        </Link>
-      </div>
+      {admin ? (
+        <div className="w-36 rounded-sm bg-[var(--point-orange)] text-center hover:cursor-pointer hover:opacity-80">
+          <Link to="/admin/users/page?p=1" draggable={false} className="block w-full py-2">
+            관리자 페이지
+          </Link>
+        </div>
+      ) : (
+        <div className="w-36 rounded-sm text-center hover:cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-800">
+          <Link to="/report/post" draggable={false} className="block w-full py-2">
+            문의하기
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }
