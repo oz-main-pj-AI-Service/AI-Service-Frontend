@@ -1,8 +1,8 @@
-import { loginApiTemp } from '@/api/loginApiTemp';
 import { reportApi } from '@/api/reportApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Report, ReportFormInput, ReportResponse } from '@/types/report';
+// import { useAuthStore } from '@/stores/authStore';
 
 export const useReportsQuery = (page: string = '1') => {
   return useQuery<ReportResponse, AxiosError>({
@@ -11,7 +11,7 @@ export const useReportsQuery = (page: string = '1') => {
       reportApi.getReports({
         page: page,
       }),
-    enabled: !!loginApiTemp.getAccessTokenTemp(),
+    // enabled: !!useAuthStore.getState().accessToken,
   });
 };
 
@@ -24,7 +24,7 @@ export const useSingleReportQuery = (id: string) => {
           report_id: id,
         },
       }),
-    enabled: !!loginApiTemp.getAccessTokenTemp(),
+    // enabled: !!useAuthStore.getState().accessToken,
   });
 };
 
