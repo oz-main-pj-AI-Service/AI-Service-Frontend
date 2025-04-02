@@ -17,10 +17,10 @@ export function formatDateYMD(dateString: string) {
 
 export const formatStreamText = (text: string) => {
   // 1. 문장 끝(마침표, 느낌표, 물음표) 다음에 줄바꿈 추가
-  let formatted = text.replace(/([.!?])\s+/g, '$1\n');
+  let formatted = text.replace(/([.!?])\s+/g, '$1\n\n');
 
   // 2. 닫는 괄호 다음에 줄바꿈 추가 (단, 다른 문장 끝 문자가 바로 뒤에 오지 않는 경우)
-  formatted = formatted.replace(/\)\s+(?![.!?])/g, ')\n');
+  formatted = formatted.replace(/\)\s+(?![.!?])/g, ')\n\n');
 
   // 3. 세미콜론 다음에 줄바꿈 추가
   formatted = formatted.replace(/;\s+/g, ';\n');

@@ -1,4 +1,8 @@
-import { loginApiTemp } from '@/api/loginApiTemp';
+import { useNavigate } from 'react-router';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { recipeFormSchema } from '@/types/aiSchema';
+import { RecipeFormInput } from '@/types/ai';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,11 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import { recipeFormSchema } from '@/types/aiSchema';
-import { RecipeFormInput } from '@/types/ai';
 
 export default function Recipe() {
   const navigate = useNavigate();
@@ -45,11 +44,6 @@ export default function Recipe() {
       .map((ingredient: string) => ingredient.trim())
       .filter((ingredient: string) => ingredient !== '');
     console.log(data);
-
-    if (!loginApiTemp.getAccessTokenTemp()) {
-      navigate('/sign-in');
-      return;
-    }
 
     // 결과 페이지로 유저가 입력한거 쿼리파라 미터에 담아서 보내주기
     navigate(`/recipe/search?q=${encodeURIComponent(JSON.stringify(data))}`);
