@@ -81,7 +81,7 @@ export default function RecipeResult() {
 
           {/* 요청 내용 */}
           <section className="border p-4">
-            <h4 className="pb-2 text-lg font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
+            <h4 className="pb-2 text-xl font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
             <p className="font-extralight text-zinc-600 dark:text-zinc-200">
               재료: {userRequest.ingredients.join(', ')}
             </p>
@@ -95,7 +95,7 @@ export default function RecipeResult() {
 
           <section className="flex flex-col border p-4">
             {/* 실시간 스트리밍 텍스트 */}
-            <div className="min-h-[500px] w-full border-b py-2" ref={streamDivRef}>
+            <div className="min-h-[500px] w-full py-2" ref={streamDivRef}>
               {/* <p>{textStream}</p> */}
               <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
             </div>
@@ -103,7 +103,7 @@ export default function RecipeResult() {
             {/* 최종 레시피 */}
             {finalRecipe && (
               <div className="py-2">
-                <h3 className="text-lg font-bold">완성된 레시피</h3>
+                <h3 className="border-t text-xl font-bold">완성된 레시피</h3>
                 <RecipeResultComponent recipe={finalRecipe} />
                 {/* <button onClick={reset}>새로 만들기</button> */}
               </div>
