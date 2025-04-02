@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthState>()(
           expiresIn: data.expires_in,
           admin: data.admin,
         }),
-      clearAuth: () =>
+      clearAuth: () => {
         set({
           accessToken: '',
           refreshToken: '',
@@ -48,7 +48,9 @@ export const useAuthStore = create<AuthState>()(
           expiresIn: 0,
           admin: '',
           // isLoginUser: false,
-        }),
+        });
+        localStorage.removeItem('auth-storage');
+      },
     }),
     {
       name: 'auth-storage',

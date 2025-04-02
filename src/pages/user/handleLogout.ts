@@ -10,6 +10,7 @@ const handleLogout = async () => {
       console.log(response.data.message);
       window.location.href = '/sign-in';
       useAuthStore.getState().clearAuth();
+
       // 로직(.ts) 파일에서 접근하는 경우에는 getState() 메서드를 사용해서 전역 상태, 함수 접근
       // 컴포넌트 (.tsx) 파일에서 접근하는 경우에는  const {accessToken} = useAuthStore() 와 같이 훅으로 접근 가능
     }

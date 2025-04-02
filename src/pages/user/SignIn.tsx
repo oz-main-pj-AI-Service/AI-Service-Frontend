@@ -54,8 +54,16 @@ const SignIn = () => {
       }, 1000);
     } catch (error: any) {
       // console.error('로그인 실패', error.response.data);
+      //로그인 5회실패시 문구 띄우기 수정 필요
+      const { detail, code } = error.response.data;
       if (error.response.status === 403) {
-        alert('관리자에게 문의해주세요');
+        if (code === 'Too_much_attempts') {
+          alert(detail);
+          console.log(detail);
+        } else {
+          alert('관리자에게 문의해주세요');
+          console.error(error.response.data);
+        }
       } else {
         alert(error.response.data.error);
       }
@@ -65,7 +73,7 @@ const SignIn = () => {
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center dark:text-black">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"

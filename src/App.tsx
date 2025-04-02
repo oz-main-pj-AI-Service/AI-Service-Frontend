@@ -31,6 +31,7 @@ import AdminAiDetail from './pages/admin/AdminAiDetail';
 import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import AdminReportComment from './pages/admin/AdminReportComment';
 import EditPw from './pages/user/EditPw';
+import AuthRoute from './pages/user/AuthRoute';
 
 export default function App() {
   const { initializeDarkMode } = useDarkMode();
@@ -74,14 +75,28 @@ export default function App() {
 
           {/* 로그인 */}
           <Route path="sign-in">
-            <Route index element={<SignIn />} />
+            <Route
+              index
+              element={
+                <AuthRoute>
+                  <SignIn />
+                </AuthRoute>
+              }
+            />
             <Route path="find-id" element={<FindId />} />
             <Route path="find-pw" element={<FindPw />} />
             <Route path="edit-pw" element={<EditPw />} />
           </Route>
 
           {/* 회원가입 */}
-          <Route path="sign-up" element={<SignUp />} />
+          <Route
+            path="sign-up"
+            element={
+              <AuthRoute>
+                <SignUp />
+              </AuthRoute>
+            }
+          />
 
           {/* 프로필 */}
           <Route path="profile" element={<Profile />} />
