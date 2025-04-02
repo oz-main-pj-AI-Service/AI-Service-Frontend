@@ -3,12 +3,14 @@ import { useSearchParams } from 'react-router';
 import { useEffect, useRef } from 'react';
 import { useRecipeQuery } from '@/hooks/useAiQuery';
 import { formatStreamText } from '@/lib/utils';
+import RecipeResultComponent from '@/components/main/RecipeResultComponent';
 // import { useStreaming2 } from '@/hooks/useStreamingTest';
 // import { useOnlyFetch } from '@/hooks/onlyfetch';
 // import { useRecipeQuery, useStreaming1 } from '@/hooks/useAiQuery';
 
 export default function RecipeResult() {
   const [searchParams] = useSearchParams();
+  const userRequest = JSON.parse(decodeURIComponent(searchParams.get('q') as string));
 
   // fetch만 (JSON 깨짐, SSE) - 상태, 로딩
   // const { textStream, startStream } = useOnlyFetch();
@@ -32,8 +34,9 @@ export default function RecipeResult() {
   useEffect(() => {
     if (!searchParams.get('q')) return;
 
-    const query = searchParams.get('q') as string;
-    const userRequest = JSON.parse(decodeURIComponent(query));
+    // 유즈이펙트 바깥으로 뺌 (작동하나 확인 후 삭제)
+    // const query = searchParams.get('q') as string;
+    // const userRequest = JSON.parse(decodeURIComponent(query));
 
     const requestBody: RecipeFormInput = {
       ingredients: userRequest.ingredients,
@@ -52,6 +55,7 @@ export default function RecipeResult() {
 
     // onlyFetch, 후보 2
     startStream(requestBody);
+    // 이거 주석 해제 하기
 
     // 원래꺼
     // mutation.mutate({ requestBody });
@@ -61,51 +65,49 @@ export default function RecipeResult() {
   console.log(textStream);
   console.log(finalRecipe);
 
-  const resultsSectionRef = useRef<HTMLElement>(null);
+  const streamDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if ((textStream || finalRecipe) && resultsSectionRef.current) {
-      resultsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if ((textStream || finalRecipe) && streamDivRef.current) {
+      streamDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   }, [textStream, finalRecipe]);
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
-        <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6">
           <h2 className="my-4 text-center text-2xl font-bold">검색 결과</h2>
-          <section className="w-full border p-4">
-            <p>검색한 조건 (쿼리스트링): {searchParams.get('q')}</p>
+
+          {/* 요청 내용 */}
+          <section className="border p-4">
+            <h4 className="pb-2 text-xl font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
+            <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+              재료: {userRequest.ingredients.join(', ')}
+            </p>
+            <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+              양: {userRequest.serving_size}인분
+            </p>
+            <p className="font-extralight text-zinc-600 dark:text-zinc-200">
+              시간: {userRequest.cooking_time}분
+            </p>
           </section>
-          <section className="mt-4 min-h-[500px] w-full border p-4" ref={resultsSectionRef}>
+
+          <section className="flex flex-col border p-4">
             {/* 실시간 스트리밍 텍스트 */}
-            <div className="border-b py-4">
+            <div className="min-h-[500px] w-full py-2" ref={streamDivRef}>
               {/* <p>{textStream}</p> */}
               <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
             </div>
 
             {/* 최종 레시피 */}
-            <div className="pt-4">
-              <h3 className="text-lg font-bold">완성된 레시피</h3>
-              <h4>{finalRecipe?.name}</h4>
-              <h5>재료:</h5>
-              <ul>
-                {finalRecipe?.ingredients.map((ingredient, index) => (
-                  <li key={index}>
-                    {ingredient.name}: {ingredient.amount}
-                  </li>
-                ))}
-              </ul>
-              <h5>조리방법:</h5>
-              <ol>
-                {finalRecipe?.instructions.map((instruction, index) => (
-                  <li key={index}>
-                    {instruction.step}. {instruction.description}
-                  </li>
-                ))}
-              </ol>
-              {/* <button onClick={reset}>새로 만들기</button> */}
-            </div>
+            {finalRecipe && (
+              <div className="py-2">
+                <h3 className="border-t text-xl font-bold">완성된 레시피</h3>
+                <RecipeResultComponent recipe={finalRecipe} />
+                {/* <button onClick={reset}>새로 만들기</button> */}
+              </div>
+            )}
           </section>
         </div>
       </div>
