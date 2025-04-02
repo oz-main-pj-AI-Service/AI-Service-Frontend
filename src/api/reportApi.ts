@@ -11,6 +11,7 @@ export const reportApi = {
         page_size: PAGE_SIZE,
       },
     });
+    console.log(response.data);
     return response.data;
   },
 
