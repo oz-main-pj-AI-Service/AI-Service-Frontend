@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { API_URL } from '@/constants/url';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 const schema = z.object({
   email: z.string().email({ message: '유효하지 않은 이메일 형식입니다.' }),
@@ -19,7 +20,7 @@ export default function FindPw() {
   } = useForm({
     resolver: zodResolver(schema),
   });
-
+  //소셜로그인 이메일은 비밀번호 수정 안되게 하기
   const onSubmit = async (data: { email: string }) => {
     try {
       const response = await axios.post(`${API_URL}/user/find-password/`, {
@@ -27,14 +28,16 @@ export default function FindPw() {
       });
       if (response.status === 200) {
         console.log(response);
+        alert(response.data.detail);
       }
-    } catch (error) {
+    } catch (error: any) {
+      alert(error.response.data.error);
       console.log(error);
     }
   };
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
-      <section className="flex h-screen items-center justify-center">
+      <section className="flex h-screen items-center justify-center dark:text-black">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
@@ -48,7 +51,8 @@ export default function FindPw() {
             <Input type="email" {...register('email')} placeholder="hansang@example.com" />
           </label>
           {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
-          <Button type="submit">본인 인증</Button>
+          <Button type="submit">본인인증</Button>
+          <Link to="/sign-in/find-id">아이디 찾기</Link>
         </form>
       </section>
     </main>

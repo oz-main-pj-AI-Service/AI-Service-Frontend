@@ -33,7 +33,7 @@ export default function DeleteAccountModal({
     }
   };
   return (
-    <div>
+    <div className="dark:text-black">
       <h1>회원 탈퇴</h1>
       <img src={profileImage} alt="" />
       <p>{nickname}</p>

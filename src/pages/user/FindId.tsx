@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { API_URL } from '@/constants/url';
+import { Link } from 'react-router';
 
 const schema = z.object({
   phone_number: z
@@ -40,7 +41,7 @@ export default function FindId() {
 
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
-      <section className="flex h-screen items-center justify-center">
+      <section className="flex h-screen items-center justify-center dark:text-black">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
@@ -55,6 +56,7 @@ export default function FindId() {
           </label>
           {errors.phone_number && <p style={{ color: 'red' }}>{errors.phone_number.message}</p>}
           <Button type="submit">본인인증</Button>
+          <Link to="/sign-in/find-pw">비밀번호 찾기</Link>
         </form>
       </section>
     </main>
