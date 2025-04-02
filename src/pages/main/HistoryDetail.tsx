@@ -13,8 +13,8 @@ export default function HistoryDetail() {
   return (
     <main className="flex h-full w-full flex-col overflow-y-auto pt-16 pl-[200px]">
       <div className="flex w-full flex-1 items-center">
-        <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
-          <h2 className="text-2xl font-bold">추천 기록 상세 정보</h2>
+        <section className="mx-auto flex w-full max-w-5xl flex-col px-4 py-8 sm:px-6">
+          <h2 className="pb-4 text-center text-2xl font-bold">추천 기록 상세 정보</h2>
           {/* 레시피 */}
           {content.request_type === 'RECIPE' && (
             <>
@@ -25,7 +25,7 @@ export default function HistoryDetail() {
               />
 
               {/* 요청 내용 */}
-              <div>
+              <div className="border-t pt-8">
                 <h4 className="pb-2 font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
                 <p className="font-extralight text-zinc-600 dark:text-zinc-200">
                   재료: {content.request_data.ingredients.join(', ')}
