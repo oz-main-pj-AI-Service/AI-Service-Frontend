@@ -1,23 +1,26 @@
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import useDarkMode from '@/stores/darkmode';
 import { useAuthStore } from '@/stores/authStore';
 import logo from '@/assets/logo.png';
 import logo_black from '@/assets/logo_black.png';
+import { handleLogout } from '@/pages/user/handleLogout';
+import { Button } from '../ui/button';
 
 export default function MainNav() {
   const { isDarkMode } = useDarkMode();
-  const { admin } = useAuthStore();
+  const { accessToken, admin } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
-    <header className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[var(--bg-light-point)] py-6 max-lg:hidden dark:bg-[var(--bg-dark-point)]">
+    <header className="fixed top-0 left-0 z-10 flex items-center justify-between bg-[var(--bg-light-point)] py-6 max-md:hidden sm:w-full lg:h-full lg:w-[200px] lg:flex-col dark:bg-[var(--bg-dark-point)]">
       {isDarkMode ? (
-        <h1>
+        <h1 className="max-lg:px-8">
           <Link to="/">
             <img src={logo} alt="" />
           </Link>
         </h1>
       ) : (
-        <h1>
+        <h1 className="max-lg:px-8">
           <Link to="/">
             <img src={logo_black} alt="" />
           </Link>
@@ -25,13 +28,13 @@ export default function MainNav() {
       )}
 
       {/* 메뉴 목록 */}
-      <nav className="flex grow flex-col gap-2 py-28">
+      <nav className="flex grow gap-2 lg:flex-col lg:py-28">
         <NavLink to="/" draggable={false}>
           {({ isActive }) => {
             isActive = isActive || location.pathname.startsWith('/recipe');
             return (
               <div
-                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-36 rounded-sm py-2 pl-4`}
+                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-24 rounded-sm py-2 max-lg:text-center lg:w-36 lg:pl-4`}
               >
                 레시피
               </div>
@@ -43,7 +46,7 @@ export default function MainNav() {
             isActive = isActive || location.pathname.startsWith('/menu');
             return (
               <div
-                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-36 rounded-sm py-2 pl-4`}
+                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-24 rounded-sm py-2 max-lg:text-center lg:w-36 lg:pl-4`}
               >
                 메뉴
               </div>
@@ -55,7 +58,7 @@ export default function MainNav() {
             isActive = isActive || location.pathname.startsWith('/diet');
             return (
               <div
-                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-36 rounded-sm py-2 pl-4`}
+                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-24 rounded-sm py-2 max-lg:text-center lg:w-36 lg:pl-4`}
               >
                 식단
               </div>
@@ -67,7 +70,7 @@ export default function MainNav() {
             isActive = isActive || location.pathname.startsWith('/history');
             return (
               <div
-                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-36 rounded-sm py-2 pl-4`}
+                className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-24 rounded-sm py-2 max-lg:text-center lg:w-36 lg:pl-4`}
               >
                 추천 기록
               </div>
@@ -78,18 +81,40 @@ export default function MainNav() {
 
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
       {admin ? (
-        <div className="w-36 rounded-sm bg-[var(--point-orange)] text-center hover:cursor-pointer hover:opacity-80">
+        <div className="rounded-sm bg-[var(--point-orange)] text-center hover:cursor-pointer hover:opacity-80 max-lg:px-4 lg:w-36">
           <Link to="/admin/users/page?p=1" draggable={false} className="block w-full py-2">
             관리자 페이지
           </Link>
         </div>
       ) : (
-        <div className="w-36 rounded-sm text-center hover:cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-800">
+        <div className="rounded-sm text-center hover:cursor-pointer hover:bg-zinc-300 lg:w-36 dark:hover:bg-zinc-800">
           <Link to="/report/post" draggable={false} className="block w-full py-2">
             문의하기
           </Link>
         </div>
       )}
+
+      <div className="flex gap-2 max-lg:px-8 lg:hidden">
+        {accessToken ? (
+          <>
+            <Button variant="outline" onClick={() => navigate('/profile')}>
+              회원정보
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              로그아웃
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="outline" onClick={() => navigate('/sign-in')}>
+              로그인
+            </Button>
+            <Button variant="outline" onClick={() => navigate('/sign-up')}>
+              회원가입
+            </Button>
+          </>
+        )}
+      </div>
     </header>
   );
 }
