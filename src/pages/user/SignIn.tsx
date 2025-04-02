@@ -54,7 +54,6 @@ const SignIn = () => {
       }, 1000);
     } catch (error: any) {
       // console.error('로그인 실패', error.response.data);
-      //로그인 5회실패시 문구 띄우기 수정 필요
       const { detail, code } = error.response.data;
       if (error.response.status === 403) {
         if (code === 'Too_much_attempts') {
