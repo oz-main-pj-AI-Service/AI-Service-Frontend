@@ -1,7 +1,11 @@
+// import React from 'react';
 import { API_URL } from '@/constants/url';
 import { handleLogout } from '@/pages/user/handleLogout';
 import { useAuthStore } from '@/stores/authStore';
+// import useModal from '@/stores/modal';
 import axios from 'axios';
+// import useModal from '@/stores/modal';
+// import LoginRequiredModal from '@/components/user/LoginRequiredModal';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -88,11 +92,15 @@ api.interceptors.response.use(
     // 2. 미인증 사용자 케이스
     if (errorCode === 'not_authenticated') {
       useAuthStore.getState().clearAuth();
+      // const {openModal}=useModal.getState()
+      // openModal(<LoginRequiredModal />)
       window.location.href = '/sign-in';
     }
 
     // 3. 토큰 없는 경우
     if (!useAuthStore.getState().accessToken) {
+      // const { openModal } = useModal.getState();
+      // openModal(<LoginRequiredModal />);
       window.location.href = '/sign-in';
     }
 

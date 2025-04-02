@@ -46,7 +46,7 @@ export default function FindId() {
           onSubmit={handleSubmit(onSubmit)}
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
-          <h1>
+          <h1 className="flex items-center justify-center">
             <img src={logo_black} alt="한상비서로고" />
           </h1>
           <label className="text-sm font-medium">

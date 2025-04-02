@@ -11,7 +11,6 @@ export default function Profile() {
   const [userInfo, setUserInfo] = useState({
     email: '',
     phone_number: '',
-    profile_image: '',
     nickname: '',
     is_social: false,
   });
@@ -27,9 +26,7 @@ export default function Profile() {
   };
 
   const openDeleteAccount = () => {
-    openModal(
-      <DeleteAccountModal profileImage={userInfo.profile_image} nickname={userInfo.nickname} />,
-    );
+    openModal(<DeleteAccountModal nickname={userInfo.nickname} />);
   };
 
   const handleSaveProfile = async () => {
@@ -64,7 +61,6 @@ export default function Profile() {
         setUserInfo({
           email: userProfile.email || '',
           phone_number: userProfile.phone_number || '',
-          profile_image: userProfile.profile_image || '',
           nickname: userProfile.nickname || '',
           is_social: userProfile.is_social,
         });
@@ -79,36 +75,52 @@ export default function Profile() {
     <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
       <div className="flex h-screen items-center justify-center dark:text-black">
         <section className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md">
-          <h1>
+          <h1 className="flex items-center justify-center">
             <img src={logo_black} alt="한상로고" />
           </h1>
-          <h1>회원정보</h1>
-          <p>이메일 </p>
-          <p>{userInfo.email}</p>
-          <p>닉네임</p>
-          <Input
-            name="nickname"
-            type="text"
-            value={userInfo.nickname}
-            readOnly={editProfile}
-            onChange={handleInputChange}
-          />
+          <h1 className="text-center text-xl font-bold">회원정보</h1>
+          <label className="text-sm font-medium">
+            이메일
+            <p>{userInfo.email}</p>
+          </label>
+          <label className="text-sm font-medium">
+            닉네임
+            <Input
+              name="nickname"
+              type="text"
+              value={userInfo.nickname}
+              readOnly={editProfile}
+              onChange={handleInputChange}
+            />
+          </label>
           {userInfo.is_social ? (
             <h2>소셜 계정으로 가입된 사용자입니다.</h2>
           ) : (
             <>
-              <p>전화번호 </p>
-              <Input
-                name="phone_number"
-                value={userInfo.phone_number}
-                readOnly={editProfile}
-                onChange={handleInputChange}
-              />
+              <label className="text-sm font-medium">
+                전화번호
+                <Input
+                  name="phone_number"
+                  value={userInfo.phone_number}
+                  readOnly={editProfile}
+                  onChange={handleInputChange}
+                />
+              </label>
               <hr />
               {editProfile ? (
-                <Button onClick={() => setEditProfile(false)}>회원 정보 수정</Button>
+                <Button
+                  className="text-white dark:bg-[var(--point-orange)]"
+                  onClick={() => setEditProfile(false)}
+                >
+                  회원 정보 수정
+                </Button>
               ) : (
-                <Button onClick={handleSaveProfile}>수정 완료</Button>
+                <Button
+                  className="bg-[var(--bg-light-point)] text-black hover:text-white"
+                  onClick={handleSaveProfile}
+                >
+                  수정 완료
+                </Button>
               )}
             </>
           )}
