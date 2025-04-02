@@ -26,5 +26,12 @@ export default function ReportPost() {
     navigate('/report/page?p=1');
   };
 
-  return <ReportForm form={form} onSubmit={onSubmit} submitText="등록" />;
+  return (
+    <ReportForm
+      form={form}
+      onSubmit={onSubmit}
+      submitText="등록"
+      onCancel={() => navigate('/report/page?p=1')}
+    />
+  );
 }

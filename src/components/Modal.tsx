@@ -1,42 +1,41 @@
-import useModal from '@/stores/modal';
-import { useRef } from 'react';
+// import useModal from '@/stores/modal';
+import useDarkMode from '@/stores/darkmode';
 import logo_black from '@/assets/logo_black.png';
+import logo from '@/assets/logo.png';
 
-const Modal: React.FC = () => {
-  const { isOpen, content, closeModal } = useModal();
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleOutsideClick = (e: React.MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      closeModal();
-    }
-  };
+const Modal: React.FC<{
+  isOpen: boolean;
+  content: React.ReactNode;
+  closeModal: () => void;
+}> = ({ isOpen, content, closeModal }) => {
+  const { isDarkMode } = useDarkMode();
 
   if (!isOpen) return null;
 
   return (
-    <div
-      className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black/80 pl-[100px]"
-      onClick={handleOutsideClick}
-    >
+    <>
       <div
-        className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-lg"
-        ref={modalRef}
-        onClick={(e) => e.stopPropagation()} // 내부 클릭 시 이벤트 전파 차단
-      >
+        className="bg-opacity-50 fixed inset-0 z-10 flex items-center justify-center bg-black/80"
+        onClick={closeModal}
+      ></div>
+      <div className="fixed top-1/2 left-1/2 z-20 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--bg-light)] p-8 shadow-lg dark:bg-[var(--bg-dark)]">
         {/* 닫기 버튼 */}
-        <button
+        {/* <Button
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
           onClick={closeModal}
         >
           &times;
-        </button>
-        <h1 className="flex items-center justify-center">
-          <img src={logo_black} alt="한상로고" className="h-auto w-auto" />
-        </h1>
+        </Button> */}
+        <h4 className="flex items-center justify-center pb-8">
+          {isDarkMode ? (
+            <img src={logo} alt="한상로고" className="h-auto w-auto" />
+          ) : (
+            <img src={logo_black} alt="한상로고" className="h-auto w-auto" />
+          )}
+        </h4>
         <div>{content}</div>
       </div>
-    </div>
+    </>
   );
 };
 
