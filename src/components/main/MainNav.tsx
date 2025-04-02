@@ -9,7 +9,7 @@ export default function MainNav() {
   const { admin } = useAuthStore();
 
   return (
-    <nav className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[var(--bg-light-point)] py-6 dark:bg-[var(--bg-dark-point)]">
+    <header className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[var(--bg-light-point)] py-6 max-lg:hidden dark:bg-[var(--bg-dark-point)]">
       {isDarkMode ? (
         <h1>
           <Link to="/">
@@ -25,7 +25,7 @@ export default function MainNav() {
       )}
 
       {/* 메뉴 목록 */}
-      <div className="flex grow flex-col gap-2 py-28">
+      <nav className="flex grow flex-col gap-2 py-28">
         <NavLink to="/" draggable={false}>
           {({ isActive }) => {
             isActive = isActive || location.pathname.startsWith('/recipe');
@@ -74,7 +74,7 @@ export default function MainNav() {
             );
           }}
         </NavLink>
-      </div>
+      </nav>
 
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
       {admin ? (
@@ -90,7 +90,7 @@ export default function MainNav() {
           </Link>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
 

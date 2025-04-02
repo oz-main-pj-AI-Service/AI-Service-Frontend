@@ -57,15 +57,15 @@ export default function Diet() {
 
   useEffect(() => {
     if ((textStream || finalRecipe) && streamDivRef.current) {
-      streamDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      streamDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   }, [textStream, finalRecipe]);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-8 sm:px-6">
-          <h2 className="text-center text-2xl font-bold">
+          <h2 className="text-center text-xl font-bold md:text-2xl">
             선택한 조건에 따른 식단을 추천 받아보세요
           </h2>
 

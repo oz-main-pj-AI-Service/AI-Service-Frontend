@@ -74,7 +74,7 @@ export default function RecipeResult() {
   }, [textStream, finalRecipe]);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6">
           <h2 className="my-4 text-center text-2xl font-bold">검색 결과</h2>

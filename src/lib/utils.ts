@@ -42,3 +42,18 @@ export const formatTypeToText = (requestType: 'ALL' | 'RECIPE' | 'FOOD' | 'HEALT
       return '기타';
   }
 };
+
+export const formatReportTypeToText = (
+  reportType: 'ERROR' | 'QUESTION' | 'FEATURE_REQUEST' | 'OTHER',
+): string => {
+  switch (reportType) {
+    case 'ERROR':
+      return '오류';
+    case 'QUESTION':
+      return '문의';
+    case 'FEATURE_REQUEST':
+      return '기능 요청';
+    case 'OTHER':
+      return '기타';
+  }
+};

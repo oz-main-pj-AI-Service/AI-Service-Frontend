@@ -5,13 +5,14 @@ import useDarkMode from '@/stores/darkmode';
 import TopNav from '../main/TopNav';
 import logo from '@/assets/logo.png';
 import logo_black from '@/assets/logo_black.png';
+import MobileAdminTopNav from './MobileAdminTopNav';
 
 export default function AdminLayout() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <>
-      <nav className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[#bfbfbf] py-6 dark:bg-zinc-800">
+      <header className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[#bfbfbf] py-6 max-lg:hidden dark:bg-zinc-800">
         {isDarkMode ? (
           <h1>
             <Link to="/">
@@ -69,9 +70,11 @@ export default function AdminLayout() {
           <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={() => toggleDarkMode()} />
           <Label htmlFor="dark-mode">다크 모드 {isDarkMode ? '🌙' : '☀️'}</Label>
         </div>
-      </nav>
+      </header>
 
       <TopNav />
+
+      <MobileAdminTopNav />
 
       <Outlet />
     </>

@@ -12,7 +12,7 @@ export default function HistoryDetail() {
 
   // 이거 정리하고 분리해서 컴포넌트화 (그리고 추천 검색 결과 컴포넌트에 마지막 결과에 재활용?)
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col px-4 py-8 sm:px-6">
           <h2 className="pb-4 text-center text-2xl font-bold">추천 기록 상세 정보</h2>
