@@ -105,8 +105,7 @@ const SignUp = () => {
           <h1>
             <img src={logo_black} alt="한상비서로고" />
           </h1>
-          <h2 className="mb-4 text-lg font-bold">회원가입</h2>
-          <p>
+          <p className="text-xs">
             이미 회원이신가요? &nbsp;
             <Link to="/sign-in" className="text-blue-500">
               로그인 하기
@@ -157,8 +156,10 @@ const SignUp = () => {
             <p className="text-xs text-red-500">{errors.phone_number.message}</p>
           )}
 
-          <Button type="submit">회원가입</Button>
-          <hr />
+          <Button className="text-xl text-white dark:bg-[var(--point-orange)]" type="submit">
+            회원가입
+          </Button>
+          <hr className="dark:border-gray-200" />
           <p className="text-center">sns 간편로그인</p>
           <div className="flex justify-center gap-20">
             <h1 onClick={goNaverSignUp}>
