@@ -1,11 +1,16 @@
+import Modal from '@/components/Modal';
 import { Button } from '@/components/ui/button';
 import { useDeleteReportQuery, useSingleReportQuery } from '@/hooks/useReportsQuery';
 import { formatDateYMD, formatReportTypeToText } from '@/lib/utils';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 export default function ReportDetail() {
   const { id } = useParams() as { id: string }; // as 없이 할 수 있는 방법 찾기
   console.log(id);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
   const { data: report } = useSingleReportQuery(id);
   console.log(report);
@@ -57,31 +62,86 @@ export default function ReportDetail() {
             )}
           </div>
 
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 max-sm:justify-between">
             {report?.admin_comment ? (
-              <Button variant="outline" disabled>
+              <Button variant="outline" disabled className="max-sm:w-[48%] md:px-12 md:py-5">
                 수정하기
               </Button>
             ) : (
               <Button
                 variant="outline"
-                onClick={() => {
-                  navigate(`/report/edit/${id}`);
-                }}
+                onClick={() => setIsEditModalOpen(true)}
+                className="max-sm:w-[48%] md:px-12 md:py-5"
               >
                 수정하기
               </Button>
             )}
-            {/* 확인 모달 띄우기 */}
             <Button
-              onClick={() => {
-                deleteReportMutation.mutate(id);
-                navigate('/report');
-              }}
+              variant="destructive"
+              onClick={() => setIsDeleteModalOpen(true)}
+              className="max-sm:w-[48%] md:px-12 md:py-5"
             >
               삭제하기
             </Button>
           </div>
+
+          {/* 수정 모달 */}
+          <Modal
+            isOpen={isEditModalOpen}
+            content={
+              <div className="flex flex-col gap-8 py-2">
+                <p>수정 하시겠습니까?</p>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsEditModalOpen(false)}
+                    className="w-20"
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      navigate(`/report/edit/${id}`);
+                    }}
+                    className="w-20"
+                  >
+                    수정
+                  </Button>
+                </div>
+              </div>
+            }
+            closeModal={() => setIsEditModalOpen(false)}
+          />
+
+          {/* 삭제 모달 */}
+          <Modal
+            isOpen={isDeleteModalOpen}
+            content={
+              <div className="flex flex-col gap-8 py-2">
+                <p>삭제 하시겠습니까?</p>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsEditModalOpen(false)}
+                    className="w-20"
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      deleteReportMutation.mutate(id);
+                      navigate('/report/page?p=1');
+                    }}
+                    className="w-20"
+                  >
+                    삭제
+                  </Button>
+                </div>
+              </div>
+            }
+            closeModal={() => setIsDeleteModalOpen(false)}
+          />
         </section>
       </div>
     </main>

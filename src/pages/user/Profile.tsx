@@ -3,9 +3,9 @@ import { Input } from '@/components/ui/input';
 import logo_black from '@/assets/logo_black.png';
 import { useEffect, useState } from 'react';
 import api from '@/api/TokenApi';
-import Modal from '@/components/Modal';
-import DeleteAccountModal from '@/components/user/DeleteAccountModal';
-import useModal from '@/stores/modal';
+// import Modal from '@/components/Modal';
+// import DeleteAccountModal from '@/components/user/DeleteAccountModal';
+// import useModal from '@/stores/modal';
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({
@@ -14,7 +14,7 @@ export default function Profile() {
     nickname: '',
     is_social: false,
   });
-  const { openModal } = useModal();
+  // const { openModal } = useModal();
   const [editProfile, setEditProfile] = useState(true);
 
   const handleInputChange = (e: any) => {
@@ -26,7 +26,7 @@ export default function Profile() {
   };
 
   const openDeleteAccount = () => {
-    openModal(<DeleteAccountModal nickname={userInfo.nickname} />);
+    // openModal(<DeleteAccountModal nickname={userInfo.nickname} />);
   };
 
   const handleSaveProfile = async () => {
@@ -128,7 +128,7 @@ export default function Profile() {
           <Button onClick={openDeleteAccount}>회원탈퇴</Button>
         </section>
       </div>
-      <Modal />
+      {/* <Modal /> */}
     </main>
   );
 }

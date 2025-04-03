@@ -9,7 +9,7 @@ export default function MobileNav() {
   const { isDarkMode } = useDarkMode();
 
   return (
-    <header className="fixed bottom-0 left-0 z-10 flex h-[80px] w-full items-center justify-center bg-[var(--bg-light-point)] text-sm font-extralight md:hidden dark:bg-[var(--bg-dark-point)]">
+    <header className="fixed bottom-0 left-0 z-10 flex h-[80px] w-full items-center justify-center bg-[var(--bg-light-point)] text-sm font-extralight sm:hidden dark:bg-[var(--bg-dark-point)]">
       <NavLink
         to="/"
         className="flex h-full w-1/5 flex-col items-center justify-center gap-2"

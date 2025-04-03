@@ -106,7 +106,7 @@ export default function App() {
           <Route path="profile" element={<Profile />} />
 
           {/* 관리자 */}
-          {/* 유저는 수정 페이지 수정 필요, ai 로그는 이게 끝 */}
+          {/* 유저는 수정 페이지 수정 필요, 유저 로그? */}
           <Route path="admin" element={<AdminLayout />}>
             <Route path="users">
               <Route path="page?" element={<AdminUsers />} />

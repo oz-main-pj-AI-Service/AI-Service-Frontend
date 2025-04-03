@@ -15,21 +15,21 @@ export default function AdminLayout() {
   return (
     <>
       {admin && (
-        <header className="fixed top-0 left-0 z-10 flex h-full w-[200px] flex-col items-center justify-between bg-[#bfbfbf] py-6 max-lg:hidden dark:bg-zinc-800">
+        <header className="fixed top-0 left-0 z-10 flex items-center justify-between bg-[#bfbfbf] py-6 max-lg:w-full max-sm:hidden min-lg:h-full min-lg:w-[200px] min-lg:flex-col dark:bg-zinc-800">
           {isDarkMode ? (
-            <h1>
+            <h1 className="max-lg:px-6">
               <Link to="/">
                 <img src={logo} alt="" />
               </Link>
             </h1>
           ) : (
-            <h1>
+            <h1 className="max-lg:px-6">
               <Link to="/">
                 <img src={logo_black} alt="" />
               </Link>
             </h1>
           )}
-          <div className="flex flex-col gap-4">
+          <div className="flex grow gap-2 lg:flex-col lg:py-28">
             <NavLink to="/admin/users/page?p=1" draggable={false}>
               {({ isActive }) => {
                 isActive = isActive || location.pathname.startsWith('/admin/users');
