@@ -13,10 +13,16 @@ import 구글 from './구글.png';
 import logo_black from '@/assets/logo_black.png';
 import { Link } from 'react-router';
 import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import Modal from '@/components/Modal';
 
 const SignUp = () => {
   // const { openModal } = useModal();
-  //유효성검사
+
+  const [signUpEmail, setSignUpEmail] = useState('');
+
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
@@ -70,6 +76,8 @@ const SignUp = () => {
       const response = await axios.post(`${API_URL}/user/register/`, data);
       if (response.status === 201) {
         console.log('회원가입 성공');
+        setSignUpEmail(data.email);
+        setIsSubmitModalOpen(true);
         // openModal(
         //   <p className="text-center">
         //     이메일 인증을 완료해주세요 <br /> {data.email}
@@ -176,7 +184,15 @@ const SignUp = () => {
             </h1>
           </div>
         </form>
-        {/* <Modal /> */}
+        <Modal
+          isOpen={isSubmitModalOpen}
+          content={
+            <p className="text-center dark:text-white">
+              이메일 인증을 완료해주세요 <br /> {signUpEmail}
+            </p>
+          }
+          closeModal={() => setIsSubmitModalOpen(false)}
+        />
       </div>
     </main>
   );
