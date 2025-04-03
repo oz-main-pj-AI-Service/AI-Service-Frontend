@@ -25,7 +25,9 @@ export const adminApi = {
   },
 
   updateUserPatch: async (id: string, data: User) => {
-    const response = await api.patch<User>(`/user/admin/${id}`, data);
+    const response = await api.patch<User>(`/user/admin/${id}`, data, {
+      params: { id: id },
+    });
     return response.data;
   },
 
@@ -40,4 +42,9 @@ export const adminApi = {
     });
     return response.data;
   },
+
+  // deleteReport: async (id: string) => {
+  //   const response = await api.delete(`/reports/${id}/admin/`);
+  //   return response.data;
+  // },
 };

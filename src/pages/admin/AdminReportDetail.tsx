@@ -1,12 +1,17 @@
+// import { useState } from 'react';
+// import Modal from '@/components/Modal';
 import { Button } from '@/components/ui/button';
-import { useDeleteReportQuery, useSingleReportQuery } from '@/hooks/useReportsQuery';
+// import { useAdminReportDeleteQuery } from '@/hooks/useAdminQuery';
+import { useSingleReportQuery } from '@/hooks/useReportsQuery';
 import { useNavigate, useParams } from 'react-router';
 
 export default function AdminReportDetail() {
   const { id } = useParams() as { id: string }; // as 없이 할 수 있는 방법 찾기
   const { data: report } = useSingleReportQuery(id);
-  const deleteReportMutation = useDeleteReportQuery();
+  // const deleteReportMutation = useAdminReportDeleteQuery();
   const navigate = useNavigate();
+
+  // const [isDeleteModalOn, setIsDeleteModalOn] = useState<boolean>(false);
 
   console.log(id);
   console.log(report);
@@ -72,19 +77,40 @@ export default function AdminReportDetail() {
               </Button>
             )}
             {/* 확인 모달 띄우기 */}
-            <Button
-              onClick={() => {
-                console.log('삭제 클릭');
-                deleteReportMutation.mutate(id, {
-                  onSuccess: () => {
-                    navigate('/admin/reports');
-                  },
-                });
-              }}
-            >
+            {/* <Button variant="destructive" onClick={() => setIsDeleteModalOn(true)}>
               삭제하기
-            </Button>
+            </Button> */}
           </div>
+
+          {/* 삭제 모달 */}
+          {/* <Modal
+            isOpen={isDeleteModalOn}
+            content={
+              <div className="flex flex-col gap-8 py-2">
+                <p>삭제 하시겠습니까?</p>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsDeleteModalOn(false)}
+                    className="w-20"
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      deleteReportMutation.mutate(id);
+                      navigate('/admin/reports');
+                    }}
+                    className="w-20"
+                  >
+                    삭제
+                  </Button>
+                </div>
+              </div>
+            }
+            closeModal={() => setIsDeleteModalOn(false)}
+          /> */}
         </section>
       </div>
     </main>
