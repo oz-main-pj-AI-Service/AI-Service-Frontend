@@ -21,8 +21,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useAuthStore } from '@/stores/authStore';
+import { useState } from 'react';
+import Modal from '@/components/Modal';
+import LoginRequiredModal from '@/components/user/LoginRequiredModal';
 
 export default function Recipe() {
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
+
+  const { accessToken } = useAuthStore();
+
   const navigate = useNavigate();
 
   const form = useForm<RecipeFormInput>({
@@ -78,7 +86,18 @@ export default function Recipe() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="h-10.5">
+              <Button
+                type="submit"
+                className="h-10.5"
+                onClick={(e) => {
+                  e.preventDefault(); // 기본 동작 방지
+                  if (accessToken) {
+                    form.handleSubmit(onSubmit)(); // 폼 제출 처리
+                  } else {
+                    setIsSubmitModalOpen(true); // 모달 열기
+                  }
+                }}
+              >
                 검색
               </Button>
             </div>
@@ -155,6 +174,11 @@ export default function Recipe() {
             </div>
           </form>
         </Form>
+        <Modal
+          isOpen={isSubmitModalOpen}
+          content={<LoginRequiredModal />}
+          closeModal={() => setIsSubmitModalOpen(false)}
+        />
       </div>
     </main>
   );

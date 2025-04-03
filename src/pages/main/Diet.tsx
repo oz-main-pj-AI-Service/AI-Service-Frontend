@@ -8,13 +8,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { formatStreamText } from '@/lib/utils';
 import RadioboxGroup from '@/components/main/RadioboxGroup';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import DietResultComponent from '@/components/main/DietResultComponent';
+import { useAuthStore } from '@/stores/authStore';
+import Modal from '@/components/Modal';
+import LoginRequiredModal from '@/components/user/LoginRequiredModal';
 // import { loginApiTemp } from '@/api/loginApiTemp';
 
 export default function Diet() {
   // const dietMutation = useDietQuery();
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
+
+  const { accessToken } = useAuthStore();
 
   // isStreaming, error 받아와서 로딩 에러 처리 하기
   const { startStream, finalRecipe, textStream, isStreaming } = useDietQuery();
@@ -124,9 +130,26 @@ export default function Diet() {
                   <Input type="text" {...form.register('disliked_foods')} className="h-11" />
                 </FormItem>
 
-                <Button type="submit">추천받기</Button>
+                <Button
+                  type="submit"
+                  onClick={(e) => {
+                    e.preventDefault(); // 기본 동작 방지
+                    if (accessToken) {
+                      form.handleSubmit(onSubmit)(); // 폼 제출 처리
+                    } else {
+                      setIsSubmitModalOpen(true); // 모달 열기
+                    }
+                  }}
+                >
+                  추천받기
+                </Button>
               </form>
             </Form>
+            <Modal
+              isOpen={isSubmitModalOpen}
+              content={<LoginRequiredModal />}
+              closeModal={() => setIsSubmitModalOpen(false)}
+            />
           </section>
         </div>
       </div>

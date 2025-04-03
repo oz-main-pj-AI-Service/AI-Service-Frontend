@@ -94,14 +94,14 @@ api.interceptors.response.use(
       useAuthStore.getState().clearAuth();
       // const {openModal}=useModal.getState()
       // openModal(<LoginRequiredModal />)
-      window.location.href = '/sign-in';
+      // window.location.href = '/sign-in';
     }
 
     // 3. 토큰 없는 경우
     if (!useAuthStore.getState().accessToken) {
       // const { openModal } = useModal.getState();
       // openModal(<LoginRequiredModal />);
-      window.location.href = '/sign-in';
+      // window.location.href = '/sign-in';
     }
 
     return Promise.reject(error);
