@@ -6,16 +6,16 @@ import { Button } from '@/components/ui/button';
 import { goNaverSignUp, goGoogleSignUp } from './SocialSignUp';
 import { API_URL } from '@/constants/url';
 import axios from 'axios';
-import useModal from '@/stores/modal';
+// import useModal from '@/stores/modal';
 import 네이버 from './네이버.png';
 import 구글 from './구글.png';
-import Modal from '@/components/Modal';
+// import Modal from '@/components/Modal';
 import logo_black from '@/assets/logo_black.png';
 import { Link } from 'react-router';
 import { Input } from '@/components/ui/input';
 
 const SignUp = () => {
-  const { openModal } = useModal();
+  // const { openModal } = useModal();
   //유효성검사
   const {
     register,
@@ -70,11 +70,11 @@ const SignUp = () => {
       const response = await axios.post(`${API_URL}/user/register/`, data);
       if (response.status === 201) {
         console.log('회원가입 성공');
-        openModal(
-          <p className="text-center">
-            이메일 인증을 완료해주세요 <br /> {data.email}
-          </p>,
-        );
+        // openModal(
+        //   <p className="text-center">
+        //     이메일 인증을 완료해주세요 <br /> {data.email}
+        //   </p>,
+        // );
         reset();
         // 회원가입 성공 후 추가 작업 수행
       }
@@ -101,7 +101,7 @@ const SignUp = () => {
   };
 
   return (
-    <main className="flex h-full w-full flex-col pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex h-screen items-center justify-center dark:text-black">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -176,7 +176,7 @@ const SignUp = () => {
             </h1>
           </div>
         </form>
-        <Modal />
+        {/* <Modal /> */}
       </div>
     </main>
   );

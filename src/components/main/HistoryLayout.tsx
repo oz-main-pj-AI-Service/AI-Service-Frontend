@@ -22,9 +22,9 @@ export default function HistoryLayout() {
   // 서치바?
 
   return (
-    <main className="fixed inset-0 flex flex-col pt-14 pl-[200px]">
+    <main className="fixed inset-0 flex flex-col max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="bg-background flex w-full flex-col items-center py-4">
-        <h2 className="text-center text-2xl font-bold">검색 기록 보기</h2>
+        <h2 className="text-center text-xl font-bold md:text-2xl">검색 기록 보기</h2>
 
         <div className="mx-auto w-full max-w-md p-4">
           <Select defaultValue={category} onValueChange={handleCategoryChange}>

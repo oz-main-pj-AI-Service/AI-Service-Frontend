@@ -42,5 +42,12 @@ export default function ReportEdit() {
     navigate(`/report/${id}`);
   };
 
-  return <ReportForm form={form} onSubmit={onSubmit} submitText="수정" />;
+  return (
+    <ReportForm
+      form={form}
+      onSubmit={onSubmit}
+      submitText="수정"
+      onCancel={() => navigate(`/report/${id}`)}
+    />
+  );
 }

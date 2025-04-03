@@ -51,10 +51,10 @@ export default function Recipe() {
   };
 
   return (
-    <main className="flex h-full items-center justify-center pt-14 pl-[200px]">
+    <main className="flex h-full items-center justify-center max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex w-full max-w-5xl flex-col items-center gap-8">
         <h2 className="text-2xl font-bold">당신의 한끼를 책임집니다!</h2>
-        <h3 className="text-sm text-zinc-500">
+        <h3 className="text-xs text-zinc-500 md:text-sm">
           가지고 있는 식재료를 입력하고, 지금 요리할 수 있는 레시피를 알아보세요
         </h3>
 
@@ -70,7 +70,7 @@ export default function Recipe() {
                     <FormControl className="flex">
                       <Input
                         placeholder="재료를 쉼표나 미침표(, .)로 구분해서 입력해주세요"
-                        className="h-11 grow"
+                        className="h-11 grow text-xs md:text-sm lg:text-base"
                         {...field}
                       />
                     </FormControl>

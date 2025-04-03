@@ -32,6 +32,7 @@ import AdminUsersEdit from './pages/admin/AdminUsersEdit';
 import AdminReportComment from './pages/admin/AdminReportComment';
 import EditPw from './pages/user/EditPw';
 import AuthRoute from './pages/user/AuthRoute';
+import MobileMyPage from './pages/main/MobileMyPage';
 
 export default function App() {
   const { initializeDarkMode } = useDarkMode();
@@ -65,6 +66,9 @@ export default function App() {
             <Route path="post" element={<ReportPost />} />
             <Route path="edit/:id" element={<ReportEdit />} />
           </Route>
+
+          {/* 모바일 마이페이지 */}
+          <Route path="m-my-page" element={<MobileMyPage />} />
 
           {/* 소셜로그인 */}
           <Route path="naver/callback" element={<SignUpHandler />} />
@@ -102,7 +106,7 @@ export default function App() {
           <Route path="profile" element={<Profile />} />
 
           {/* 관리자 */}
-          {/* 유저는 수정 페이지 수정 필요, ai 로그는 이게 끝 */}
+          {/* 유저는 수정 페이지 수정 필요, 유저 로그? */}
           <Route path="admin" element={<AdminLayout />}>
             <Route path="users">
               <Route path="page?" element={<AdminUsers />} />

@@ -3,9 +3,9 @@ import { Input } from '@/components/ui/input';
 import logo_black from '@/assets/logo_black.png';
 import { useEffect, useState } from 'react';
 import api from '@/api/TokenApi';
-import Modal from '@/components/Modal';
-import DeleteAccountModal from '@/components/user/DeleteAccountModal';
-import useModal from '@/stores/modal';
+// import Modal from '@/components/Modal';
+// import DeleteAccountModal from '@/components/user/DeleteAccountModal';
+// import useModal from '@/stores/modal';
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({
@@ -14,7 +14,7 @@ export default function Profile() {
     nickname: '',
     is_social: false,
   });
-  const { openModal } = useModal();
+  // const { openModal } = useModal();
   const [editProfile, setEditProfile] = useState(true);
 
   const handleInputChange = (e: any) => {
@@ -26,7 +26,7 @@ export default function Profile() {
   };
 
   const openDeleteAccount = () => {
-    openModal(<DeleteAccountModal nickname={userInfo.nickname} />);
+    // openModal(<DeleteAccountModal nickname={userInfo.nickname} />);
   };
 
   const handleSaveProfile = async () => {
@@ -72,7 +72,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex h-screen items-center justify-center dark:text-black">
         <section className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md">
           <h1 className="flex items-center justify-center">
@@ -128,7 +128,7 @@ export default function Profile() {
           <Button onClick={openDeleteAccount}>회원탈퇴</Button>
         </section>
       </div>
-      <Modal />
+      {/* <Modal /> */}
     </main>
   );
 }
