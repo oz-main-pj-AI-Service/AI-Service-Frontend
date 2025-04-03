@@ -11,8 +11,12 @@ export default function MainNav() {
   const { accessToken, admin } = useAuthStore();
   const navigate = useNavigate();
 
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
-    <header className="fixed top-0 left-0 z-10 flex items-center justify-between bg-[var(--bg-light-point)] py-6 max-md:hidden sm:w-full lg:h-full lg:w-[200px] lg:flex-col dark:bg-[var(--bg-dark-point)]">
+    <header className="fixed top-0 left-0 z-10 flex items-center justify-between bg-[var(--bg-light-point)] py-1 max-sm:hidden sm:w-full lg:h-full lg:w-[200px] lg:flex-col lg:py-6 dark:bg-[var(--bg-dark-point)]">
       {isDarkMode ? (
         <h1 className="max-lg:px-8">
           <Link to="/">
@@ -82,8 +86,8 @@ export default function MainNav() {
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}
       {admin ? (
         <div className="rounded-sm bg-[var(--point-orange)] text-center hover:cursor-pointer hover:opacity-80 max-lg:px-4 lg:w-36">
-          <Link to="/admin/users/page?p=1" draggable={false} className="block w-full py-2">
-            관리자 페이지
+          <Link to="/admin/users/page?p=1" draggable={false} className="block w-full py-2 text-sm">
+            관리자
           </Link>
         </div>
       ) : (
@@ -94,7 +98,7 @@ export default function MainNav() {
         </div>
       )}
 
-      <div className="flex gap-2 max-lg:px-8 lg:hidden">
+      <div className="flex gap-1 max-lg:flex-col max-lg:px-8 lg:hidden">
         {accessToken ? (
           <>
             <Button variant="outline" onClick={() => navigate('/profile')}>

@@ -22,7 +22,6 @@ export default function ReportPost() {
     console.log(data);
 
     reportMutation.mutate(data);
-    // 모달 (확인, 취소 둘 다 확인 눌렀을때 목록으로 네비게이팅)
     navigate('/report/page?p=1');
   };
 

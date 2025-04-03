@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef } from 'react';
 import { MenuFormInput, MenuFormRequest } from '@/types/ai';
 import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,15 +9,13 @@ import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { formatStreamText } from '@/lib/utils';
 import RadioboxGroup from '@/components/main/RadioboxGroup';
-import { useEffect } from 'react';
-import { useRef } from 'react';
 import MenuResultComponent from '@/components/main/MenuResultComponent';
 
 export default function Menu() {
   // const menuMutation = useMenuQuery();
 
   // isStreaming, error 받아와서 로딩 에러 처리 하기
-  const { mutation, startStream, finalRecipe, textStream, isStreaming } = useMenuQuery();
+  const { startStream, finalRecipe, textStream, isStreaming } = useMenuQuery();
 
   const form = useForm<MenuFormInput>({
     defaultValues: {
@@ -30,21 +29,24 @@ export default function Menu() {
     // resolver: zodResolver(menuFormSchema),
   });
 
-  const onSubmit: SubmitHandler<MenuFormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<MenuFormInput> = useCallback(
+    (data) => {
+      console.log(data);
 
-    const requestBody: MenuFormRequest = {
-      cuisine_type: data.cuisine_type.join(','),
-      food_base: data.food_base.join(','),
-      taste: data.taste.join(','),
-      dietary_type: data.dietary_type,
-      last_meal: data.last_meal,
-    };
+      const requestBody: MenuFormRequest = {
+        cuisine_type: data.cuisine_type.join(','),
+        food_base: data.food_base.join(','),
+        taste: data.taste.join(','),
+        dietary_type: data.dietary_type,
+        last_meal: data.last_meal,
+      };
 
-    startStream(requestBody);
-    console.log(mutation);
-    // console.log(menuMutation.data?.recommendations.recommendations);
-  };
+      startStream(requestBody);
+      // console.log(mutation);
+      // console.log(menuMutation.data?.recommendations.recommendations);
+    },
+    [startStream],
+  );
 
   console.log(finalRecipe);
   // const menu = menuMutation.data?.recommendation.recommendation;
