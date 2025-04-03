@@ -36,23 +36,33 @@ export default function FindPw() {
     }
   };
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <section className="flex h-screen items-center justify-center dark:text-black">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="mb-4 flex w-96 flex-col gap-4 rounded bg-white px-8 pt-6 pb-8 shadow-md"
         >
-          <h1>
+          <h1 className="flex items-center justify-center">
             <img src={logo_black} alt="한상비서로고" />
           </h1>
-          <h1>비밀번호 찾기</h1>
-          <label>
+          <p className="text-center text-sm text-gray-500">
+            이메일로 비밀번호 재설정 링크를 보내드립니다.
+          </p>
+          <label className="text-sm font-medium">
             이메일
-            <Input type="email" {...register('email')} placeholder="hansang@example.com" />
+            <Input
+              type="email"
+              {...register('email')}
+              placeholder="가입 시 입력한 이메일을 입력해주세요"
+            />
           </label>
-          {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
-          <Button type="submit">본인인증</Button>
-          <Link to="/sign-in/find-id">아이디 찾기</Link>
+          {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+          <Button type="submit" className="text-white dark:bg-[var(--point-orange)]">
+            메일보내기
+          </Button>
+          <Link to="/sign-in/find-id" className="text-right text-xs">
+            아이디 찾기
+          </Link>
         </form>
       </section>
     </main>

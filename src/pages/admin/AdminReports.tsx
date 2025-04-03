@@ -9,7 +9,7 @@ export default function AdminReports() {
   console.log(reports);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 max-md:pb-20 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">문의 사항 관리</h2>

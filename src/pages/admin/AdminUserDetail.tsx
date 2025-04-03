@@ -1,12 +1,16 @@
-import { Button } from '@/components/ui/button';
-import { useAdminUserDeleteQuery, useAdminUserDetailQuery } from '@/hooks/useAdminQuery';
-import { formatDateYMD } from '@/lib/utils';
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
+import { useAdminUserDeleteQuery, useAdminUserDetailQuery } from '@/hooks/useAdminQuery';
+import Modal from '@/components/Modal';
+import { Button } from '@/components/ui/button';
+import { formatDateYMD } from '@/lib/utils';
 
 export default function AdminUserDetail() {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   console.log(id);
+
+  const [isDeleteModalOn, setIsDeleteModalOn] = useState(false);
 
   // 특정 사용자 정보 조회 api 호출 (쿼리 or 서스펜스쿼리)
   const { data: user } = useAdminUserDetailQuery(id);
@@ -16,7 +20,7 @@ export default function AdminUserDetail() {
   const deleteMutation = useAdminUserDeleteQuery();
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 max-md:pb-20 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">회원 상세 정보</h2>
@@ -71,13 +75,7 @@ export default function AdminUserDetail() {
                 className="w-1/2"
                 variant="destructive"
                 // 사실 이걸 바로 지우면 안되고, 모달을 띄워야함. 그리고 모달에 이걸 전달
-                onClick={() =>
-                  deleteMutation.mutate(id, {
-                    onSuccess: () => {
-                      navigate(`/admin/users/page?p=1`);
-                    },
-                  })
-                }
+                onClick={() => setIsDeleteModalOn(true)}
               >
                 강제 탈퇴
               </Button>
@@ -86,6 +84,36 @@ export default function AdminUserDetail() {
               </Button>
             </div>
           </div>
+
+          {/* 삭제 모달 */}
+          <Modal
+            isOpen={isDeleteModalOn}
+            content={
+              <div className="flex flex-col gap-8 py-2">
+                <p>삭제 하시겠습니까?</p>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsDeleteModalOn(false)}
+                    className="w-20"
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      deleteMutation.mutate(id);
+                      navigate('/admin/users/page?p=1');
+                    }}
+                    className="w-20"
+                  >
+                    삭제
+                  </Button>
+                </div>
+              </div>
+            }
+            closeModal={() => setIsDeleteModalOn(false)}
+          />
         </section>
       </div>
     </main>

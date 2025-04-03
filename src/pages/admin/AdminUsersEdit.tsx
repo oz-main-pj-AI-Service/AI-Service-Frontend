@@ -12,8 +12,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { User } from '@/types/user';
-import { useAdminUserDetailQuery } from '@/hooks/useAdminQuery';
-import { useEffect } from 'react';
+import { useAdminUserDetailQuery, useAdminUserEditQuery } from '@/hooks/useAdminQuery';
+import { useEffect, useState } from 'react';
+import Modal from '@/components/Modal';
 
 export default function AdminUsersEdit() {
   const { id } = useParams() as { id: string };
@@ -22,8 +23,11 @@ export default function AdminUsersEdit() {
   // 특정 사용자 정보 조회 api 호출 (쿼리 or 서스펜스쿼리)
   const { data: user } = useAdminUserDetailQuery(id);
   console.log(user);
+
   // 특정 사용자 정보 수정 api 호출 (뮤테이션)
   // api/user/admin/id/
+  const editMutation = useAdminUserEditQuery(id);
+  const [isSubmitModalOn, setIsSubmitModalOn] = useState<boolean>(false);
 
   // 이것도 나중에 디폴트 값 유즈이펙트안에서 넣어주기
   const form = useForm<User>({
@@ -51,7 +55,7 @@ export default function AdminUsersEdit() {
   }, [user]);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 max-md:pb-20 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <div className="flex items-center justify-between border-b pb-4">
@@ -150,6 +154,38 @@ export default function AdminUsersEdit() {
               </div>
             </form>
           </Form>
+
+          {/* submit 모달 */}
+          <Modal
+            isOpen={isSubmitModalOn}
+            content={
+              <div className="flex flex-col gap-8 py-2">
+                <p>수정 하시겠습니까?</p>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsSubmitModalOn(false)}
+                    className="w-20"
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      if (user) {
+                        editMutation.mutate(user);
+                        navigate('/admin/users');
+                      }
+                    }}
+                    className="w-20"
+                  >
+                    수정
+                  </Button>
+                </div>
+              </div>
+            }
+            closeModal={() => setIsSubmitModalOn(false)}
+          />
         </section>
       </div>
     </main>

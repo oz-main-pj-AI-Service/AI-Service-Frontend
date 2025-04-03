@@ -11,7 +11,7 @@ export default function AdminAiDetail() {
 
   // 이거 정리하고 분리해서 컴포넌트화 (그리고 추천 검색 결과 컴포넌트에 마지막 결과에 재활용?)
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto pt-16 max-md:pb-20 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
           <h2 className="text-2xl font-bold">AI 로그 상세 정보</h2>

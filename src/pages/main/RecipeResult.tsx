@@ -29,7 +29,7 @@ export default function RecipeResult() {
   // const { recipeStream, mutation } = useRecipeQuery();
 
   // isStreaming, error 받아와서 로딩 에러 처리 하기
-  const { startStream, finalRecipe, textStream } = useRecipeQuery();
+  const { startStream, finalRecipe, textStream, isStreaming } = useRecipeQuery();
 
   useEffect(() => {
     if (!searchParams.get('q')) return;
@@ -69,18 +69,18 @@ export default function RecipeResult() {
 
   useEffect(() => {
     if ((textStream || finalRecipe) && streamDivRef.current) {
-      streamDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      streamDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [textStream, finalRecipe]);
 
   return (
-    <main className="flex h-full w-full flex-col overflow-y-auto pt-14 pl-[200px]">
+    <main className="flex h-full w-full flex-col overflow-y-auto max-md:pb-20 min-md:pt-16 min-lg:pl-[200px]">
       <div className="flex w-full flex-1 items-center">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6">
           <h2 className="my-4 text-center text-2xl font-bold">검색 결과</h2>
 
           {/* 요청 내용 */}
-          <section className="border p-4">
+          <section className="flex flex-col gap-2 rounded-lg border p-4">
             <h4 className="pb-2 text-xl font-bold text-zinc-600 dark:text-zinc-200">요청 내용</h4>
             <p className="font-extralight text-zinc-600 dark:text-zinc-200">
               재료: {userRequest.ingredients.join(', ')}
@@ -93,21 +93,22 @@ export default function RecipeResult() {
             </p>
           </section>
 
-          <section className="flex flex-col border p-4">
-            {/* 실시간 스트리밍 텍스트 */}
-            <div className="min-h-[500px] w-full py-2" ref={streamDivRef}>
+          {/* 실시간 스트리밍 텍스트 */}
+          <section className="flex flex-col rounded-lg border p-4">
+            <div className="min-h-[500px] py-2">
               {/* <p>{textStream}</p> */}
-              <pre className="whitespace-pre-wrap">{formatStreamText(textStream)}</pre>
+              <pre className="font-extralight whitespace-pre-wrap text-zinc-600 dark:text-zinc-200">
+                {formatStreamText(textStream)}
+              </pre>
             </div>
+          </section>
 
-            {/* 최종 레시피 */}
-            {finalRecipe && (
-              <div className="py-2">
-                <h3 className="border-t text-xl font-bold">완성된 레시피</h3>
-                <RecipeResultComponent recipe={finalRecipe} />
-                {/* <button onClick={reset}>새로 만들기</button> */}
-              </div>
+          {/* 최종 레시피 */}
+          <section className="flex flex-col rounded-lg border p-4" ref={streamDivRef}>
+            {(!textStream || isStreaming) && (
+              <p className="text-center text-sm text-zinc-500">레시피 추천 결과</p>
             )}
+            {finalRecipe && <RecipeResultComponent recipe={finalRecipe} />}
           </section>
         </div>
       </div>

@@ -4,7 +4,6 @@ import { useAuthStore } from '@/stores/authStore';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import useDarkMode from '@/stores/darkmode';
-import { Button } from '../ui/button';
 
 export default function TopNav() {
   const { accessToken } = useAuthStore();
@@ -14,7 +13,7 @@ export default function TopNav() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
-    <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 bg-[var(--bg-light)] px-8 py-4 dark:bg-[var(--bg-dark)]">
+    <div className="fixed top-0 z-1 flex w-full items-center justify-end gap-4 bg-[var(--bg-light)] px-8 py-4 max-lg:hidden dark:bg-[var(--bg-dark)]">
       {/* 임시 다크모드 */}
       <div className="flex items-center gap-2">
         <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={() => toggleDarkMode()} />
@@ -24,7 +23,7 @@ export default function TopNav() {
       {accessToken ? (
         <>
           <Link to="/profile">회원정보</Link>
-          <Button onClick={handleLogout}>로그아웃</Button>
+          <button onClick={handleLogout}>로그아웃</button>
         </>
       ) : (
         <>

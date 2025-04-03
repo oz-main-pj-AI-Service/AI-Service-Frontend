@@ -27,3 +27,33 @@ export const formatStreamText = (text: string) => {
 
   return formatted;
 };
+
+export const formatTypeToText = (requestType: 'ALL' | 'RECIPE' | 'FOOD' | 'HEALTH'): string => {
+  switch (requestType) {
+    case 'ALL':
+      return '전체';
+    case 'RECIPE':
+      return '레시피';
+    case 'FOOD':
+      return '메뉴';
+    case 'HEALTH':
+      return '식단';
+    default:
+      return '기타';
+  }
+};
+
+export const formatReportTypeToText = (
+  reportType: 'ERROR' | 'QUESTION' | 'FEATURE_REQUEST' | 'OTHER',
+): string => {
+  switch (reportType) {
+    case 'ERROR':
+      return '오류';
+    case 'QUESTION':
+      return '문의';
+    case 'FEATURE_REQUEST':
+      return '기능 요청';
+    case 'OTHER':
+      return '기타';
+  }
+};
