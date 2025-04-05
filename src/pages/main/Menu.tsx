@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MenuFormInput, MenuFormRequest } from '@/types/ai';
 import { cuisine_type, dietary_type, food_base, taste } from '@/constants/ai';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,9 +10,15 @@ import { Input } from '@/components/ui/input';
 import { formatStreamText } from '@/lib/utils';
 import RadioboxGroup from '@/components/main/RadioboxGroup';
 import MenuResultComponent from '@/components/main/MenuResultComponent';
+import { useAuthStore } from '@/stores/authStore';
+import Modal from '@/components/Modal';
+import LoginRequiredModal from '@/components/user/LoginRequiredModal';
 
 export default function Menu() {
   // const menuMutation = useMenuQuery();
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
+
+  const { accessToken } = useAuthStore();
 
   // isStreaming, error 받아와서 로딩 에러 처리 하기
   const { startStream, finalRecipe, textStream, isStreaming } = useMenuQuery();
@@ -121,9 +127,26 @@ export default function Menu() {
                   <Input type="text" {...form.register('last_meal')} className="h-11" />
                 </FormItem>
 
-                <Button type="submit">추천받기</Button>
+                <Button
+                  type="submit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (accessToken) {
+                      form.handleSubmit(onSubmit)();
+                    } else {
+                      setIsSubmitModalOpen(true);
+                    }
+                  }}
+                >
+                  추천받기
+                </Button>
               </form>
             </Form>
+            <Modal
+              isOpen={isSubmitModalOpen}
+              content={<LoginRequiredModal />}
+              closeModal={() => setIsSubmitModalOpen(false)}
+            />
           </section>
         </div>
       </div>

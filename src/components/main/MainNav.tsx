@@ -5,11 +5,15 @@ import logo from '@/assets/logo.png';
 import logo_black from '@/assets/logo_black.png';
 import { handleLogout } from '@/pages/user/handleLogout';
 import { Button } from '../ui/button';
+import { useState } from 'react';
+import Modal from '../Modal';
+import LoginRequiredModal from '../user/LoginRequiredModal';
 
 export default function MainNav() {
   const { isDarkMode } = useDarkMode();
   const { accessToken, admin } = useAuthStore();
   const navigate = useNavigate();
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
 
   if (location.pathname.startsWith('/admin')) {
     return null;
@@ -75,12 +79,24 @@ export default function MainNav() {
             return (
               <div
                 className={`${isActive ? 'active bg-[var(--point-orange)]' : 'hover:bg-zinc-300 dark:hover:bg-zinc-800'} w-24 rounded-sm py-2 max-lg:text-center lg:w-36 lg:pl-4`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!accessToken) {
+                    e.preventDefault();
+                    setIsSubmitModalOpen(true);
+                  }
+                }}
               >
                 추천 기록
               </div>
             );
           }}
         </NavLink>
+        <Modal
+          isOpen={isSubmitModalOpen}
+          content={<LoginRequiredModal />}
+          closeModal={() => setIsSubmitModalOpen(false)}
+        />
       </nav>
 
       {/* 관리자 페이지와 문의하기 중에서 조건부 렌더링 (isAdmin) */}

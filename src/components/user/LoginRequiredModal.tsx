@@ -8,12 +8,14 @@ const LoginRequiredModal = () => {
         식사 고민 그만! <br />
         한끼비서에게 맡기세요
       </h1>
-      <Link to="/sign-in">
-        <Button className="w-full max-w-xs bg-[var(--point-orange)]">로그인</Button>
-      </Link>
-      <Link to="/sign-up">
-        <Button className="w-full max-w-xs">회원가입</Button>
-      </Link>
+      <div className="flex gap-4">
+        <Link to="/sign-in">
+          <Button className="w-40 bg-[var(--point-orange)]">로그인</Button>
+        </Link>
+        <Link to="/sign-up">
+          <Button className="w-40">회원가입</Button>
+        </Link>
+      </div>
     </div>
   );
 };
